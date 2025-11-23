@@ -6,7 +6,7 @@
 
 ---
 
-## ⚠️ ÄRLIG STATUS
+## ⚠️ HONEST STATUS
 
 **Current state**:
 - ✅ 78 test files exist
@@ -22,7 +22,7 @@
 
 ---
 
-## Steg 1: Install Test Dependencies
+## Step 1: Install Test Dependencies
 
 ```bash
 cd /home/yesir/Dokument/RAGlint
@@ -46,7 +46,7 @@ coverage 7.3.0
 
 ---
 
-## Steg 2: Run Quick Smoke Test
+## Step 2: Run Quick Smoke Test
 
 ```bash
 # Run just one simple test file
@@ -59,7 +59,7 @@ pytest tests/test_async.py -v
 
 ---
 
-## Steg 3: Discover All Tests
+## Step 3: Discover All Tests
 
 ```bash
 # Collect all tests (don't run yet)
@@ -73,7 +73,7 @@ pytest --collect-only tests/ | grep "test session starts" -A 1
 
 ---
 
-## Steg 4: Run ALL Tests (First Attempt)
+## Step 4: Run ALL Tests (First Attempt)
 
 ```bash
 # Run all tests with verbose output
@@ -84,7 +84,7 @@ pytest tests/ -v --tb=short 2>&1 | tee test_results.txt
 
 ---
 
-## Steg 5: Analyze Failures
+## Step 5: Analyze Failures
 
 ```bash
 # Count failures
@@ -99,7 +99,7 @@ grep -E "(ImportError|AttributeError|AssertionError)" test_results.txt
 
 ---
 
-## Steg 6: Fix Common Issues
+## Step 6: Fix Common Issues
 
 ### Issue 1: Import Errors
 
@@ -147,7 +147,7 @@ assert 0.8 <= result["score"] <= 1.0
 
 ---
 
-## Steg 7: Fix Tests Systematically
+## Step 7: Fix Tests Systematically
 
 ### 7.1 Create Test Fix Checklist
 
@@ -184,7 +184,7 @@ from raglint.metrics.enhanced_faithfulness import EnhancedFaithfulnessScorer
 
 ---
 
-## Steg 8: Run Tests Again (Iteration)
+## Step 8: Run Tests Again (Iteration)
 
 ```bash
 # After each fix
@@ -199,7 +199,7 @@ pytest tests/ -v --tb=short
 
 ---
 
-## Steg 9: Run Coverage Analysis
+## Step 9: Run Coverage Analysis
 
 ```bash
 # Run tests with coverage
@@ -215,7 +215,7 @@ xdg-open htmlcov/index.html  # Linux
 
 ---
 
-## Steg 10: Analyze Coverage
+## Step 10: Analyze Coverage
 
 ### 10.1 Check Overall Coverage
 
@@ -263,7 +263,7 @@ coverage report | grep -E "^raglint" | awk '$4 < 80 {print}'
 
 ---
 
-## Steg 11: Add Missing Tests
+## Step 11: Add Missing Tests
 
 ### Template for new tests:
 
@@ -288,7 +288,7 @@ async def test_new_feature_async():
 
 ---
 
-## Steg 12: Verify CI/CD Tests
+## Step 12: Verify CI/CD Tests
 
 ```bash
 # Run tests exactly as CI does
@@ -301,7 +301,7 @@ pytest tests/ -v --cov=raglint --cov-report=term-missing --cov-fail-under=85
 
 ---
 
-## Steg 13: Generate Coverage Badge
+## Step 13: Generate Coverage Badge
 
 ```bash
 # After achieving 85%+
