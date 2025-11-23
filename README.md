@@ -11,15 +11,15 @@ RAGLint is the **all-in-one evaluation platform** for Retrieval-Augmented Genera
 
 ## ✨ Why RAGLint?
 
-| Feature | RAGLint | Ragas | Arize Phoenix | DeepEval |
-|---------|---------|-------|---------------|----------|
-| **Plugin Marketplace** | ✅ Unique | ❌ | ❌ | ❌ |
-| **Local LLM (Ollama)** | ✅ Native | ⚠️ Partial | ⚠️ Partial | ⚠️ Partial |
-| **Dashboard** | ✅ Excellent | ⚠️ Basic | ✅ Excellent | ⚠️ Good |
-| **Real-time Analytics** | ✅ WebSockets | ❌ | ✅ | ❌ |
-| **Security** | ✅ High | ⚠️ Moderate | ✅ High | ⚠️ Moderate |
-| **CI/CD Integration** | ✅ Native Action | ⚠️ Manual | ✅ | ⚠️ Manual |
-| **Open Source** | ✅ MIT | ✅ Apache | ⚠️ Partial | ✅ MIT |
+| Feature | RAGLint |
+|---------|---------|
+| **Plugin Marketplace** | ✅ Unique |
+| **Local LLM (Ollama)** | ✅ Native |
+| **Dashboard** | ✅ Excellent |
+| **Real-time Analytics** | ✅ WebSockets |
+| **Security** | ✅ High |
+| **CI/CD Integration** | ✅ Native Action |
+| **Open Source** | ✅ MIT |
 
 ## 🚀 Quick Start
 
