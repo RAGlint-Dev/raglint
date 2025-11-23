@@ -1,0 +1,41 @@
+[
+    {
+        "query": "What is Retrieval-Augmented Generation?",
+        "retrieved_contexts": [
+            "RAG is a technique that combines information retrieval with text generation.",
+            "It retrieves relevant documents from a knowledge base and uses them to generate responses.",
+            "RAG systems typically use vector databases for efficient retrieval."
+        ],
+        "ground_truth_contexts": [
+            "Retrieval-Augmented Generation (RAG) combines retrieval and generation.",
+            "RAG improves factual accuracy by grounding responses in retrieved documents."
+        ],
+        "response": "Retrieval-Augmented Generation (RAG) is a technique that combines information retrieval with text generation to produce more accurate and grounded responses."
+    },
+    {
+        "query": "How does vector search work?",
+        "retrieved_contexts": [
+            "Vector search uses embeddings to represent text as high-dimensional vectors.",
+            "Similarity is measured using cosine similarity or dot product.",
+            "Popular vector databases include Pinecone, Weaviate, and Chroma."
+        ],
+        "ground_truth_contexts": [
+            "Vector search converts queries and documents into embeddings.",
+            "It finds similar items using distance metrics like cosine similarity."
+        ],
+        "response": "Vector search works by converting text into embeddings (vectors) and then finding similar items using distance metrics like cosine similarity."
+    },
+    {
+        "query": "What are embeddings?",
+        "retrieved_contexts": [
+            "Embeddings are dense vector representations of text.",
+            "They capture semantic meaning in a continuous space.",
+            "Models like BERT and Sentence Transformers create high-quality embeddings."
+        ],
+        "ground_truth_contexts": [
+            "Embeddings are numerical representations that capture semantic meaning.",
+            "They transform discrete text into continuous vectors."
+        ],
+        "response": "Embeddings are dense vector representations of text that capture semantic meaning, allowing for mathematical operations on language."
+    }
+]

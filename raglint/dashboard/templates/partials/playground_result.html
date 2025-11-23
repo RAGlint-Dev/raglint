@@ -1,0 +1,44 @@
+<div class="bg-gray-50 p-4 rounded border border-gray-200">
+    <h3 class="font-semibold text-lg mb-2">Scores</h3>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="bg-white p-3 rounded shadow-sm">
+            <span class="text-sm text-gray-500 block">Faithfulness</span>
+            <span class="text-xl font-bold text-blue-600">
+                {{ (result.faithfulness_score or 0.0) | round(2) }}
+            </span>
+        </div>
+        <div class="bg-white p-3 rounded shadow-sm">
+            <span class="text-sm text-gray-500 block">Semantic Score</span>
+            <span class="text-xl font-bold text-green-600">
+                {{ (result.semantic_score or 0.0) | round(2) }}
+            </span>
+        </div>
+    </div>
+
+    {% if result.plugin_metrics %}
+    <h3 class="font-semibold text-lg mb-2">Plugin Metrics</h3>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        {% for name, score in result.plugin_metrics.items() %}
+        <div class="bg-white p-3 rounded shadow-sm">
+            <span class="text-sm text-gray-500 block">{{ name | replace('_', ' ') | title }}</span>
+            <span class="text-xl font-bold text-purple-600">
+                {{ score | round(2) }}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h3 class="font-semibold text-lg mb-2">Coherence</h3>
+    <div class="space-y-2">
+        {% for score in result.coherence %}
+        <div class="flex items-center">
+            <span class="w-24 text-sm text-gray-600">Chunk {{ loop.index }}</span>
+            <div class="flex-1 bg-gray-200 rounded-full h-2.5">
+                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: {{ score * 100 }}%"></div>
+            </div>
+            <span class="ml-2 text-sm font-medium">{{ score | round(2) }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>

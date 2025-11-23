@@ -1,0 +1,52 @@
+[
+    {
+        "query": "What are the grounds for termination in the employment contract?",
+        "retrieved_contexts": [
+            "Section 8.2 Termination for Cause: The Company may terminate this Agreement immediately for cause, including but not limited to: (a) Employee's material breach of any provision of this Agreement; (b) Employee's conviction of a felony or crime involving moral turpitude; (c) Employee's willful misconduct or gross negligence in the performance of duties.",
+            "Section 8.3 Termination without Cause: Either party may terminate this Agreement without cause upon providing sixty (60) days written notice to the other party. In the event of such termination, Employee shall be entitled to receive salary and benefits through the notice period.",
+            "Section 8.4 Severance: In the event of termination without cause by the Company, Employee shall receive severance pay equal to three (3) months of base salary, payable in accordance with the Company's standard payroll practices."
+        ],
+        "response": "The employment contract allows termination for cause (breach of contract, felony conviction, willful misconduct) with immediate effect, or without cause with 60 days notice. If terminated without cause, the employee receives severance pay equal to 3 months of base salary.",
+        "ground_truth": "Termination for cause (immediate) or without cause (60 days notice with 3 months severance)"
+    },
+    {
+        "query": "What intellectual property rights does the company retain?",
+        "retrieved_contexts": [
+            "Section 5.1 Work Product: All inventions, discoveries, designs, developments, improvements, copyrightable works, and trade secrets (collectively 'Work Product') conceived, developed, or reduced to practice by Employee during employment shall be the sole and exclusive property of the Company.",
+            "Section 5.2 Assignment: Employee hereby assigns to the Company all right, title, and interest in and to any Work Product. Employee agrees to execute any documents necessary to perfect the Company's ownership rights.",
+            "Section 5.3 Pre-existing IP: This Agreement does not apply to inventions that Employee developed entirely on their own time without using Company equipment, supplies, facilities, or trade secret information, except for inventions that relate to the Company's business or actual or demonstrably anticipated research."
+        ],
+        "response": "The company retains full ownership of all work product (inventions, designs, copyrightable works, trade secrets) created during employment. The employee must assign all rights to the company. However, inventions developed on personal time without company resources and unrelated to company business remain with the employee.",
+        "ground_truth": "Company owns all work product created during employment; personal inventions on own time may be retained"
+    },
+    {
+        "query": "What is the non-compete clause duration?",
+        "retrieved_contexts": [
+            "Section 7.1 Non-Competition: For a period of twelve (12) months following termination of employment, Employee agrees not to directly or indirectly engage in any business that competes with the Company within a fifty (50) mile radius of any Company office location.",
+            "Section 7.2 Non-Solicitation: Employee agrees not to solicit or attempt to solicit any clients, customers, or employees of the Company for a period of eighteen (18) months following termination.",
+            "Section 7.3 Reasonableness: The parties acknowledge that the restrictions set forth in this Section are reasonable and necessary to protect the Company's legitimate business interests."
+        ],
+        "response": "The non-compete clause lasts for 12 months after employment ends, within 50 miles of any company office. Additionally, there's an 18-month non-solicitation restriction for clients and employees.",
+        "ground_truth": "12 months non-compete within 50 miles, 18 months non-solicitation"
+    },
+    {
+        "query": "Can the contract be modified after signing?",
+        "retrieved_contexts": [
+            "Section 12.1 Amendments: This Agreement may not be amended or modified except by a written instrument signed by both parties.",
+            "Section 12.2 Entire Agreement: This Agreement constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements, whether written or oral.",
+            "Section 12.3 Waiver: No waiver of any provision of this Agreement shall be effective unless in writing and signed by the party against whom such waiver is sought to be enforced."
+        ],
+        "response": "The contract can only be modified by a written agreement signed by both the employee and the company. Verbal modifications are not valid. This contract supersedes all prior agreements.",
+        "ground_truth": "Only through written agreement signed by both parties"
+    },
+    {
+        "query": "What happens if I work overtime?",
+        "retrieved_contexts": [
+            "Section 4.2 Classification: Employee is classified as an exempt employee under the Fair Labor Standards Act (FLSA) and is not entitled to overtime compensation.",
+            "Section 4.3 Compensation: Employee shall receive an annual base salary of $85,000, payable in bi-weekly installments of $3,269.23, less applicable withholdings.",
+            "Section 4.4 Benefits: Employee shall be eligible to participate in the Company's benefit plans, including health insurance, 401(k), and paid time off, in accordance with the terms of such plans."
+        ],
+        "response": "As an exempt employee under FLSA, you are not entitled to overtime pay. Your compensation is the annual salary of $85,000 paid bi-weekly, regardless of hours worked.",
+        "ground_truth": "Exempt employee - no overtime pay, fixed annual salary"
+    }
+]

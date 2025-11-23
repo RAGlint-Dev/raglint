@@ -1,0 +1,41 @@
+name: 'RAGLint Analysis'
+description: 'Analyze your RAG pipeline quality with RAGLint'
+inputs:
+  data-file:
+    description: 'Path to the dataset JSON file'
+    required: true
+  config-file:
+    description: 'Path to raglint.yml'
+    required: false
+  openai-api-key:
+    description: 'OpenAI API Key'
+    required: false
+  fail-on-regression:
+    description: 'Fail the workflow if scores drop'
+    required: false
+    default: 'false'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install RAGLint
+      shell: bash
+      run: pip install raglint
+      
+    - name: Run Analysis
+      shell: bash
+      env:
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}
+      run: |
+        CMD="raglint analyze ${{ inputs.data-file }}"
+        if [ -n "${{ inputs.config-file }}" ]; then
+          CMD="$CMD --config ${{ inputs.config-file }}"
+        fi
+        
+        echo "Running: $CMD"
+        $CMD

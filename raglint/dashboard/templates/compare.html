@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="md:flex md:items-center md:justify-between">
+        <div class="min-w-0 flex-1">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                Run Comparison
+            </h2>
+            <p class="mt-1 text-sm text-gray-500">
+                Comparing Run <span class="font-mono font-bold text-gray-700">{{ run_base.id[:8] }}</span> (Base)
+                vs
+                Run <span class="font-mono font-bold text-gray-700">{{ run_target.id[:8] }}</span> (Target)
+            </p>
+        </div>
+    </div>
+
+    <!-- Metrics Comparison Grid -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        {% for metric, data in metrics_diff.items() %}
+        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <dt class="truncate text-sm font-medium text-gray-500 capitalize">{{ metric }}</dt>
+            <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+                <div class="flex items-baseline text-2xl font-semibold text-gray-900">
+                    {{ (data.target * 100)|round(1) }}%
+                    <span class="ml-2 text-sm font-medium text-gray-500">from {{ (data.base * 100)|round(1) }}%</span>
+                </div>
+
+                {% if data.diff > 0 %}
+                <div
+                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                    <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500" viewBox="0 0 20 20"
+                        fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">Increased by</span>
+                    {{ (data.diff * 100)|round(1) }}%
+                </div>
+                {% elif data.diff < 0 %} <div
+                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+                    <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500" viewBox="0 0 20 20"
+                        fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">Decreased by</span>
+                    {{ (data.diff * 100)|abs|round(1) }}%
+        </div>
+        {% else %}
+        <div
+            class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-gray-100 text-gray-800 md:mt-2 lg:mt-0">
+            <span class="sr-only">No change</span>
+            0%
+        </div>
+        {% endif %}
+        </dd>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Config Comparison -->
+<div class="bg-white shadow sm:rounded-lg mt-6">
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-base font-semibold leading-6 text-gray-900">Configuration Comparison</h3>
+    </div>
+    <div class="border-t border-gray-200">
+        <div class="grid grid-cols-2 divide-x divide-gray-200">
+            <div class="p-4">
+                <h4 class="text-sm font-medium text-gray-500 mb-2">Base Config</h4>
+                <pre
+                    class="bg-gray-50 p-2 rounded text-xs overflow-x-auto">{{ run_base.config | tojson(indent=2) }}</pre>
+            </div>
+            <div class="p-4">
+                <h4 class="text-sm font-medium text-gray-500 mb-2">Target Config</h4>
+                <pre
+                    class="bg-gray-50 p-2 rounded text-xs overflow-x-auto">{{ run_target.config | tojson(indent=2) }}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

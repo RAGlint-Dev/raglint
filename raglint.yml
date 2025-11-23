@@ -1,0 +1,11 @@
+metrics:
+  chunking: true
+  retrieval: true
+  semantic: true
+  faithfulness: true
+  context_relevance: true
+  answer_relevance: true
+
+thresholds:
+  faithfulness: 0.8
+  relevance: 0.7

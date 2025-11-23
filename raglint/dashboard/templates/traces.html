@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+        <div>
+            <h3 class="text-base font-semibold leading-6 text-gray-900">System Traces</h3>
+            <p class="mt-1 text-sm text-gray-500">Real-time events captured by auto-instrumentation.</p>
+        </div>
+        <button onclick="window.location.reload()"
+            class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            Refresh
+        </button>
+    </div>
+    <div class="border-t border-gray-200">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 w-1/3">
+                            Operation / Hierarchy</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Type</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Latency</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Timestamp</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                            <span class="sr-only">Details</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    {% macro render_trace_row(trace, depth=0) %}
+                    <tr class="hover:bg-gray-50 transition-colors duration-150">
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-6">
+                            <div class="flex items-center" style="padding-left: {{ depth * 20 }}px">
+                                {% if trace.children %}
+                                <button onclick="toggleChildren('{{ trace.trace_id }}')"
+                                    class="mr-2 text-gray-400 hover:text-gray-600 focus:outline-none">
+                                    <svg id="icon-{{ trace.trace_id }}"
+                                        class="h-4 w-4 transform transition-transform duration-200" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {% else %}
+                                <span class="w-6"></span>
+                                {% endif %}
+                                <span class="font-medium truncate max-w-xs" title="{{ trace.operation or trace.name }}">
+                                    {{ trace.operation or trace.name or 'Unknown' }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <span
+                                class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                {{ trace.type }}
+                            </span>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {% if trace.latency_seconds %}
+                            {{ (trace.latency_seconds * 1000) | round(2) }} ms
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {% if trace.status == 'error' or trace.error %}
+                            <span
+                                class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Error</span>
+                            {% elif trace.status == 'success' %}
+                            <span
+                                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Success</span>
+                            {% else %}
+                            <span
+                                class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">Info</span>
+                            {% endif %}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {{ trace.timestamp.split('T')[1][:8] }}
+                        </td>
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <button onclick="toggleDetails('{{ trace.trace_id }}')"
+                                class="text-indigo-600 hover:text-indigo-900">
+                                Details
+                            </button>
+                        </td>
+                    </tr>
+
+                    <!-- Details Row -->
+                    <tr id="details-{{ trace.trace_id }}" class="hidden bg-gray-50">
+                        <td colspan="6" class="px-4 py-4 sm:px-6">
+                            <div class="text-xs font-mono whitespace-pre-wrap text-gray-700 overflow-x-auto max-h-64">
+                                {{ trace | tojson(indent=2) }}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Children Rows -->
+                    {% if trace.children %}
+                <tbody id="children-{{ trace.trace_id }}" class="transition-all duration-300">
+                    {% for child in trace.children %}
+                    {{ render_trace_row(child, depth + 1) }}
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+                {% endmacro %}
+
+                {% for trace in traces %}
+                {{ render_trace_row(trace) }}
+                {% else %}
+                <tr>
+                    <td colspan="6" class="px-4 py-10 text-center text-sm text-gray-500">
+                        No traces found. Run some operations to see events here.
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDetails(id) {
+        const el = document.getElementById('details-' + id);
+        el.classList.toggle('hidden');
+    }
+
+    function toggleChildren(id) {
+        const childrenEl = document.getElementById('children-' + id);
+        const iconEl = document.getElementById('icon-' + id);
+
+        if (childrenEl) {
+            childrenEl.classList.toggle('hidden');
+
+            if (childrenEl.classList.contains('hidden')) {
+                iconEl.style.transform = 'rotate(-90deg)';
+            } else {
+                iconEl.style.transform = 'rotate(0deg)';
+            }
+        }
+    }
+</script>
+{% endblock %}

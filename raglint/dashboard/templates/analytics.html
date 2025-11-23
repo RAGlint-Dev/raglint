@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - RAGLint{% endblock %}
+
+{% block content %}
+<div class="space-y-8 max-w-6xl">
+    <!-- Header with Icon -->
+    <div class="border-b border-gray-200 pb-6">
+        <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
+            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                </path>
+            </svg>
+            Advanced Analytics
+        </h1>
+        <p class="mt-2 text-sm text-gray-600">Gain deeper insights into your RAG pipeline performance</p>
+    </div>
+
+    <!-- Drift Detection Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="bg-gradient-to-r from-indigo-50 to-white px-6 py-5 border-b border-gray-200">
+            <div class="flex items-start gap-3">
+                <div class="p-2 bg-indigo-100 rounded-lg">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Drift Detection</h3>
+                    <p class="text-sm text-gray-600 mt-1">Monitor how your metrics change over time and detect
+                        significant drift</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-6 bg-gray-50">
+            <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
+                <div class="flex-1 w-full md:w-auto">
+                    <label for="metricSelect" class="block text-sm font-medium text-gray-700 mb-2">
+                        Select Metric
+                    </label>
+                    <select
+                        class="w-full px-4 py-2.5 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-20 transition"
+                        id="metricSelect">
+                        <option value="faithfulness">Faithfulness Score</option>
+                        <option value="relevance">Relevance Score</option>
+                        <option value="precision">Precision</option>
+                        <option value="recall">Recall</option>
+                    </select>
+                </div>
+                <button
+                    class="w-full md:w-auto bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-20 transition-all font-medium shadow-sm hover:shadow flex items-center justify-center gap-2"
+                    onclick="analyzeDrift()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                        </path>
+                    </svg>
+                    Analyze Drift
+                </button>
+            </div>
+
+            <div id="driftResults" class="mt-6" style="display:none;">
+                <div id="driftContent" class="mb-4"></div>
+                <div id="driftChart" class="bg-white rounded-lg p-4 border border-gray-200" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cohort Analysis Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="bg-gradient-to-r from-blue-50 to-white px-6 py-5 border-b border-gray-200">
+            <div class="flex items-start gap-3">
+                <div class="p-2 bg-blue-100 rounded-lg">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Cohort Analysis</h3>
+                    <p class="text-sm text-gray-600 mt-1">Compare performance across different configurations or
+                        experiment groups</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-6 bg-gray-50">
+            <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
+                <div class="flex-1 w-full md:w-auto">
+                    <label for="groupBySelect" class="block text-sm font-medium text-gray-700 mb-2">
+                        Group By
+                    </label>
+                    <select
+                        class="w-full px-4 py-2.5 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition"
+                        id="groupBySelect">
+                        <option value="config_hash">Configuration</option>
+                        <option value="tags">Tags</option>
+                    </select>
+                </div>
+                <button
+                    class="w-full md:w-auto bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-20 transition-all font-medium shadow-sm hover:shadow flex items-center justify-center gap-2"
+                    onclick="analyzeCohorts()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                        </path>
+                    </svg>
+                    Analyze Cohorts
+                </button>
+            </div>
+
+            <div id="cohortResults" class="mt-6" style="display:none;">
+                <div id="cohortContent" class="bg-white rounded-lg border border-gray-200 overflow-hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embedding Visualization Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="bg-gradient-to-r from-green-50 to-white px-6 py-5 border-b border-gray-200">
+            <div class="flex items-start gap-3">
+                <div class="p-2 bg-green-100 rounded-lg">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Embedding Visualization</h3>
+                    <p class="text-sm text-gray-600 mt-1">Visualize context embeddings in 2D space using UMAP
+                        dimensionality reduction</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-6 bg-gray-50">
+            <button
+                class="bg-green-600 text-white px-6 py-2.5 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-500 focus:ring-opacity-20 transition-all font-medium shadow-sm hover:shadow flex items-center gap-2"
+                onclick="visualizeEmbeddings()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                </svg>
+                Generate Visualization
+            </button>
+
+            <div id="embeddingResults" class="mt-6" style="display:none;">
+                <div id="embeddingChart" class="bg-white rounded-lg p-4 border border-gray-200" style="height:500px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    async function analyzeDrift() {
+        const metric = document.getElementById('metricSelect').value;
+        const resultsDiv = document.getElementById('driftResults');
+        const contentDiv = document.getElementById('driftContent');
+
+        try {
+            const response = await fetch(`/api/analytics/drift?metric_name=${metric}`);
+            const data = await response.json();
+
+            if (data.drift_detected) {
+                contentDiv.innerHTML = `
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-yellow-800">Drift Detected</h4>
+                            <div class="mt-2 text-sm text-yellow-700">
+                                <p><strong>Baseline Mean:</strong> ${data.baseline_mean.toFixed(3)}</p>
+                                <p><strong>Recent Mean:</strong> ${data.recent_mean.toFixed(3)}</p>
+                                <p><strong>Change:</strong> ${(data.drift_percentage * 100).toFixed(1)}% ${data.direction}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            } else {
+                contentDiv.innerHTML = `
+                <div class="bg-green-50 border-l-4 border-green-400 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-green-800">No Significant Drift</h4>
+                            <p class="mt-1 text-sm text-green-700">Your metrics are stable and performing consistently.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            // Plot the trend
+            if (data.values && data.timestamps) {
+                const trace = {
+                    x: data.timestamps,
+                    y: data.values,
+                    mode: 'lines+markers',
+                    name: metric,
+                    line: { color: '#4f46e5', width: 3 },
+                    marker: { size: 6 }
+                };
+
+                const layout = {
+                    title: { text: `${metric} Over Time`, font: { size: 16, weight: 600 } },
+                    xaxis: { title: 'Time' },
+                    yaxis: { title: 'Value' },
+                    paper_bgcolor: '#ffffff',
+                    plot_bgcolor: '#f9fafb',
+                    margin: { t: 40, b: 40, l: 50, r: 20 }
+                };
+
+                Plotly.newPlot('driftChart', [trace], layout, { responsive: true });
+            }
+
+            resultsDiv.style.display = 'block';
+        } catch (error) {
+            contentDiv.innerHTML = `
+            <div class="bg-red-50 border-l-4 border-red-400 rounded-lg p-4">
+                <div class="flex">
+                    <svg class="w-5 h-5 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                        <h4 class="text-sm font-semibold text-red-800">Error</h4>
+                        <p class="mt-1 text-sm text-red-700">${error.message}</p>
+                    </div>
+                </div>
+            </div>`;
+            resultsDiv.style.display = 'block';
+        }
+    }
+
+    async function analyzeCohorts() {
+        const groupBy = document.getElementById('groupBySelect').value;
+        const resultsDiv = document.getElementById('cohortResults');
+        const contentDiv = document.getElementById('cohortContent');
+
+        try {
+            const response = await fetch(`/api/analytics/cohorts?group_by=${groupBy}`);
+            const data = await response.json();
+
+            let html = `<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50"><tr>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cohort</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Runs</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Metrics</th>
+            </tr></thead><tbody class="bg-white divide-y divide-gray-200">`;
+
+            for (const [cohort, stats] of Object.entries(data.cohorts)) {
+                let metricsHtml = '<div class="space-y-1">';
+                for (const [metric, values] of Object.entries(stats.metrics)) {
+                    metricsHtml += `<div class="text-sm"><span class="font-medium text-gray-700">${metric}:</span> <span class="text-gray-900">${values.mean.toFixed(3)}</span> <span class="text-gray-500">(±${values.std.toFixed(3)})</span></div>`;
+                }
+                metricsHtml += '</div>';
+
+                html += `<tr class="hover:bg-gray-50"><td class="px-6 py-4 text-sm font-medium text-gray-900">${cohort || 'Default'}</td><td class="px-6 py-4 text-sm text-gray-700"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">${stats.count} runs</span></td><td class="px-6 py-4">${metricsHtml}</td></tr>`;
+            }
+
+            html += '</tbody></table></div>';
+            contentDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        } catch (error) {
+            contentDiv.innerHTML = `<div class="p-4 bg-red-50 border-l-4 border-red-400 rounded text-red-700"><strong>Error:</strong> ${error.message}</div>`;
+            resultsDiv.style.display = 'block';
+        }
+    }
+
+    async function visualizeEmbeddings() {
+        const resultsDiv = document.getElementById('embeddingResults');
+
+        try {
+            const response = await fetch('/api/analytics/embeddings');
+            const data = await response.json();
+
+            if (data.embeddings_2d && data.labels) {
+                const trace = {
+                    x: data.embeddings_2d.map(e => e[0]),
+                    y: data.embeddings_2d.map(e => e[1]),
+                    mode: 'markers',
+                    type: 'scatter',
+                    text: data.labels,
+                    marker: {
+                        size: 10,
+                        color: data.embeddings_2d.map((_, i) => i),
+                        colorscale: 'Viridis',
+                        showscale: true
+                    }
+                };
+
+                const layout = {
+                    title: { text: 'Embedding Visualization (UMAP)', font: { size: 16, weight: 600 } },
+                    xaxis: { title: 'UMAP 1' },
+                    yaxis: { title: 'UMAP 2' },
+                    paper_bgcolor: '#ffffff',
+                    plot_bgcolor: '#f9fafb',
+                    margin: { t: 40, b: 40, l: 50, r: 20 }
+                };
+
+                Plotly.newPlot('embeddingChart', [trace], layout, { responsive: true });
+                resultsDiv.style.display = 'block';
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    }
+</script>
+{% endblock %}

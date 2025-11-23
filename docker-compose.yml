@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  raglint:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - RAGLINT_DB_URL=postgresql+asyncpg://raglint:raglint_password@postgres:5432/raglint_db
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./raglint_events.jsonl:/app/raglint_events.jsonl
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=raglint
+      - POSTGRES_PASSWORD=raglint_password
+      - POSTGRES_DB=raglint_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U raglint" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

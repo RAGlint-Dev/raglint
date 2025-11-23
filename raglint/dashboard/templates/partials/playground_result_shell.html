@@ -1,0 +1,52 @@
+<div class="space-y-6">
+    {% if generated %}
+    <div class="bg-white p-4 rounded border border-purple-200 bg-purple-50">
+        <h3 class="font-semibold text-lg mb-2 text-purple-900">Generated Response</h3>
+        <div class="whitespace-pre-wrap text-gray-800 font-mono text-sm bg-white p-3 rounded border border-purple-100">
+            {{ item.response }}</div>
+    </div>
+    {% endif %}
+
+    <div class="bg-gray-50 p-4 rounded border border-gray-200">
+        <h3 class="font-semibold text-lg mb-4">Real-time Scores</h3>
+
+        <!-- Hidden inputs for metric requests -->
+        <form id="metric-inputs">
+            <input type="hidden" name="query" value="{{ item.query }}">
+            <input type="hidden" name="contexts" value="{{ item.retrieved_contexts | join('\n') }}">
+            <input type="hidden" name="response" value="{{ item.response }}">
+        </form>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Faithfulness Card -->
+            <div hx-post="/playground/analyze/metric/faithfulness" hx-trigger="load" hx-include="#metric-inputs"
+                hx-swap="outerHTML">
+                <div
+                    class="bg-white p-4 rounded shadow-sm border border-gray-100 h-full flex flex-col justify-center items-center animate-pulse">
+                    <div class="text-sm text-gray-400 mb-2">Faithfulness</div>
+                    <div class="h-8 w-8 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                </div>
+            </div>
+
+            <!-- Answer Relevance Card -->
+            <div hx-post="/playground/analyze/metric/answer_relevance" hx-trigger="load" hx-include="#metric-inputs"
+                hx-swap="outerHTML">
+                <div
+                    class="bg-white p-4 rounded shadow-sm border border-gray-100 h-full flex flex-col justify-center items-center animate-pulse">
+                    <div class="text-sm text-gray-400 mb-2">Answer Relevance</div>
+                    <div class="h-8 w-8 border-2 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
+                </div>
+            </div>
+
+            <!-- Toxicity Card -->
+            <div hx-post="/playground/analyze/metric/toxicity" hx-trigger="load" hx-include="#metric-inputs"
+                hx-swap="outerHTML">
+                <div
+                    class="bg-white p-4 rounded shadow-sm border border-gray-100 h-full flex flex-col justify-center items-center animate-pulse">
+                    <div class="text-sm text-gray-400 mb-2">Toxicity</div>
+                    <div class="h-8 w-8 border-2 border-red-200 border-t-red-600 rounded-full animate-spin"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

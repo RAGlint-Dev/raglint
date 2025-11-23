@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAGLint - The All-in-One RAG Quality Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-layer-group"></i> RAGLint
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="../_build/html/index.html">Documentation</a>
+                <a href="https://pypi.org/project/raglint/">PyPI</a>
+                <a href="https://github.com/raglint/raglint" class="btn btn-sm btn-outline"><i
+                        class="fa-brands fa-github"></i> GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">v0.1.0 Beta Now Available</div>
+                <h1>Ship RAG Applications with <span class="gradient-text">Confidence</span></h1>
+                <p class="hero-subtitle">
+                    The all-in-one observability and quality assurance platform for Retrieval-Augmented Generation.
+                    Detect hallucinations, track costs, and prevent regressions in your CI/CD pipeline.
+                </p>
+                <div class="cta-group">
+                    <div class="code-block-inline">
+                        <code>pip install raglint</code>
+                        <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install raglint')"><i
+                                class="fa-regular fa-copy"></i></button>
+                    </div>
+                    <a href="#how-it-works" class="btn btn-primary">Get Started <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-preview">
+                    <div class="window-header">
+                        <div class="dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="title">RAGLint Dashboard</div>
+                    </div>
+                    <div class="window-content">
+                        <!-- Simulated Dashboard UI -->
+                        <div class="stat-row">
+                            <div class="stat-card">
+                                <div class="label">Faithfulness</div>
+                                <div class="value text-success">0.92</div>
+                                <div class="trend"><i class="fa-solid fa-arrow-up"></i> 5%</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Context Recall</div>
+                                <div class="value text-warning">0.78</div>
+                                <div class="trend"><i class="fa-solid fa-arrow-down"></i> 2%</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="label">Avg Latency</div>
+                                <div class="value">450ms</div>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            <div class="bar" style="height: 60%"></div>
+                            <div class="bar" style="height: 80%"></div>
+                            <div class="bar" style="height: 40%"></div>
+                            <div class="bar" style="height: 90%"></div>
+                            <div class="bar" style="height: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Everything you need to build better RAG</h2>
+                <p>Stop guessing. Start measuring.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon-box bg-blue">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    </div>
+                    <h3>Hallucination Detection</h3>
+                    <p>Automatically detect when your LLM makes up facts not present in the retrieved context using our
+                        specialized faithfulness metrics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box bg-purple">
+                        <i class="fa-solid fa-code-branch"></i>
+                    </div>
+                    <h3>CI/CD Integration</h3>
+                    <p>Block bad deployments before they reach production. RAGLint integrates seamlessly with GitHub
+                        Actions to catch regressions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box bg-green">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Cost & Latency Tracking</h3>
+                    <p>Monitor token usage and response times across different models and providers. Optimize for both
+                        quality and budget.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box bg-orange">
+                        <i class="fa-solid fa-table-columns"></i>
+                    </div>
+                    <h3>Visual Dashboard</h3>
+                    <p>Explore test runs, compare model versions, and debug individual queries with our beautiful,
+                        built-in web dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="split-layout">
+                <div class="text-content">
+                    <h2>How it Works</h2>
+                    <p>RAGLint is designed to be drop-in compatible with your existing Python RAG pipelines.</p>
+                    <ul class="steps">
+                        <li>
+                            <span class="step-num">1</span>
+                            <div>
+                                <h4>Install the package</h4>
+                                <p>Available on PyPI for Python 3.9+</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">2</span>
+                            <div>
+                                <h4>Wrap your chain</h4>
+                                <p>Use our LangChain integration or manual hooks.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <div>
+                                <h4>View the dashboard</h4>
+                                <p>Launch the UI to see your insights instantly.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="code-content">
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="dots"><span></span><span></span><span></span></div>
+                            <div class="lang">main.py</div>
+                        </div>
+                        <pre><code class="language-python"><span class="keyword">from</span> raglint <span class="keyword">import</span> RAGLint
+<span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LangChainEvaluator
+
+<span class="comment"># 1. Initialize RAGLint</span>
+evaluator = LangChainEvaluator(my_qa_chain)
+
+<span class="comment"># 2. Run evaluation</span>
+results = <span class="keyword">await</span> evaluator.evaluate(test_questions)
+
+<span class="comment"># 3. Launch dashboard</span>
+<span class="comment"># $ raglint dashboard</span>
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo"><i class="fa-solid fa-layer-group"></i> RAGLint</div>
+                    <p>Open source RAG observability.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="license.html">License</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 RAGLint Team. MIT License.
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

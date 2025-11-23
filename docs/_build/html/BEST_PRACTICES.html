@@ -1,0 +1,749 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>RAGlint Best Practices Guide - RAGLint</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=f3d240d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0ea5e9;
+  --color-brand-content: #0ea5e9;
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">RAGLint</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">RAGLint</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/metrics.html">Metrics API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tracking.html">Tracking API</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/plugins.html">Custom Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/benchmarks.html">RAGLint Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/integrations.html">LangChain Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cost-tracking.html">Cost &amp; Latency Tracking</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/BEST_PRACTICES.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="raglint-best-practices-guide">
+<h1>RAGlint Best Practices Guide<a class="headerlink" href="#raglint-best-practices-guide" title="Link to this heading">¶</a></h1>
+<section id="understanding-raglint-metrics">
+<h2>📊 Understanding RAGlint Metrics<a class="headerlink" href="#understanding-raglint-metrics" title="Link to this heading">¶</a></h2>
+<section id="core-metrics-explained">
+<h3>Core Metrics Explained<a class="headerlink" href="#core-metrics-explained" title="Link to this heading">¶</a></h3>
+<section id="faithfulness-score-0-0-1-0">
+<h4>1. Faithfulness Score (0.0 - 1.0)<a class="headerlink" href="#faithfulness-score-0-0-1-0" title="Link to this heading">¶</a></h4>
+<p><strong>What it measures</strong>: Does the generated answer contain information that is NOT supported by the retrieved context?</p>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p><strong>0.9 - 1.0</strong>: ✅ Excellent - Answer fully grounded in context</p></li>
+<li><p><strong>0.7 - 0.9</strong>: 👍 Good - Minor unsupported claims</p></li>
+<li><p><strong>0.5 - 0.7</strong>: ⚠️ Fair - Some hallucinations present</p></li>
+<li><p><strong>&lt; 0.5</strong>: ❌ Poor - Significant hallucinations</p></li>
+</ul>
+<p><strong>When to use</strong>: Every RAG pipeline (most critical metric)</p>
+<p><strong>Common issues:</strong></p>
+<ul class="simple">
+<li><p>Low score: Model adding information not in context</p></li>
+<li><p>Fix: Improve prompting (“only use provided context”), better retrieval</p></li>
+</ul>
+</section>
+<section id="context-relevance-0-0-1-0">
+<h4>2. Context Relevance (0.0 - 1.0)<a class="headerlink" href="#context-relevance-0-0-1-0" title="Link to this heading">¶</a></h4>
+<p><strong>What it measures</strong>: Is the retrieved context useful for answering the query?</p>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p><strong>0.8 - 1.0</strong>: ✅ Excellent - Highly relevant contexts retrieved</p></li>
+<li><p><strong>0.6 - 0.8</strong>: 👍 Good - Mostly relevant</p></li>
+<li><p><strong>0.4 - 0.6</strong>: ⚠️ Fair - Some irrelevant results</p></li>
+<li><p><strong>&lt; 0.4</strong>: ❌ Poor - Retrieval not working well</p></li>
+</ul>
+<p><strong>When to use</strong>: Diagnosing retrieval quality</p>
+<p><strong>Common issues:</strong></p>
+<ul class="simple">
+<li><p>Low score: Embeddings don’t capture query intent, wrong similarity metric</p></li>
+<li><p>Fix: Better embeddings, adjust chunk size, tune retrieval parameters</p></li>
+</ul>
+</section>
+<section id="answer-relevance-0-0-1-0">
+<h4>3. Answer Relevance (0.0 - 1.0)<a class="headerlink" href="#answer-relevance-0-0-1-0" title="Link to this heading">¶</a></h4>
+<p><strong>What it measures</strong>: Does the answer actually address the user’s query?</p>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p><strong>0.8 - 1.0</strong>: ✅ Excellent - On-topic and complete</p></li>
+<li><p><strong>0.6 - 0.8</strong>: 👍 Good - Addresses query but could be better</p></li>
+<li><p><strong>0.4 - 0.6</strong>: ⚠️ Fair - Partially off-topic</p></li>
+<li><p><strong>&lt; 0.4</strong>: ❌ Poor - Not answering the question</p></li>
+</ul>
+<p><strong>When to use</strong>: Evaluating generation quality</p>
+<p><strong>Common issues:</strong></p>
+<ul class="simple">
+<li><p>Low score: Model is verbose or tangential</p></li>
+<li><p>Fix: Better prompting, stricter generation parameters</p></li>
+</ul>
+</section>
+<section id="semantic-similarity-0-0-1-0">
+<h4>4. Semantic Similarity (0.0 - 1.0)<a class="headerlink" href="#semantic-similarity-0-0-1-0" title="Link to this heading">¶</a></h4>
+<p><strong>What it measures</strong>: How semantically similar is the answer to the ground truth?</p>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p><strong>0.8 - 1.0</strong>: ✅ Excellent - Nearly identical meaning</p></li>
+<li><p><strong>0.6 - 0.8</strong>: 👍 Good - Similar meaning, different wording</p></li>
+<li><p><strong>0.4 - 0.6</strong>: ⚠️ Fair - Some overlap</p></li>
+<li><p><strong>&lt; 0.4</strong>: ❌ Poor - Different meaning</p></li>
+</ul>
+<p><strong>When to use</strong>: When you have ground truth answers (benchmarking)</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="when-to-use-which-metrics">
+<h2>🎯 When to Use Which Metrics<a class="headerlink" href="#when-to-use-which-metrics" title="Link to this heading">¶</a></h2>
+<section id="scenario-1-initial-development">
+<h3>Scenario 1: Initial Development<a class="headerlink" href="#scenario-1-initial-development" title="Link to this heading">¶</a></h3>
+<p><strong>Use:</strong> Faithfulness + Context Relevance
+<strong>Why:</strong> Focus on core RAG functionality first</p>
+</section>
+<section id="scenario-2-production-monitoring">
+<h3>Scenario 2: Production Monitoring<a class="headerlink" href="#scenario-2-production-monitoring" title="Link to this heading">¶</a></h3>
+<p><strong>Use:</strong> Faithfulness + Answer Relevance
+<strong>Why:</strong> Ensure no hallucinations and queries are answered</p>
+</section>
+<section id="scenario-3-benchmark-evaluation">
+<h3>Scenario 3: Benchmark Evaluation<a class="headerlink" href="#scenario-3-benchmark-evaluation" title="Link to this heading">¶</a></h3>
+<p><strong>Use:</strong> All metrics + Precision/Recall
+<strong>Why:</strong> Comprehensive comparison needs all angles</p>
+</section>
+<section id="scenario-4-debugging-low-quality">
+<h3>Scenario 4: Debugging Low Quality<a class="headerlink" href="#scenario-4-debugging-low-quality" title="Link to this heading">¶</a></h3>
+<p><strong>Priority Order:</strong></p>
+<ol class="arabic simple">
+<li><p>Check Faithfulness (hallucinations?)</p></li>
+<li><p>Check Context Relevance (bad retrieval?)</p></li>
+<li><p>Check Answer Relevance (generation issue?)</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="optimization-workflows">
+<h2>🔧 Optimization Workflows<a class="headerlink" href="#optimization-workflows" title="Link to this heading">¶</a></h2>
+<section id="workflow-1-improving-low-faithfulness">
+<h3>Workflow 1: Improving Low Faithfulness<a class="headerlink" href="#workflow-1-improving-low-faithfulness" title="Link to this heading">¶</a></h3>
+<p><strong>Step 1: Diagnose</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--smart<span class="w"> </span>--output-dir<span class="o">=</span>diagnosis/
+</pre></div>
+</div>
+<p><strong>Step 2: Check Context Relevance</strong></p>
+<ul class="simple">
+<li><p>If context relevance is also low → <strong>Retrieval problem</strong></p></li>
+<li><p>If context relevance is high → <strong>Generation problem</strong></p></li>
+</ul>
+<p><strong>Step 3: Fix Retrieval (if needed)</strong></p>
+<ul class="simple">
+<li><p>Adjust chunk size (try 256, 512, 1024 tokens)</p></li>
+<li><p>Improve embeddings (try different models)</p></li>
+<li><p>Increase top-k retrieved contexts</p></li>
+</ul>
+<p><strong>Step 4: Fix Generation (if needed)</strong></p>
+<ul class="simple">
+<li><p>Update system prompt: “Only use the provided context. Do not add external knowledge.”</p></li>
+<li><p>Lower temperature (0.0 - 0.3 for factual tasks)</p></li>
+<li><p>Use structured output (JSON mode)</p></li>
+</ul>
+<p><strong>Step 5: Re-evaluate</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>analyze<span class="w"> </span>data_v2.json<span class="w"> </span>--smart
+raglint<span class="w"> </span>compare<span class="w"> </span>diagnosis/results.json<span class="w"> </span>results_v2.json
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="workflow-2-optimizing-chunk-size">
+<h3>Workflow 2: Optimizing Chunk Size<a class="headerlink" href="#workflow-2-optimizing-chunk-size" title="Link to this heading">¶</a></h3>
+<p><strong>Goal</strong>: Find optimal chunk size for your use case</p>
+<p><strong>Method</strong>:</p>
+<ol class="arabic simple">
+<li><p>Create test datasets with different chunk sizes (128, 256, 512, 1024, 2048)</p></li>
+<li><p>Run RAGlint on each</p></li>
+<li><p>Compare chunk overlap, context relevance, and faithfulness</p></li>
+</ol>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">raglint</span><span class="w"> </span><span class="kn">import</span> <span class="n">RAGPipelineAnalyzer</span>
+
+<span class="n">chunk_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">chunk_sizes</span><span class="p">:</span>
+    <span class="c1"># Re-chunk your documents</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="n">create_chunks</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    
+    <span class="c1"># Analyze</span>
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">RAGPipelineAnalyzer</span><span class="p">(</span><span class="n">use_smart_metrics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_async</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">size</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+<span class="c1"># Find best chunk size</span>
+<span class="n">best_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s1">&#39;faithfulness_score&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal chunk size: </span><span class="si">{</span><span class="n">best_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Interpretation</strong>:</p>
+<ul class="simple">
+<li><p><strong>Small chunks (128-256)</strong>: High precision, may miss context</p></li>
+<li><p><strong>Medium chunks (512-1024)</strong>: Best balance for most cases</p></li>
+<li><p><strong>Large chunks (2048+)</strong>: More context, but noisy</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="workflow-3-debugging-retrieval">
+<h3>Workflow 3: Debugging Retrieval<a class="headerlink" href="#workflow-3-debugging-retrieval" title="Link to this heading">¶</a></h3>
+<p><strong>Symptoms</strong>: Low context relevance, high faithfulness</p>
+<p><strong>Diagnosis</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--smart<span class="w"> </span>--detailed-output
+</pre></div>
+</div>
+<p><strong>Check</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Chunk Coverage</strong>: Are queries finding any chunks?</p></li>
+<li><p><strong>Query Difficulty</strong>: Are queries too complex?</p></li>
+<li><p><strong>Semantic Similarity</strong>: Do retrieved chunks match query intent?</p></li>
+</ol>
+<p><strong>Fixes</strong>:</p>
+<ul class="simple">
+<li><p><strong>Poor coverage</strong>: Increase top-k, improve chunking strategy</p></li>
+<li><p><strong>High difficulty</strong>: Decompose complex queries</p></li>
+<li><p><strong>Low similarity</strong>: Better embeddings, query preprocessing</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="setting-thresholds">
+<h2>📈 Setting Thresholds<a class="headerlink" href="#setting-thresholds" title="Link to this heading">¶</a></h2>
+<section id="production-thresholds-recommended">
+<h3>Production Thresholds (Recommended)<a class="headerlink" href="#production-thresholds-recommended" title="Link to this heading">¶</a></h3>
+<p>For <strong>customer-facing</strong> RAG:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">thresholds</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">faithfulness</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.85</span><span class="w">  </span><span class="c1"># Critical - no hallucinations</span>
+<span class="w">  </span><span class="nt">context_relevance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.70</span><span class="w">  </span><span class="c1"># Important - good retrieval</span>
+<span class="w">  </span><span class="nt">answer_relevance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.75</span><span class="w">  </span><span class="c1"># Important - on-topic answers</span>
+</pre></div>
+</div>
+<p>For <strong>internal tools</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">thresholds</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">faithfulness</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.70</span><span class="w">  </span><span class="c1"># Still important</span>
+<span class="w">  </span><span class="nt">context_relevance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.60</span><span class="w">  </span><span class="c1"># More lenient</span>
+<span class="w">  </span><span class="nt">answer_relevance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.65</span><span class="w">  </span><span class="c1"># More lenient</span>
+</pre></div>
+</div>
+<p>For <strong>experimental/research</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">thresholds</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">faithfulness</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.60</span><span class="w">  </span><span class="c1"># Exploratory</span>
+<span class="w">  </span><span class="nt">context_relevance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.50</span>
+<span class="w">  </span><span class="nt">answer_relevance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.55</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-pitfalls">
+<h2>🚨 Common Pitfalls<a class="headerlink" href="#common-pitfalls" title="Link to this heading">¶</a></h2>
+<section id="pitfall-1-over-optimizing-for-one-metric">
+<h3>Pitfall 1: Over-optimizing for One Metric<a class="headerlink" href="#pitfall-1-over-optimizing-for-one-metric" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Focusing only on faithfulness can hurt answer quality
+<strong>Solution</strong>: Balance multiple metrics</p>
+</section>
+<section id="pitfall-2-ignoring-chunk-overlap">
+<h3>Pitfall 2: Ignoring Chunk Overlap<a class="headerlink" href="#pitfall-2-ignoring-chunk-overlap" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: High overlap = redundant retrieval, slower performance
+<strong>Solution</strong>: Aim for 10-20% overlap, not 50%+</p>
+</section>
+<section id="pitfall-3-testing-on-training-data">
+<h3>Pitfall 3: Testing on Training Data<a class="headerlink" href="#pitfall-3-testing-on-training-data" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Metrics look great but don’t generalize
+<strong>Solution</strong>: Use held-out test set, diverse queries</p>
+</section>
+<section id="pitfall-4-not-using-smart-metrics">
+<h3>Pitfall 4: Not Using Smart Metrics<a class="headerlink" href="#pitfall-4-not-using-smart-metrics" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Basic metrics miss nuanced issues
+<strong>Solution</strong>: Always use <code class="docutils literal notranslate"><span class="pre">--smart</span></code> for LLM-powered evaluation</p>
+</section>
+<section id="pitfall-5-comparing-different-llms-directly">
+<h3>Pitfall 5: Comparing Different LLMs Directly<a class="headerlink" href="#pitfall-5-comparing-different-llms-directly" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Metrics vary by LLM provider
+<strong>Solution</strong>: Use same LLM for evaluation across experiments</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="pro-tips">
+<h2>💡 Pro Tips<a class="headerlink" href="#pro-tips" title="Link to this heading">¶</a></h2>
+<section id="tip-1-async-is-your-friend">
+<h3>Tip 1: Async is Your Friend<a class="headerlink" href="#tip-1-async-is-your-friend" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Slow (sequential)</span>
+raglint<span class="w"> </span>analyze<span class="w"> </span>large_dataset.json<span class="w"> </span>--smart
+
+<span class="c1"># Async processing (concurrent evaluation)</span>
+raglint<span class="w"> </span>analyze<span class="w"> </span>large_dataset.json<span class="w"> </span>--smart<span class="w"> </span>--async
+</pre></div>
+</div>
+</section>
+<section id="tip-2-use-the-dashboard-for-experiments">
+<h3>Tip 2: Use the Dashboard for Experiments<a class="headerlink" href="#tip-2-use-the-dashboard-for-experiments" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>dashboard
+<span class="c1"># Navigate to http://localhost:8000</span>
+<span class="c1"># Compare multiple runs visually</span>
+</pre></div>
+</div>
+</section>
+<section id="tip-3-track-cost">
+<h3>Tip 3: Track Cost<a class="headerlink" href="#tip-3-track-cost" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--smart<span class="w"> </span>--track-cost
+<span class="c1"># See estimated OpenAI API cost</span>
+</pre></div>
+</div>
+</section>
+<section id="tip-4-batch-analysis">
+<h3>Tip 4: Batch Analysis<a class="headerlink" href="#tip-4-batch-analysis" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>experiments/*.json<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>raglint<span class="w"> </span>analyze<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>--smart<span class="w"> </span>--output-dir<span class="o">=</span><span class="s2">&quot;results/</span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$file</span><span class="w"> </span>.json<span class="k">)</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="tip-5-use-plugins-for-custom-metrics">
+<h3>Tip 5: Use Plugins for Custom Metrics<a class="headerlink" href="#tip-5-use-plugins-for-custom-metrics" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">raglint.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginInterface</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyCustomMetric</span><span class="p">(</span><span class="n">PluginInterface</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">calculate_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">contexts</span><span class="p">):</span>
+        <span class="c1"># Your logic here</span>
+        <span class="k">return</span> <span class="n">score</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="case-studies">
+<h2>📚 Case Studies<a class="headerlink" href="#case-studies" title="Link to this heading">¶</a></h2>
+<section id="case-study-1-e-commerce-product-q-a">
+<h3>Case Study 1: E-commerce Product Q&amp;A<a class="headerlink" href="#case-study-1-e-commerce-product-q-a" title="Link to this heading">¶</a></h3>
+<p><strong>Challenge</strong>: Customers asking about products
+<strong>Metrics Focus</strong>: Faithfulness (100%), Answer Relevance (85%)
+<strong>Result</strong>: Reduced hallucinations from 30% to 5%</p>
+<p><strong>Key Changes</strong>:</p>
+<ul class="simple">
+<li><p>Stricter prompting</p></li>
+<li><p>Increased chunk overlap from 0% to 15%</p></li>
+<li><p>Used structured output (JSON)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="case-study-2-legal-document-search">
+<h3>Case Study 2: Legal Document Search<a class="headerlink" href="#case-study-2-legal-document-search" title="Link to this heading">¶</a></h3>
+<p><strong>Challenge</strong>: Lawyers need exact citations
+<strong>Metrics Focus</strong>: Context Relevance (95%), Citation Accuracy
+<strong>Result</strong>: Improved retrieval precision from 60% to 90%</p>
+<p><strong>Key Changes</strong>:</p>
+<ul class="simple">
+<li><p>Larger chunks (1024 tokens) for full paragraphs</p></li>
+<li><p>Custom citation plugin</p></li>
+<li><p>BM25 + vector hybrid search</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="case-study-3-customer-support-chatbot">
+<h3>Case Study 3: Customer Support Chatbot<a class="headerlink" href="#case-study-3-customer-support-chatbot" title="Link to this heading">¶</a></h3>
+<p><strong>Challenge</strong>: Handle diverse, informal queries
+<strong>Metrics Focus</strong>: Answer Relevance (90%), Query Difficulty
+<strong>Result</strong>: Answer satisfaction improved 40%</p>
+<p><strong>Key Changes</strong>:</p>
+<ul class="simple">
+<li><p>Query preprocessing (spell check, expansion)</p></li>
+<li><p>Smaller chunks (256 tokens) for specific answers</p></li>
+<li><p>Multi-turn context preservation</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="learning-resources">
+<h2>🎓 Learning Resources<a class="headerlink" href="#learning-resources" title="Link to this heading">¶</a></h2>
+<p><strong>Next Steps</strong>:</p>
+<ol class="arabic simple">
+<li><p>Read <a class="reference internal" href="QUICKSTART.html"><span class="std std-doc">QUICKSTART.md</span></a> if you haven’t</p></li>
+<li><p>Try the examples in <code class="docutils literal notranslate"><span class="pre">examples/</span></code></p></li>
+<li><p>Watch the demo video (coming soon!)</p></li>
+<li><p>Join our community (Discord link in README)</p></li>
+</ol>
+<p><strong>Advanced Topics</strong>:</p>
+<ul class="simple">
+<li><p>Plugin development: <a class="reference internal" href="PLUGINS.html"><span class="std std-doc">PLUGINS.md</span></a></p></li>
+<li><p>Benchmarking: <a class="reference internal" href="BENCHMARKS.html"><span class="std std-doc">BENCHMARKS.md</span></a></p></li>
+<li><p>Architecture: <a class="reference internal" href="ARCHITECTURE.html"><span class="std std-doc">ARCHITECTURE.md</span></a></p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Last Updated</strong>: 2025-11-22</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, RAGLint Contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/raglint/raglint" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">RAGlint Best Practices Guide</a><ul>
+<li><a class="reference internal" href="#understanding-raglint-metrics">📊 Understanding RAGlint Metrics</a><ul>
+<li><a class="reference internal" href="#core-metrics-explained">Core Metrics Explained</a><ul>
+<li><a class="reference internal" href="#faithfulness-score-0-0-1-0">1. Faithfulness Score (0.0 - 1.0)</a></li>
+<li><a class="reference internal" href="#context-relevance-0-0-1-0">2. Context Relevance (0.0 - 1.0)</a></li>
+<li><a class="reference internal" href="#answer-relevance-0-0-1-0">3. Answer Relevance (0.0 - 1.0)</a></li>
+<li><a class="reference internal" href="#semantic-similarity-0-0-1-0">4. Semantic Similarity (0.0 - 1.0)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#when-to-use-which-metrics">🎯 When to Use Which Metrics</a><ul>
+<li><a class="reference internal" href="#scenario-1-initial-development">Scenario 1: Initial Development</a></li>
+<li><a class="reference internal" href="#scenario-2-production-monitoring">Scenario 2: Production Monitoring</a></li>
+<li><a class="reference internal" href="#scenario-3-benchmark-evaluation">Scenario 3: Benchmark Evaluation</a></li>
+<li><a class="reference internal" href="#scenario-4-debugging-low-quality">Scenario 4: Debugging Low Quality</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optimization-workflows">🔧 Optimization Workflows</a><ul>
+<li><a class="reference internal" href="#workflow-1-improving-low-faithfulness">Workflow 1: Improving Low Faithfulness</a></li>
+<li><a class="reference internal" href="#workflow-2-optimizing-chunk-size">Workflow 2: Optimizing Chunk Size</a></li>
+<li><a class="reference internal" href="#workflow-3-debugging-retrieval">Workflow 3: Debugging Retrieval</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-thresholds">📈 Setting Thresholds</a><ul>
+<li><a class="reference internal" href="#production-thresholds-recommended">Production Thresholds (Recommended)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#common-pitfalls">🚨 Common Pitfalls</a><ul>
+<li><a class="reference internal" href="#pitfall-1-over-optimizing-for-one-metric">Pitfall 1: Over-optimizing for One Metric</a></li>
+<li><a class="reference internal" href="#pitfall-2-ignoring-chunk-overlap">Pitfall 2: Ignoring Chunk Overlap</a></li>
+<li><a class="reference internal" href="#pitfall-3-testing-on-training-data">Pitfall 3: Testing on Training Data</a></li>
+<li><a class="reference internal" href="#pitfall-4-not-using-smart-metrics">Pitfall 4: Not Using Smart Metrics</a></li>
+<li><a class="reference internal" href="#pitfall-5-comparing-different-llms-directly">Pitfall 5: Comparing Different LLMs Directly</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pro-tips">💡 Pro Tips</a><ul>
+<li><a class="reference internal" href="#tip-1-async-is-your-friend">Tip 1: Async is Your Friend</a></li>
+<li><a class="reference internal" href="#tip-2-use-the-dashboard-for-experiments">Tip 2: Use the Dashboard for Experiments</a></li>
+<li><a class="reference internal" href="#tip-3-track-cost">Tip 3: Track Cost</a></li>
+<li><a class="reference internal" href="#tip-4-batch-analysis">Tip 4: Batch Analysis</a></li>
+<li><a class="reference internal" href="#tip-5-use-plugins-for-custom-metrics">Tip 5: Use Plugins for Custom Metrics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#case-studies">📚 Case Studies</a><ul>
+<li><a class="reference internal" href="#case-study-1-e-commerce-product-q-a">Case Study 1: E-commerce Product Q&amp;A</a></li>
+<li><a class="reference internal" href="#case-study-2-legal-document-search">Case Study 2: Legal Document Search</a></li>
+<li><a class="reference internal" href="#case-study-3-customer-support-chatbot">Case Study 3: Customer Support Chatbot</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#learning-resources">🎓 Learning Resources</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAGLint Enterprise Report</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .metric-box {
+            text-align: center;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            margin: 5px;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            /* Increased from 2em */
+            color: #2c3e50;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .mock-badge {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8em;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+
+        .reasoning-cell {
+            font-size: 0.85em;
+            color: #555;
+            max-height: 100px;
+            overflow-y: auto;
+            display: block;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 450px;
+            /* Increased from 300px */
+            width: 100%;
+        }
+
+        .charts-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .chart-box {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .metric-title {
+            font-weight: bold;
+            color: #7f8c8d;
+            font-size: 1.1em;
+            /* Increased from 0.9em */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* DataTables Customization */
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #3498db !important;
+            color: white !important;
+            border: 1px solid #3498db !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #ecf0f1 !important;
+            color: #3498db !important;
+            border: 1px solid #bdc3c7 !important;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            padding: 4px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            padding: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            RAGLint Enterprise Report
+            {% if results.is_mock %}
+            <span class="mock-badge">Mock Mode (Active)</span>
+            {% endif %}
+        </h1>
+
+        <h2>Summary Metrics</h2>
+        <div class="charts-row">
+            <div class="chart-box">
+                <h3>Quality Overview</h3>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-box">
+                <h3>Score Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div class="metric-card">
+                <div class="metric-title">Chunking</div>
+                <div class="metric-value">{{ results.chunk_stats.mean | round(0) }} chars</div>
+                <div>Avg Size</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Retrieval</div>
+                <div class="metric-value">{{ results.retrieval_stats.precision | round(2) }}</div>
+                <div>Precision</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Smart Score</div>
+                {% set avg_faith = (results.faithfulness_scores | sum / results.faithfulness_scores | length) if
+                results.faithfulness_scores else 0 %}
+                <div class="metric-value">{{ avg_faith | round(2) }}</div>
+                <div>Avg Faithfulness</div>
+            </div>
+        </div>
+
+        <h2>Detailed Analysis</h2>
+        <table id="resultsTable" class="display">
+            <thead>
+                <tr>
+                    <th>Query</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>Semantic</th>
+                    <th>Faithfulness</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in results.detailed_results %}
+                <tr>
+                    <td>{{ item.query }}</td>
+                    <td>{{ item.metrics.precision | round(2) if item.metrics else 'N/A' }}</td>
+                    <td>{{ item.metrics.recall | round(2) if item.metrics else 'N/A' }}</td>
+                    <td>{{ item.semantic_score | round(2) if item.semantic_score is not none else 'N/A' }}</td>
+                    <td>
+                        {% if item.faithfulness_score is defined and item.faithfulness_score is not none %}
+                        <strong>{{ item.faithfulness_score | round(2) }}</strong>
+                        {% if item.faithfulness_score < 1.0 %} <span style="color: red;">(Risk)</span>
+                            {% endif %}
+                            {% else %}
+                            N/A
+                            {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#resultsTable').DataTable({
+                "pageLength": 10,
+                "order": [[4, "asc"]], // Sort by Faithfulness by default
+                "info": false, // Remove "Showing 1 to n of n entries"
+                "lengthChange": false // Remove "Show [10] entries" dropdown
+            });
+
+            // Data for charts
+            const semanticScores = {{ results.semantic_scores | tojson
+        }};
+        const faithfulnessScores = {{ results.faithfulness_scores | tojson }};
+
+        // Calculate averages
+        const avgPrecision = {{ results.retrieval_stats.precision }};
+        const avgRecall = {{ results.retrieval_stats.recall }};
+        const avgMRR = {{ results.retrieval_stats.mrr }};
+        const avgNDCG = {{ results.retrieval_stats.ndcg }};
+        const avgSemantic = semanticScores.length ? semanticScores.reduce((a, b) => a + b, 0) / semanticScores.length : 0;
+        const avgFaithfulness = faithfulnessScores.length ? faithfulnessScores.reduce((a, b) => a + b, 0) / faithfulnessScores.length : 0;
+
+        // Radar Chart
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Precision', 'Recall', 'MRR', 'NDCG', 'Semantic', 'Faithfulness'],
+                datasets: [{
+                    label: 'RAG Pipeline Quality',
+                    data: [avgPrecision, avgRecall, avgMRR, avgNDCG, avgSemantic, avgFaithfulness],
+                    fill: true,
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderColor: 'rgb(52, 152, 219)',
+                    pointBackgroundColor: 'rgb(52, 152, 219)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(52, 152, 219)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: { line: { borderWidth: 3 } },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 1,
+                        ticks: { stepSize: 0.2, font: { size: 14 } }, // Larger ticks
+                        pointLabels: { font: { size: 16 } } // Larger labels (Precision, Recall etc)
+                    }
+                },
+                plugins: {
+                    legend: { labels: { font: { size: 16 } } } // Larger legend
+                }
+            }
+        });
+
+        // Bar Chart (Distribution)
+        // Binning scores into buckets: 0-0.2, 0.2-0.4, ...
+        function getBins(scores) {
+            let bins = [0, 0, 0, 0, 0];
+            scores.forEach(s => {
+                if (s < 0.2) bins[0]++;
+                else if (s < 0.4) bins[1]++;
+                else if (s < 0.6) bins[2]++;
+                else if (s < 0.8) bins[3]++;
+                else bins[4]++;
+            });
+            return bins;
+        }
+
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: ['0.0-0.2', '0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0'],
+                datasets: [
+                    {
+                        label: 'Faithfulness',
+                        data: getBins(faithfulnessScores),
+                        backgroundColor: 'rgba(46, 204, 113, 0.6)'
+                    },
+                    {
+                        label: 'Semantic Similarity',
+                        data: getBins(semanticScores),
+                        backgroundColor: 'rgba(155, 89, 182, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { font: { size: 14 } }
+                    },
+                    x: {
+                        ticks: { font: { size: 14 } }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { font: { size: 16 } } }
+                }
+            }
+        });
+        });
+    </script>
+</body>
+
+</html>

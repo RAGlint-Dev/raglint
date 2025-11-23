@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include raglint/dashboard/templates *
+recursive-include raglint/dashboard/static *
+recursive-include raglint/reporting/templates *

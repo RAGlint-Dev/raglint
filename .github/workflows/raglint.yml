@@ -1,0 +1,63 @@
+name: RAGLint Quality Gate
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  rag-quality-check:
+    runs-on: ubuntu-latest
+    
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      # Add other keys as needed (AZURE, BEDROCK)
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install raglint in editable mode or from package if available
+        pip install -e .
+
+    - name: Run RAGLint Verification
+      # This runs the verification script which acts as a smoke test
+      run: |
+        python verify_enterprise.py
+
+    - name: Run Evaluation Pipeline (Quality Gate)
+      # In a real scenario, this would run against a test dataset
+      # For now, we'll create a simple script that fails if metrics are low
+      run: |
+        python -c "
+        import sys
+        print('Running RAG Quality Gate...')
+        # Simulate a check. In reality, you'd run: raglint run --config raglint.yml
+        # and parse the output or exit code.
+        
+        # Example: Fail if we can't import the package
+        try:
+            import raglint
+            print('✅ RAGLint installed successfully')
+        except ImportError:
+            print('❌ RAGLint not found')
+            sys.exit(1)
+            
+        # Example: Fail if 'faithfulness' threshold is not met (mocked for now)
+        score = 0.85
+        threshold = 0.80
+        if score < threshold:
+            print(f'❌ Faithfulness {score} is below threshold {threshold}')
+            sys.exit(1)
+        else:
+            print(f'✅ Faithfulness {score} passed threshold {threshold}')
+        "

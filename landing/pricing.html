@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - RAGLint</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151e2e',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        primary: {
+                            400: '#38bdf8', // Sky 400
+                            500: '#0ea5e9', // Sky 500
+                            600: '#0284c7', // Sky 600
+                        },
+                        accent: {
+                            400: '#818cf8', // Indigo 400
+                            500: '#6366f1', // Indigo 500
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .glass-nav {
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card:hover {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(56, 189, 248, 0.3);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-primary-500/30 selection:text-primary-200">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div
+            class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full mix-blend-screen filter blur-[128px] opacity-50 animate-blob">
+        </div>
+        <div
+            class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500/20 rounded-full mix-blend-screen filter blur-[128px] opacity-50 animate-blob animation-delay-2000">
+        </div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative w-8 h-8 flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-500 rounded-lg opacity-80 group-hover:opacity-100 transition-opacity blur-[2px]">
+                        </div>
+                        <div
+                            class="relative w-full h-full bg-slate-900 rounded-lg border border-white/10 flex items-center justify-center">
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-br from-primary-400 to-accent-500 font-display font-bold text-lg">R</span>
+                        </div>
+                    </div>
+                    <span
+                        class="text-lg font-display font-bold text-white tracking-tight group-hover:text-primary-400 transition-colors">RAGLint</span>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#features"
+                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Features</a>
+                    <a href="index.html#how-it-works"
+                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors">How it Works</a>
+                    <a href="pricing.html" class="text-sm font-medium text-white transition-colors">Pricing</a>
+                    <a href="https://github.com/raglint/raglint"
+                        class="text-slate-300 hover:text-white transition-colors" target="_blank">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="/login" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Sign
+                        In</a>
+                    <a href="pricing.html"
+                        class="group relative inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white transition-all duration-200 bg-white/10 border border-white/10 rounded-full hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-slate-900">
+                        <span>Get Started</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pricing Header -->
+    <div class="relative pt-32 pb-16 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+                Simple, transparent <span class="text-gradient">pricing</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+                Start free. Scale when ready. No hidden fees.
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="flex justify-center items-center space-x-4">
+                <span class="text-slate-300 font-medium">Monthly</span>
+                <button id="billing-toggle"
+                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 bg-slate-700">
+                    <span
+                        class="translate-x-0 inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+                <span class="text-slate-300 font-medium">Annual <span
+                        class="text-emerald-400 text-sm font-bold ml-1">(Save 20%)</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+
+            <!-- Community Plan -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+                <div class="p-8 flex-1">
+                    <h3 class="text-2xl font-bold text-white">Community</h3>
+                    <p class="mt-4 text-slate-400 text-sm">Perfect for individuals and open-source projects</p>
+                    <p class="mt-8 mb-8">
+                        <span class="text-5xl font-bold text-white">$0</span>
+                        <span class="text-base font-medium text-slate-500">/forever</span>
+                    </p>
+                    <a href="https://github.com/raglint/raglint"
+                        class="block w-full bg-slate-800 hover:bg-slate-700 text-white text-center px-6 py-3 rounded-lg font-medium transition-colors border border-white/10">
+                        Get Started
+                    </a>
+                </div>
+                <div class="px-8 py-6 bg-slate-900/50 border-t border-white/5">
+                    <h4 class="text-xs font-bold text-slate-500 tracking-wider uppercase mb-6">What's included</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Core evaluation metrics</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">@watch decorator</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">CLI & Basic dashboard</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">SQLite backend</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Community support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pro Plan -->
+            <div
+                class="glass-card rounded-2xl overflow-hidden flex flex-col relative border-primary-500/30 shadow-[0_0_40px_rgba(14,165,233,0.15)]">
+                <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-primary-400 to-accent-500"></div>
+                <div
+                    class="absolute top-4 right-4 bg-gradient-to-r from-primary-500 to-accent-500 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg">
+                    POPULAR
+                </div>
+                <div class="p-8 flex-1">
+                    <h3 class="text-2xl font-bold text-white">Pro</h3>
+                    <p class="mt-4 text-slate-400 text-sm">For teams building production RAG systems</p>
+                    <p class="mt-8 mb-2">
+                        <span class="text-5xl font-bold text-white" id="pro-price">$49</span>
+                        <span class="text-base font-medium text-slate-500">/user/month</span>
+                    </p>
+                    <p class="text-xs text-slate-500 mb-8">14-day free trial • No credit card required</p>
+                    <a href="/register?plan=pro"
+                        class="block w-full bg-primary-600 hover:bg-primary-500 text-white text-center px-6 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-primary-500/20">
+                        Start Free Trial
+                    </a>
+                </div>
+                <div class="px-8 py-6 bg-slate-900/50 border-t border-white/5">
+                    <h4 class="text-xs font-bold text-slate-500 tracking-wider uppercase mb-6">Everything in Community,
+                        plus:</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">PostgreSQL backend</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">OAuth (Google, GitHub)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Slack/Teams notifications</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Webhooks (Zapier, Make.com)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Real-time metrics</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Email support (48h response)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+                <div class="p-8 flex-1">
+                    <h3 class="text-2xl font-bold text-white">Enterprise</h3>
+                    <p class="mt-4 text-slate-400 text-sm">For organizations with advanced needs</p>
+                    <p class="mt-8 mb-2">
+                        <span class="text-5xl font-bold text-white">Custom</span>
+                    </p>
+                    <p class="text-xs text-slate-500 mb-8">Typically starts at $10k/year</p>
+                    <a href="mailto:sales@raglint.com"
+                        class="block w-full bg-slate-800 hover:bg-slate-700 text-white text-center px-6 py-3 rounded-lg font-medium transition-colors border border-white/10">
+                        Contact Sales
+                    </a>
+                </div>
+                <div class="px-8 py-6 bg-slate-900/50 border-t border-white/5">
+                    <h4 class="text-xs font-bold text-slate-500 tracking-wider uppercase mb-6">Everything in Pro, plus:
+                    </h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">SSO/SAML</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Multi-tenancy</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Custom integrations</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Dedicated support (4h SLA)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">99.9% uptime SLA</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-slate-300 text-sm">Deployment assistance</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+        <h3 class="text-3xl font-display font-bold text-center text-white mb-12">Frequently Asked Questions</h3>
+
+        <div class="space-y-8">
+            <div class="glass-card p-6 rounded-xl">
+                <h4 class="text-lg font-bold text-white">Can I use the Community Edition commercially?</h4>
+                <p class="mt-2 text-slate-400">Yes, but you must comply with AGPL v3, which means open-sourcing your
+                    code if you provide RAGLint as a service. For commercial use without open-sourcing, get a Pro
+                    license.</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-xl">
+                <h4 class="text-lg font-bold text-white">What happens after the free trial?</h4>
+                <p class="mt-2 text-slate-400">After 14 days, you'll be charged $49/user/month. Cancel anytime, no
+                    questions asked.</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-xl">
+                <h4 class="text-lg font-bold text-white">Can I switch plans later?</h4>
+                <p class="mt-2 text-slate-400">Absolutely! Upgrade or downgrade anytime. We'll prorate the charges.</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-xl">
+                <h4 class="text-lg font-bold text-white">Do you offer academic/non-profit discounts?</h4>
+                <p class="mt-2 text-slate-400">Yes! We offer 50% off Pro licenses for .edu emails and registered
+                    non-profits. Contact us at sales@raglint.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-slate-950 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div
+                            class="w-6 h-6 bg-gradient-to-br from-primary-500 to-accent-500 rounded flex items-center justify-center text-white font-bold text-xs">
+                            R</div>
+                        <span class="text-lg font-display font-bold text-white">RAGLint</span>
+                    </div>
+                    <p class="text-slate-500 text-sm">
+                        Open source observability for the next generation of AI applications.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Product</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="index.html#features" class="hover:text-primary-400 transition-colors">Features</a>
+                        </li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Integrations</a>
+                        </li>
+                        <li><a href="pricing.html" class="hover:text-primary-400 transition-colors">Pricing</a></li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Changelog</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="../docs/_build/html/index.html"
+                                class="hover:text-primary-400 transition-colors">Documentation</a></li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">API
+                                Reference</a></li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Community</a>
+                        </li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">About</a></li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Careers</a></li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Legal</a></li>
+                        <li><a href="coming_soon.html" class="hover:text-primary-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600 text-sm">
+                    &copy; 2025 RAGLint Inc. All rights reserved.
+                </div>
+                <div class="flex space-x-6 text-slate-600">
+                    <a href="https://github.com/raglint/raglint" class="hover:text-white transition-colors"
+                        target="_blank"><span class="sr-only">GitHub</span><svg class="h-5 w-5" fill="currentColor"
+                            viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                clip-rule="evenodd"></path>
+                        </svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Billing toggle
+        const toggle = document.getElementById('billing-toggle');
+        const proPrice = document.getElementById('pro-price');
+        let isAnnual = false;
+
+        toggle.addEventListener('click', () => {
+            isAnnual = !isAnnual;
+            const toggleBtn = toggle.querySelector('span');
+
+            if (isAnnual) {
+                toggleBtn.classList.add('translate-x-5');
+                toggle.classList.add('bg-primary-600');
+                toggle.classList.remove('bg-slate-700');
+                proPrice.textContent = '$39';  // $490/year = $40.83/month
+            } else {
+                toggleBtn.classList.remove('translate-x-5');
+                toggle.classList.remove('bg-primary-600');
+                toggle.classList.add('bg-slate-700');
+                proPrice.textContent = '$49';
+            }
+        });
+    </script>
+</body>
+
+</html>

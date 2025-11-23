@@ -1,0 +1,933 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>Production Deployment Guide - RAGLint</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=f3d240d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0ea5e9;
+  --color-brand-content: #0ea5e9;
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">RAGLint</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">RAGLint</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/metrics.html">Metrics API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tracking.html">Tracking API</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/plugins.html">Custom Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/benchmarks.html">RAGLint Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/integrations.html">LangChain Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cost-tracking.html">Cost &amp; Latency Tracking</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/PRODUCTION_DEPLOYMENT.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="production-deployment-guide">
+<h1>Production Deployment Guide<a class="headerlink" href="#production-deployment-guide" title="Link to this heading">¶</a></h1>
+<section id="deploying-raglint-to-production">
+<h2>Deploying RAGlint to Production<a class="headerlink" href="#deploying-raglint-to-production" title="Link to this heading">¶</a></h2>
+<p>Complete guide for deploying RAGlint dashboard and API.</p>
+</section>
+<hr class="docutils" />
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Python 3.9+</p></li>
+<li><p>PostgreSQL 12+ (recommended) or SQLite</p></li>
+<li><p>2GB RAM minimum (4GB recommended)</p></li>
+<li><p>HTTPS certificate (Let’s Encrypt recommended)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="option-1-docker-deployment-recommended">
+<h2>Option 1: Docker Deployment (Recommended)<a class="headerlink" href="#option-1-docker-deployment-recommended" title="Link to this heading">¶</a></h2>
+<section id="step-1-create-dockerfile">
+<h3>Step 1: Create Dockerfile<a class="headerlink" href="#step-1-create-dockerfile" title="Link to this heading">¶</a></h3>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Dockerfile</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Install dependencies</span>
+<span class="k">COPY</span><span class="w"> </span>pyproject.toml<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dashboard<span class="o">]</span>
+
+<span class="c"># Copy application</span>
+<span class="k">COPY</span><span class="w"> </span>raglint/<span class="w"> </span>./raglint/
+<span class="k">COPY</span><span class="w"> </span>examples/<span class="w"> </span>./examples/
+
+<span class="c"># Create user</span>
+<span class="k">RUN</span><span class="w"> </span>useradd<span class="w"> </span>-m<span class="w"> </span>raglint<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>raglint:raglint<span class="w"> </span>/app
+<span class="k">USER</span><span class="w"> </span><span class="s">raglint</span>
+
+<span class="c"># Expose port</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+
+<span class="c"># Run dashboard</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;raglint.dashboard.app:app&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-docker-compose">
+<h3>Step 2: Docker Compose<a class="headerlink" href="#step-2-docker-compose" title="Link to this heading">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># docker-compose.yml</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">raglint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgresql://raglint:password@db:5432/raglint</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OPENAI_API_KEY=${OPENAI_API_KEY}</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">db</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=raglint</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=password</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=raglint</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">nginx</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;80:80&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;443:443&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./nginx.conf:/etc/nginx/nginx.conf:ro</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./ssl:/etc/nginx/ssl:ro</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">raglint</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">postgres_data</span><span class="p">:</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-deploy">
+<h3>Step 3: Deploy<a class="headerlink" href="#step-3-deploy" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate secret key</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span>
+
+<span class="c1"># Start services</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+
+<span class="c1"># Check logs</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>raglint
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="option-2-manual-deployment">
+<h2>Option 2: Manual Deployment<a class="headerlink" href="#option-2-manual-deployment" title="Link to this heading">¶</a></h2>
+<section id="step-1-server-setup">
+<h3>Step 1: Server Setup<a class="headerlink" href="#step-1-server-setup" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update system</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+
+<span class="c1"># Install dependencies</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3.11<span class="w"> </span>python3.11-venv<span class="w"> </span>postgresql<span class="w"> </span>nginx
+
+<span class="c1"># Create user</span>
+sudo<span class="w"> </span>useradd<span class="w"> </span>-m<span class="w"> </span>-s<span class="w"> </span>/bin/bash<span class="w"> </span>raglint
+</pre></div>
+</div>
+</section>
+<section id="step-2-application-setup">
+<h3>Step 2: Application Setup<a class="headerlink" href="#step-2-application-setup" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Switch to raglint user</span>
+sudo<span class="w"> </span>su<span class="w"> </span>-<span class="w"> </span>raglint
+
+<span class="c1"># Clone repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/raglint.git
+<span class="nb">cd</span><span class="w"> </span>raglint
+
+<span class="c1"># Create virtual environment</span>
+python3.11<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+
+<span class="c1"># Install</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dashboard<span class="o">]</span>
+
+<span class="c1"># Set environment variables</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>.env<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">DATABASE_URL=postgresql://raglint:password@localhost:5432/raglint</span>
+<span class="s">SECRET_KEY=$(openssl rand -hex 32)</span>
+<span class="s">OPENAI_API_KEY=your_key_here</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-database-setup">
+<h3>Step 3: Database Setup<a class="headerlink" href="#step-3-database-setup" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create database</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>psql<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">CREATE USER raglint WITH PASSWORD &#39;secure_password&#39;;</span>
+<span class="s">CREATE DATABASE raglint OWNER raglint;</span>
+<span class="s">GRANT ALL PRIVILEGES ON DATABASE raglint TO raglint;</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Run migrations (if any)</span>
+<span class="c1"># python -m raglint migrate</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-systemd-service">
+<h3>Step 4: Systemd Service<a class="headerlink" href="#step-4-systemd-service" title="Link to this heading">¶</a></h3>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/systemd/system/raglint.service</span>
+<span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">RAGlint Dashboard</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target postgresql.service</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">notify</span>
+<span class="na">User</span><span class="o">=</span><span class="s">raglint</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">raglint</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/raglint/raglint</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">&quot;PATH=/home/raglint/raglint/venv/bin&quot;</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/home/raglint/raglint/.env</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/home/raglint/raglint/venv/bin/uvicorn raglint.dashboard.app:app --host 0.0.0.0 --port 8000</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="na">RestartSec</span><span class="o">=</span><span class="s">10</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable and start</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>raglint
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>raglint
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>raglint
+</pre></div>
+</div>
+</section>
+<section id="step-5-nginx-configuration">
+<h3>Step 5: Nginx Configuration<a class="headerlink" href="#step-5-nginx-configuration" title="Link to this heading">¶</a></h3>
+<div class="highlight-nginx notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/sites-available/raglint</span>
+<span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">raglint.example.com</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1"># Redirect to HTTPS</span>
+<span class="w">    </span><span class="kn">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="s">https://</span><span class="nv">$server_name$request_uri</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="s">ssl</span><span class="w"> </span><span class="s">http2</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">raglint.example.com</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1"># SSL configuration</span>
+<span class="w">    </span><span class="kn">ssl_certificate</span><span class="w"> </span><span class="s">/etc/letsencrypt/live/raglint.example.com/fullchain.pem</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_certificate_key</span><span class="w"> </span><span class="s">/etc/letsencrypt/live/raglint.example.com/privkey.pem</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_protocols</span><span class="w"> </span><span class="s">TLSv1.2</span><span class="w"> </span><span class="s">TLSv1.3</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_ciphers</span><span class="w"> </span><span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1"># Security headers</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">X-Frame-Options</span><span class="w"> </span><span class="s">&quot;DENY&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">X-Content-Type-Options</span><span class="w"> </span><span class="s">&quot;nosniff&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">X-XSS-Protection</span><span class="w"> </span><span class="s">&quot;1</span><span class="p">;</span><span class="w"> </span><span class="kn">mode=block&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">Strict-Transport-Security</span><span class="w"> </span><span class="s">&quot;max-age=31536000</span><span class="p">;</span><span class="w"> </span><span class="kn">includeSubDomains&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1"># Proxy to RAGlint</span>
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://localhost:8000</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1"># WebSocket support  </span>
+<span class="w">        </span><span class="kn">proxy_http_version</span><span class="w"> </span><span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Upgrade</span><span class="w"> </span><span class="nv">$http_upgrade</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Connection</span><span class="w"> </span><span class="s">&quot;upgrade&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1"># Static files (if needed)</span>
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/static/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">alias</span><span class="w"> </span><span class="s">/home/raglint/raglint/static/</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">expires</span><span class="w"> </span><span class="s">1y</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">add_header</span><span class="w"> </span><span class="s">Cache-Control</span><span class="w"> </span><span class="s">&quot;public,</span><span class="w"> </span><span class="s">immutable&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable site</span>
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/etc/nginx/sites-available/raglint<span class="w"> </span>/etc/nginx/sites-enabled/
+sudo<span class="w"> </span>nginx<span class="w"> </span>-t
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</pre></div>
+</div>
+</section>
+<section id="step-6-ssl-with-let-s-encrypt">
+<h3>Step 6: SSL with Let’s Encrypt<a class="headerlink" href="#step-6-ssl-with-let-s-encrypt" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install certbot</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>certbot<span class="w"> </span>python3-certbot-nginx
+
+<span class="c1"># Get certificate</span>
+sudo<span class="w"> </span>certbot<span class="w"> </span>--nginx<span class="w"> </span>-d<span class="w"> </span>raglint.example.com
+
+<span class="c1"># Auto-renewal</span>
+sudo<span class="w"> </span>certbot<span class="w"> </span>renew<span class="w"> </span>--dry-run
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="option-3-cloud-platforms">
+<h2>Option 3: Cloud Platforms<a class="headerlink" href="#option-3-cloud-platforms" title="Link to this heading">¶</a></h2>
+<section id="aws-elastic-beanstalk">
+<h3>AWS (Elastic Beanstalk)<a class="headerlink" href="#aws-elastic-beanstalk" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install EB CLI</span>
+pip<span class="w"> </span>install<span class="w"> </span>awsebcli
+
+<span class="c1"># Initialize</span>
+eb<span class="w"> </span>init<span class="w"> </span>-p<span class="w"> </span>python-3.11<span class="w"> </span>raglint-app
+
+<span class="c1"># Create environment</span>
+eb<span class="w"> </span>create<span class="w"> </span>raglint-prod<span class="w"> </span>--database.engine<span class="w"> </span>postgres
+
+<span class="c1"># Deploy</span>
+eb<span class="w"> </span>deploy
+
+<span class="c1"># Open</span>
+eb<span class="w"> </span>open
+</pre></div>
+</div>
+</section>
+<section id="google-cloud-app-engine">
+<h3>Google Cloud (App Engine)<a class="headerlink" href="#google-cloud-app-engine" title="Link to this heading">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># app.yaml</span>
+<span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python311</span>
+
+<span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uvicorn raglint.dashboard.app:app --host 0.0.0.0 --port $PORT</span>
+
+<span class="nt">env_variables</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">DATABASE_URL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgresql://...</span>
+<span class="w">  </span><span class="nt">SECRET_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>app<span class="w"> </span>deploy
+</pre></div>
+</div>
+</section>
+<section id="azure-app-service">
+<h3>Azure (App Service)<a class="headerlink" href="#azure-app-service" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>az<span class="w"> </span>webapp<span class="w"> </span>up<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>raglint-app<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span>raglint-rg<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--runtime<span class="w"> </span><span class="s2">&quot;PYTHON:3.11&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="production-checklist">
+<h2>Production Checklist<a class="headerlink" href="#production-checklist" title="Link to this heading">¶</a></h2>
+<section id="security">
+<h3>Security<a class="headerlink" href="#security" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>[ ] SECRET_KEY properly set (32+ random chars)</p></li>
+<li><p>[ ] HTTPS enabled</p></li>
+<li><p>[ ] Security headers configured</p></li>
+<li><p>[ ] Database with strong password</p></li>
+<li><p>[ ] Firewall rules configured</p></li>
+<li><p>[ ] Rate limiting enabled</p></li>
+<li><p>[ ] CORS properly configured</p></li>
+</ul>
+</section>
+<section id="performance">
+<h3>Performance<a class="headerlink" href="#performance" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>[ ] PostgreSQL connection pool configured</p></li>
+<li><p>[ ] Static files cached</p></li>
+<li><p>[ ] Gzip compression enabled</p></li>
+<li><p>[ ] CDN for static assets (optional)</p></li>
+<li><p>[ ] Database indexes created</p></li>
+<li><p>[ ] Query optimization done</p></li>
+</ul>
+</section>
+<section id="monitoring">
+<h3>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>[ ] Error tracking (Sentry)</p></li>
+<li><p>[ ] Performance monitoring (New Relic/Datadog)</p></li>
+<li><p>[ ] Log aggregation (ELK/Splunk)</p></li>
+<li><p>[ ] Uptime monitoring (UptimeRobot)</p></li>
+<li><p>[ ] Alerts configured</p></li>
+</ul>
+</section>
+<section id="backup">
+<h3>Backup<a class="headerlink" href="#backup" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>[ ] Database backup strategy</p></li>
+<li><p>[ ] Automated daily backups</p></li>
+<li><p>[ ] Backup retention policy</p></li>
+<li><p>[ ] Restore procedure tested</p></li>
+</ul>
+</section>
+<section id="maintenance">
+<h3>Maintenance<a class="headerlink" href="#maintenance" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>[ ] Update strategy defined</p></li>
+<li><p>[ ] Rolling deployment configured</p></li>
+<li><p>[ ] Health check endpoint</p></li>
+<li><p>[ ] Graceful shutdown</p></li>
+<li><p>[ ] Zero-downtime deployment</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">¶</a></h2>
+<p><strong>Required:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgresql://user:password@host:5432/dbname
+<span class="nv">SECRET_KEY</span><span class="o">=</span>your-secret-key-here
+</pre></div>
+</div>
+<p><strong>Optional:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
+<span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span>...
+<span class="nv">PORT</span><span class="o">=</span><span class="m">8000</span>
+<span class="nv">HOST</span><span class="o">=</span><span class="m">0</span>.0.0.0
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>info
+<span class="nv">ENVIRONMENT</span><span class="o">=</span>production
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="scaling">
+<h2>Scaling<a class="headerlink" href="#scaling" title="Link to this heading">¶</a></h2>
+<section id="horizontal-scaling">
+<h3>Horizontal Scaling<a class="headerlink" href="#horizontal-scaling" title="Link to this heading">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># docker-compose.yml with multiple workers</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">raglint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="c1"># ... rest of config</span>
+</pre></div>
+</div>
+</section>
+<section id="load-balancing">
+<h3>Load Balancing<a class="headerlink" href="#load-balancing" title="Link to this heading">¶</a></h3>
+<div class="highlight-nginx notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nginx upstream</span>
+<span class="k">upstream</span><span class="w"> </span><span class="s">raglint_backend</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">least_conn</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server</span><span class="w"> </span><span class="n">raglint1</span><span class="p">:</span><span class="mi">8000</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server</span><span class="w"> </span><span class="n">raglint2</span><span class="p">:</span><span class="mi">8000</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server</span><span class="w"> </span><span class="n">raglint3</span><span class="p">:</span><span class="mi">8000</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://raglint_backend</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="monitoring-logging">
+<h2>Monitoring &amp; Logging<a class="headerlink" href="#monitoring-logging" title="Link to this heading">¶</a></h2>
+<section id="application-logs">
+<h3>Application Logs<a class="headerlink" href="#application-logs" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># raglint/config.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">handlers</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s1">&#39;/var/log/raglint/app.log&#39;</span><span class="p">),</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="health-check-endpoint">
+<h3>Health Check Endpoint<a class="headerlink" href="#health-check-endpoint" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Already included in dashboard</span>
+<span class="n">GET</span> <span class="o">/</span><span class="n">health</span>
+<span class="c1"># Response: {&quot;status&quot;: &quot;healthy&quot;, &quot;database&quot;: &quot;connected&quot;}</span>
+</pre></div>
+</div>
+</section>
+<section id="metrics">
+<h3>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prometheus metrics (if enabled)</span>
+<span class="n">GET</span> <span class="o">/</span><span class="n">metrics</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<section id="database-connection-issues">
+<h3>Database Connection Issues<a class="headerlink" href="#database-connection-issues" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check PostgreSQL is running</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>postgresql
+
+<span class="c1"># Check connection</span>
+psql<span class="w"> </span>-U<span class="w"> </span>raglint<span class="w"> </span>-d<span class="w"> </span>raglint<span class="w"> </span>-h<span class="w"> </span>localhost
+
+<span class="c1"># Check logs</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>postgresql<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+</pre></div>
+</div>
+</section>
+<section id="application-not-starting">
+<h3>Application Not Starting<a class="headerlink" href="#application-not-starting" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check logs</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>raglint<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+
+<span class="c1"># Check port</span>
+sudo<span class="w"> </span>netstat<span class="w"> </span>-tlnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">8000</span>
+
+<span class="c1"># Test manually</span>
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+uvicorn<span class="w"> </span>raglint.dashboard.app:app<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
+</pre></div>
+</div>
+</section>
+<section id="high-memory-usage">
+<h3>High Memory Usage<a class="headerlink" href="#high-memory-usage" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor</span>
+htop
+
+<span class="c1"># Adjust workers</span>
+<span class="c1"># In systemd service, add:</span>
+<span class="c1"># Environment=&quot;WORKERS=2&quot;  # Reduce workers</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cost-optimization">
+<h2>Cost Optimization<a class="headerlink" href="#cost-optimization" title="Link to this heading">¶</a></h2>
+<section id="database">
+<h3>Database<a class="headerlink" href="#database" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Use managed PostgreSQL (AWS RDS, Google Cloud SQL)</p></li>
+<li><p>Configure connection pooling</p></li>
+<li><p>Set appropriate instance size</p></li>
+</ul>
+</section>
+<section id="compute">
+<h3>Compute<a class="headerlink" href="#compute" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Start with small instance (2GB RAM)</p></li>
+<li><p>Scale based on usage</p></li>
+<li><p>Use autoscaling if available</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Monitoring<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Use free tiers (New Relic, Datadog trial)</p></li>
+<li><p>Set up alerts for budget thresholds</p></li>
+</ul>
+<p><strong>Estimated Monthly Cost:</strong></p>
+<ul class="simple">
+<li><p>Small deployment: $15-50/month</p></li>
+<li><p>Medium deployment: $100-200/month</p></li>
+<li><p>Large deployment: $500+/month</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Documentation: https://raglint.readthedocs.io</p></li>
+<li><p>GitHub Issues: https://github.com/yourusername/raglint/issues</p></li>
+<li><p>Email: support&#64;raglint.ai</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, RAGLint Contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/raglint/raglint" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Production Deployment Guide</a><ul>
+<li><a class="reference internal" href="#deploying-raglint-to-production">Deploying RAGlint to Production</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#option-1-docker-deployment-recommended">Option 1: Docker Deployment (Recommended)</a><ul>
+<li><a class="reference internal" href="#step-1-create-dockerfile">Step 1: Create Dockerfile</a></li>
+<li><a class="reference internal" href="#step-2-docker-compose">Step 2: Docker Compose</a></li>
+<li><a class="reference internal" href="#step-3-deploy">Step 3: Deploy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#option-2-manual-deployment">Option 2: Manual Deployment</a><ul>
+<li><a class="reference internal" href="#step-1-server-setup">Step 1: Server Setup</a></li>
+<li><a class="reference internal" href="#step-2-application-setup">Step 2: Application Setup</a></li>
+<li><a class="reference internal" href="#step-3-database-setup">Step 3: Database Setup</a></li>
+<li><a class="reference internal" href="#step-4-systemd-service">Step 4: Systemd Service</a></li>
+<li><a class="reference internal" href="#step-5-nginx-configuration">Step 5: Nginx Configuration</a></li>
+<li><a class="reference internal" href="#step-6-ssl-with-let-s-encrypt">Step 6: SSL with Let’s Encrypt</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#option-3-cloud-platforms">Option 3: Cloud Platforms</a><ul>
+<li><a class="reference internal" href="#aws-elastic-beanstalk">AWS (Elastic Beanstalk)</a></li>
+<li><a class="reference internal" href="#google-cloud-app-engine">Google Cloud (App Engine)</a></li>
+<li><a class="reference internal" href="#azure-app-service">Azure (App Service)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#production-checklist">Production Checklist</a><ul>
+<li><a class="reference internal" href="#security">Security</a></li>
+<li><a class="reference internal" href="#performance">Performance</a></li>
+<li><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li><a class="reference internal" href="#backup">Backup</a></li>
+<li><a class="reference internal" href="#maintenance">Maintenance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li><a class="reference internal" href="#scaling">Scaling</a><ul>
+<li><a class="reference internal" href="#horizontal-scaling">Horizontal Scaling</a></li>
+<li><a class="reference internal" href="#load-balancing">Load Balancing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#monitoring-logging">Monitoring &amp; Logging</a><ul>
+<li><a class="reference internal" href="#application-logs">Application Logs</a></li>
+<li><a class="reference internal" href="#health-check-endpoint">Health Check Endpoint</a></li>
+<li><a class="reference internal" href="#metrics">Metrics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#database-connection-issues">Database Connection Issues</a></li>
+<li><a class="reference internal" href="#application-not-starting">Application Not Starting</a></li>
+<li><a class="reference internal" href="#high-memory-usage">High Memory Usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cost-optimization">Cost Optimization</a><ul>
+<li><a class="reference internal" href="#database">Database</a></li>
+<li><a class="reference internal" href="#compute">Compute</a></li>
+<li><a class="reference internal" href="#id1">Monitoring</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#support">Support</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

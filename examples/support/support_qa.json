@@ -1,0 +1,52 @@
+[
+    {
+        "query": "How do I reset my password?",
+        "retrieved_contexts": [
+            "To reset your password, click 'Forgot Password' on the login page. Enter your email address, and we'll send you a password reset link. The link expires after 24 hours.",
+            "For security, we require passwords to be at least 8 characters with one uppercase letter, one number, and one special character.",
+            "If you don't receive the reset email within 5 minutes, check your spam folder or contact support at support@company.com"
+        ],
+        "response": "Click 'Forgot Password' on the login page, enter your email, and we'll send you a reset link. Check spam if you don't see it in 5 minutes. The link is valid for 24 hours.",
+        "ground_truth": "Use forgot password feature on login page, receive email link valid for 24 hours"
+    },
+    {
+        "query": "My order hasn't arrived yet. Where is it?",
+        "retrieved_contexts": [
+            "Track your order using the tracking number sent to your email. Visit our tracking page and enter your order number or tracking ID.",
+            "Standard shipping takes 3-5 business days. Expedited shipping is 1-2 business days. Orders ship within 24 hours of placement.",
+            "If tracking shows 'delivered' but you haven't received it, check with neighbors or building management. Contact us within 48 hours to file a claim."
+        ],
+        "response": "You can track your order using the tracking number we emailed you. Standard shipping takes 3-5 business days. If it shows delivered but you don't have it, check with neighbors and contact us within 48 hours.",
+        "ground_truth": "Use tracking number from email, standard delivery is 3-5 days, contact support if issues"
+    },
+    {
+        "query": "Can I cancel my subscription?",
+        "retrieved_contexts": [
+            "You can cancel your subscription anytime from your account settings. Go to Billing > Manage Subscription > Cancel. No cancellation fees apply.",
+            "After cancellation, you'll retain access until the end of your current billing period. No refunds for partial months.",
+            "To reactivate, simply visit the subscription page and choose a plan. Your previous data and settings will be restored."
+        ],
+        "response": "Yes, you can cancel anytime from Account Settings > Billing > Manage Subscription. No fees. You keep access until your current period ends, but there's no refund for partial months.",
+        "ground_truth": "Cancel anytime from account settings, no fees, access until period ends"
+    },
+    {
+        "query": "Is my payment information secure?",
+        "retrieved_contexts": [
+            "We use Stripe for payment processing, which is PCI-DSS Level 1 certified. We never store your credit card number on our servers.",
+            "All transactions are encrypted using 256-bit SSL encryption. Your payment data is tokenized and stored securely by our payment processor.",
+            "We also offer PayPal and Apple Pay as alternative payment methods for added security and convenience."
+        ],
+        "response": "Yes, very secure. We use Stripe (PCI-DSS certified) and never store your card number. All transactions use 256-bit SSL encryption. We also support PayPal and Apple Pay.",
+        "ground_truth": "PCI-DSS certified via Stripe, never store card data, SSL encrypted"
+    },
+    {
+        "query": "The app keeps crashing when I try to upload photos. What should I do?",
+        "retrieved_contexts": [
+            "If the app crashes during uploads, try these steps: 1) Clear the app cache in settings, 2) Restart the app, 3) Check for app updates in your app store.",
+            "Large photo files (over 10MB) may cause issues on slower connections. Try compressing images before uploading or use Wi-Fi instead of mobile data.",
+            "If the problem persists, please email support@company.com with your device model and OS version. Include the photo file size if possible."
+        ],
+        "response": "Try these steps: Clear app cache, restart the app, and check for updates. If photos are over 10MB, compress them or use Wi-Fi. Still having issues? Email support@company.com with your device details.",
+        "ground_truth": "Clear cache, restart, update app, compress large photos, contact support if persists"
+    }
+]

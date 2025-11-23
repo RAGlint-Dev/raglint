@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- 1. Performance Trends Chart -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Performance Trends</h2>
+        <div class="h-64">
+            <canvas id="metricsChart"></canvas>
+        </div>
+    </div>
+
+    <!-- 2. Recent Analysis Runs Table -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-800">Recent Analysis Runs</h2>
+            <a href="/playground" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                Try Playground
+            </a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Run
+                            ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Provider</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Faithfulness</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Relevance</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Context Recall</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Context Precision</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for run in runs %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">
+                            <a href="/runs/{{ run.id }}/ui" class="hover:underline">#{{ run.id[:8] }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            {% if run.status == 'completed' %}
+                            <span
+                                class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Completed</span>
+                            {% elif run.status == 'running' %}
+                            <span
+                                class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">Running</span>
+                            {% elif run.status == 'failed' %}
+                            <span
+                                class="inline-flex items-center rounded-full bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">Failed</span>
+                            {% else %}
+                            <span
+                                class="inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">{{
+                                run.status|default('Pending')|title }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ run.config.get('provider',
+                            'Unknown') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
+                            run.metrics_summary.faithfulness | default('-') | round(2) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ run.metrics_summary.relevance |
+                            default('-') | round(2) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
+                            run.metrics_summary.context_recall | default('-') | round(2) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
+                            run.metrics_summary.context_precision | default('-') | round(2) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                            run.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="px-6 py-12 text-center text-sm text-gray-500">
+                            No analysis runs found. Start one to see data here.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. Action Buttons (Refresh & New Analysis) -->
+    <div class="flex justify-end gap-3">
+        <button type="button" onclick="location.reload()"
+            class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            Refresh
+        </button>
+        <a href="/playground"
+            class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
+            New Analysis
+        </a>
+    </div>
+
+    <!-- 4. Stats Cards (Total Runs, Avg Faithfulness, Last Run) -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <dt class="truncate text-sm font-medium text-gray-500">Total Runs</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">{{ runs|length }}</dd>
+        </div>
+        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <dt class="truncate text-sm font-medium text-gray-500">Avg Faithfulness</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+                {% if runs %}
+                {{ (runs | map(attribute='metrics_summary.faithfulness') | select('defined') | sum / runs|length) |
+                round(2) }}
+                {% else %}
+                -
+                {% endif %}
+            </dd>
+        </div>
+        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <dt class="truncate text-sm font-medium text-gray-500">Last Run</dt>
+            <dd class="mt-1 text-2xl font-semibold tracking-tight text-gray-900">
+                {% if runs %}
+                {{ runs[0].timestamp.strftime('%Y-%m-%d %H:%M') }}
+                {% else %}
+                Never
+                {% endif %}
+            </dd>
+        </div>
+    </div>
+
+    <!-- 5. Bottom Box with Message -->
+    <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+        <div class="px-6 py-12 text-center">
+            <p class="text-sm text-gray-500">No analysis runs found. Start one to see data here.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('metricsChart').getContext('2d');
+
+        // Data from backend
+        const dates = {{ dates | tojson | safe
+    }};
+    const faithfulness = {{ faithfulness_scores | tojson | safe }};
+    const relevance = {{ relevance_scores | tojson | safe }};
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                {
+                    label: 'Faithfulness',
+                    data: faithfulness,
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.1,
+                    fill: false
+                },
+                {
+                    label: 'Relevance',
+                    data: relevance,
+                    borderColor: 'rgb(16, 185, 129)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.1,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'center'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1.0,
+                    ticks: {
+                        stepSize: 0.1
+                    },
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+    });
+</script>
+{% endblock %}

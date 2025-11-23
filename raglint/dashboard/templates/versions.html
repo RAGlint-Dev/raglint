@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">Pipeline Versions</h1>
+                        <p class="mt-2 text-sm text-gray-600">Track configuration changes and their performance impact.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            {% if versions %}
+            <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                <ul class="divide-y divide-gray-200">
+                    {% for version in versions %}
+                    <li>
+                        <div class="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-medium text-indigo-600 truncate">
+                                            Version {{ version.version }}
+                                        </p>
+                                        <div class="ml-2 flex-shrink-0 flex">
+                                            <p
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                {{ version.status }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 sm:flex sm:justify-between">
+                                        <div class="sm:flex">
+                                            <p class="flex items-center text-sm text-gray-500">
+                                                {{ version.description }}
+                                            </p>
+                                        </div>
+                                        <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                            <p>
+                                                Created {{ version.created_at }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% if version.metrics %}
+                                    <div class="mt-2 flex space-x-4">
+                                        <span class="text-sm text-gray-500">
+                                            <span class="font-medium">Faithfulness:</span> {{
+                                            "%.2f"|format(version.metrics.faithfulness) }}
+                                        </span>
+                                        <span class="text-sm text-gray-500">
+                                            <span class="font-medium">Relevance:</span> {{
+                                            "%.2f"|format(version.metrics.relevance) }}
+                                        </span>
+                                        <span class="text-sm text-gray-500">
+                                            <span class="font-medium">Latency:</span> {{ version.metrics.latency }}ms
+                                        </span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-5 sm:p-6 text-center">
+                    <h3 class="text-lg font-medium text-gray-900">Version</h3>
+                    <div class="mt-4">
+                        <span
+                            class="inline-flex items-center rounded-md bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                            <svg class="mr-1.5 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.24a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            RAGLint v0.1.0
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}

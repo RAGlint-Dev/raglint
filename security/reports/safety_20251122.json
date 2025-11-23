@@ -1,0 +1,2840 @@
+
+
++===========================================================================================================================================================================================+
+
+
+DEPRECATED: this command (`check`) has been DEPRECATED, and will be unsupported beyond 01 June 2024.
+
+
+We highly encourage switching to the new `scan` command which is easier to use, more powerful, and can be set up to mimic the deprecated command if required.
+
+
++===========================================================================================================================================================================================+
+
+
+{
+    "report_meta": {
+        "scan_target": "environment",
+        "scanned": [
+            "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages"
+        ],
+        "scanned_full_path": [
+            "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages"
+        ],
+        "target_languages": [
+            "python"
+        ],
+        "policy_file": null,
+        "policy_file_source": "local",
+        "audit_and_monitor": false,
+        "api_key": false,
+        "account": "",
+        "local_database_path": null,
+        "safety_version": "3.7.0",
+        "timestamp": "2025-11-22 16:26:10",
+        "packages_found": 159,
+        "vulnerabilities_found": 3,
+        "vulnerabilities_ignored": 0,
+        "remediations_recommended": 0,
+        "telemetry": {
+            "safety_options": {
+                "json": {
+                    "--json": 1
+                }
+            },
+            "safety_version": "3.7.0",
+            "safety_source": "cli",
+            "os_type": "Linux",
+            "os_release": "6.17.0-6-generic",
+            "os_description": "Linux-6.17.0-6-generic-x86_64-with-glibc2.42",
+            "python_version": "3.13.7",
+            "safety_command": "check"
+        },
+        "git": {
+            "error": "not-git-repo"
+        },
+        "project": null,
+        "json_version": "1.1",
+        "remediations_attempted": 0,
+        "remediations_completed": 0,
+        "remediation_mode": "NON_INTERACTIVE"
+    },
+    "scanned_packages": {
+        "pip-requirements-parser": {
+            "name": "pip-requirements-parser",
+            "version": "32.0.1",
+            "requirements": [
+                {
+                    "raw": "pip-requirements-parser==32.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pip-requirements-parser",
+                    "specifier": "==32.0.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip_requirements_parser-32.0.1.dist-info"
+                }
+            ]
+        },
+        "fastapi": {
+            "name": "fastapi",
+            "version": "0.121.3",
+            "requirements": [
+                {
+                    "raw": "fastapi==0.121.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "fastapi",
+                    "specifier": "==0.121.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/fastapi-0.121.3.dist-info"
+                }
+            ]
+        },
+        "pycparser": {
+            "name": "pycparser",
+            "version": "2.23",
+            "requirements": [
+                {
+                    "raw": "pycparser==2.23",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pycparser",
+                    "specifier": "==2.23",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pycparser-2.23.dist-info"
+                }
+            ]
+        },
+        "multidict": {
+            "name": "multidict",
+            "version": "6.7.0",
+            "requirements": [
+                {
+                    "raw": "multidict==6.7.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "multidict",
+                    "specifier": "==6.7.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/multidict-6.7.0.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-serializinghtml": {
+            "name": "sphinxcontrib-serializinghtml",
+            "version": "2.0.0",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-serializinghtml==2.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-serializinghtml",
+                    "specifier": "==2.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_serializinghtml-2.0.0.dist-info"
+                }
+            ]
+        },
+        "rich": {
+            "name": "rich",
+            "version": "14.2.0",
+            "requirements": [
+                {
+                    "raw": "rich==14.2.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "rich",
+                    "specifier": "==14.2.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/rich-14.2.0.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-jsmath": {
+            "name": "sphinxcontrib-jsmath",
+            "version": "1.0.1",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-jsmath==1.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-jsmath",
+                    "specifier": "==1.0.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_jsmath-1.0.1.dist-info"
+                }
+            ]
+        },
+        "py-serializable": {
+            "name": "py-serializable",
+            "version": "2.1.0",
+            "requirements": [
+                {
+                    "raw": "py-serializable==2.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "py-serializable",
+                    "specifier": "==2.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/py_serializable-2.1.0.dist-info"
+                }
+            ]
+        },
+        "platformdirs": {
+            "name": "platformdirs",
+            "version": "4.5.0",
+            "requirements": [
+                {
+                    "raw": "platformdirs==4.5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "platformdirs",
+                    "specifier": "==4.5.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/platformdirs-4.5.0.dist-info"
+                }
+            ]
+        },
+        "mdit-py-plugins": {
+            "name": "mdit-py-plugins",
+            "version": "0.5.0",
+            "requirements": [
+                {
+                    "raw": "mdit-py-plugins==0.5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mdit-py-plugins",
+                    "specifier": "==0.5.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/mdit_py_plugins-0.5.0.dist-info"
+                }
+            ]
+        },
+        "mypy_extensions": {
+            "name": "mypy_extensions",
+            "version": "1.1.0",
+            "requirements": [
+                {
+                    "raw": "mypy_extensions==1.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mypy_extensions",
+                    "specifier": "==1.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/mypy_extensions-1.1.0.dist-info"
+                }
+            ]
+        },
+        "mpmath": {
+            "name": "mpmath",
+            "version": "1.3.0",
+            "requirements": [
+                {
+                    "raw": "mpmath==1.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mpmath",
+                    "specifier": "==1.3.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/mpmath-1.3.0.dist-info"
+                }
+            ]
+        },
+        "aiohappyeyeballs": {
+            "name": "aiohappyeyeballs",
+            "version": "2.6.1",
+            "requirements": [
+                {
+                    "raw": "aiohappyeyeballs==2.6.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "aiohappyeyeballs",
+                    "specifier": "==2.6.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/aiohappyeyeballs-2.6.1.dist-info"
+                }
+            ]
+        },
+        "h11": {
+            "name": "h11",
+            "version": "0.16.0",
+            "requirements": [
+                {
+                    "raw": "h11==0.16.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "h11",
+                    "specifier": "==0.16.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/h11-0.16.0.dist-info"
+                }
+            ]
+        },
+        "distro": {
+            "name": "distro",
+            "version": "1.9.0",
+            "requirements": [
+                {
+                    "raw": "distro==1.9.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "distro",
+                    "specifier": "==1.9.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/distro-1.9.0.dist-info"
+                }
+            ]
+        },
+        "python-jose": {
+            "name": "python-jose",
+            "version": "3.5.0",
+            "requirements": [
+                {
+                    "raw": "python-jose==3.5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "python-jose",
+                    "specifier": "==3.5.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/python_jose-3.5.0.dist-info"
+                }
+            ]
+        },
+        "click": {
+            "name": "click",
+            "version": "8.3.1",
+            "requirements": [
+                {
+                    "raw": "click==8.3.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "click",
+                    "specifier": "==8.3.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/click-8.3.1.dist-info"
+                }
+            ]
+        },
+        "nltk": {
+            "name": "nltk",
+            "version": "3.9.2",
+            "requirements": [
+                {
+                    "raw": "nltk==3.9.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nltk",
+                    "specifier": "==3.9.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nltk-3.9.2.dist-info"
+                }
+            ]
+        },
+        "joblib": {
+            "name": "joblib",
+            "version": "1.5.2",
+            "requirements": [
+                {
+                    "raw": "joblib==1.5.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "joblib",
+                    "specifier": "==1.5.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/joblib-1.5.2.dist-info"
+                }
+            ]
+        },
+        "marshmallow": {
+            "name": "marshmallow",
+            "version": "4.1.0",
+            "requirements": [
+                {
+                    "raw": "marshmallow==4.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "marshmallow",
+                    "specifier": "==4.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/marshmallow-4.1.0.dist-info"
+                }
+            ]
+        },
+        "imagesize": {
+            "name": "imagesize",
+            "version": "1.4.1",
+            "requirements": [
+                {
+                    "raw": "imagesize==1.4.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "imagesize",
+                    "specifier": "==1.4.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/imagesize-1.4.1.dist-info"
+                }
+            ]
+        },
+        "nvidia-cuda-cupti-cu12": {
+            "name": "nvidia-cuda-cupti-cu12",
+            "version": "12.8.90",
+            "requirements": [
+                {
+                    "raw": "nvidia-cuda-cupti-cu12==12.8.90",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cuda-cupti-cu12",
+                    "specifier": "==12.8.90",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cuda_cupti_cu12-12.8.90.dist-info"
+                }
+            ]
+        },
+        "sentence-transformers": {
+            "name": "sentence-transformers",
+            "version": "5.1.2",
+            "requirements": [
+                {
+                    "raw": "sentence-transformers==5.1.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sentence-transformers",
+                    "specifier": "==5.1.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sentence_transformers-5.1.2.dist-info"
+                }
+            ]
+        },
+        "nvidia-nvjitlink-cu12": {
+            "name": "nvidia-nvjitlink-cu12",
+            "version": "12.8.93",
+            "requirements": [
+                {
+                    "raw": "nvidia-nvjitlink-cu12==12.8.93",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-nvjitlink-cu12",
+                    "specifier": "==12.8.93",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_nvjitlink_cu12-12.8.93.dist-info"
+                }
+            ]
+        },
+        "nvidia-cublas-cu12": {
+            "name": "nvidia-cublas-cu12",
+            "version": "12.8.4.1",
+            "requirements": [
+                {
+                    "raw": "nvidia-cublas-cu12==12.8.4.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cublas-cu12",
+                    "specifier": "==12.8.4.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cublas_cu12-12.8.4.1.dist-info"
+                }
+            ]
+        },
+        "pyproject_hooks": {
+            "name": "pyproject_hooks",
+            "version": "1.2.0",
+            "requirements": [
+                {
+                    "raw": "pyproject_hooks==1.2.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pyproject_hooks",
+                    "specifier": "==1.2.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pyproject_hooks-1.2.0.dist-info"
+                }
+            ]
+        },
+        "networkx": {
+            "name": "networkx",
+            "version": "3.5",
+            "requirements": [
+                {
+                    "raw": "networkx==3.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "networkx",
+                    "specifier": "==3.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/networkx-3.5.dist-info"
+                }
+            ]
+        },
+        "aiosignal": {
+            "name": "aiosignal",
+            "version": "1.4.0",
+            "requirements": [
+                {
+                    "raw": "aiosignal==1.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "aiosignal",
+                    "specifier": "==1.4.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/aiosignal-1.4.0.dist-info"
+                }
+            ]
+        },
+        "pydantic_core": {
+            "name": "pydantic_core",
+            "version": "2.41.5",
+            "requirements": [
+                {
+                    "raw": "pydantic_core==2.41.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pydantic_core",
+                    "specifier": "==2.41.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pydantic_core-2.41.5.dist-info"
+                }
+            ]
+        },
+        "nvidia-cufile-cu12": {
+            "name": "nvidia-cufile-cu12",
+            "version": "1.13.1.3",
+            "requirements": [
+                {
+                    "raw": "nvidia-cufile-cu12==1.13.1.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cufile-cu12",
+                    "specifier": "==1.13.1.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cufile_cu12-1.13.1.3.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-devhelp": {
+            "name": "sphinxcontrib-devhelp",
+            "version": "2.0.0",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-devhelp==2.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-devhelp",
+                    "specifier": "==2.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_devhelp-2.0.0.dist-info"
+                }
+            ]
+        },
+        "httpcore": {
+            "name": "httpcore",
+            "version": "1.0.9",
+            "requirements": [
+                {
+                    "raw": "httpcore==1.0.9",
+                    "extras": [],
+                    "marker": null,
+                    "name": "httpcore",
+                    "specifier": "==1.0.9",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/httpcore-1.0.9.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-qthelp": {
+            "name": "sphinxcontrib-qthelp",
+            "version": "2.0.0",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-qthelp==2.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-qthelp",
+                    "specifier": "==2.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_qthelp-2.0.0.dist-info"
+                }
+            ]
+        },
+        "tenacity": {
+            "name": "tenacity",
+            "version": "9.1.2",
+            "requirements": [
+                {
+                    "raw": "tenacity==9.1.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tenacity",
+                    "specifier": "==9.1.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/tenacity-9.1.2.dist-info"
+                }
+            ]
+        },
+        "CacheControl": {
+            "name": "CacheControl",
+            "version": "0.14.4",
+            "requirements": [
+                {
+                    "raw": "CacheControl==0.14.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "CacheControl",
+                    "specifier": "==0.14.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/cachecontrol-0.14.4.dist-info"
+                }
+            ]
+        },
+        "roman-numerals-py": {
+            "name": "roman-numerals-py",
+            "version": "3.1.0",
+            "requirements": [
+                {
+                    "raw": "roman-numerals-py==3.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "roman-numerals-py",
+                    "specifier": "==3.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/roman_numerals_py-3.1.0.dist-info"
+                }
+            ]
+        },
+        "httpx": {
+            "name": "httpx",
+            "version": "0.28.1",
+            "requirements": [
+                {
+                    "raw": "httpx==0.28.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "httpx",
+                    "specifier": "==0.28.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/httpx-0.28.1.dist-info"
+                }
+            ]
+        },
+        "transformers": {
+            "name": "transformers",
+            "version": "4.57.1",
+            "requirements": [
+                {
+                    "raw": "transformers==4.57.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "transformers",
+                    "specifier": "==4.57.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/transformers-4.57.1.dist-info"
+                }
+            ]
+        },
+        "typing-inspection": {
+            "name": "typing-inspection",
+            "version": "0.4.2",
+            "requirements": [
+                {
+                    "raw": "typing-inspection==0.4.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "typing-inspection",
+                    "specifier": "==0.4.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/typing_inspection-0.4.2.dist-info"
+                }
+            ]
+        },
+        "pytokens": {
+            "name": "pytokens",
+            "version": "0.3.0",
+            "requirements": [
+                {
+                    "raw": "pytokens==0.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pytokens",
+                    "specifier": "==0.3.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pytokens-0.3.0.dist-info"
+                }
+            ]
+        },
+        "pytest-asyncio": {
+            "name": "pytest-asyncio",
+            "version": "1.3.0",
+            "requirements": [
+                {
+                    "raw": "pytest-asyncio==1.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pytest-asyncio",
+                    "specifier": "==1.3.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pytest_asyncio-1.3.0.dist-info"
+                }
+            ]
+        },
+        "nvidia-cusparse-cu12": {
+            "name": "nvidia-cusparse-cu12",
+            "version": "12.5.8.93",
+            "requirements": [
+                {
+                    "raw": "nvidia-cusparse-cu12==12.5.8.93",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cusparse-cu12",
+                    "specifier": "==12.5.8.93",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cusparse_cu12-12.5.8.93.dist-info"
+                }
+            ]
+        },
+        "propcache": {
+            "name": "propcache",
+            "version": "0.4.1",
+            "requirements": [
+                {
+                    "raw": "propcache==0.4.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "propcache",
+                    "specifier": "==0.4.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/propcache-0.4.1.dist-info"
+                }
+            ]
+        },
+        "sphinx-rtd-theme": {
+            "name": "sphinx-rtd-theme",
+            "version": "3.0.2",
+            "requirements": [
+                {
+                    "raw": "sphinx-rtd-theme==3.0.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinx-rtd-theme",
+                    "specifier": "==3.0.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info"
+                }
+            ]
+        },
+        "stevedore": {
+            "name": "stevedore",
+            "version": "5.6.0",
+            "requirements": [
+                {
+                    "raw": "stevedore==5.6.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "stevedore",
+                    "specifier": "==5.6.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/stevedore-5.6.0.dist-info"
+                }
+            ]
+        },
+        "regex": {
+            "name": "regex",
+            "version": "2025.11.3",
+            "requirements": [
+                {
+                    "raw": "regex==2025.11.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "regex",
+                    "specifier": "==2025.11.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/regex-2025.11.3.dist-info"
+                }
+            ]
+        },
+        "virtualenv": {
+            "name": "virtualenv",
+            "version": "20.35.4",
+            "requirements": [
+                {
+                    "raw": "virtualenv==20.35.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "virtualenv",
+                    "specifier": "==20.35.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/virtualenv-20.35.4.dist-info"
+                }
+            ]
+        },
+        "coverage": {
+            "name": "coverage",
+            "version": "7.12.0",
+            "requirements": [
+                {
+                    "raw": "coverage==7.12.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "coverage",
+                    "specifier": "==7.12.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/coverage-7.12.0.dist-info"
+                }
+            ]
+        },
+        "nvidia-nvshmem-cu12": {
+            "name": "nvidia-nvshmem-cu12",
+            "version": "3.3.20",
+            "requirements": [
+                {
+                    "raw": "nvidia-nvshmem-cu12==3.3.20",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-nvshmem-cu12",
+                    "specifier": "==3.3.20",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_nvshmem_cu12-3.3.20.dist-info"
+                }
+            ]
+        },
+        "pip-api": {
+            "name": "pip-api",
+            "version": "0.0.34",
+            "requirements": [
+                {
+                    "raw": "pip-api==0.0.34",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pip-api",
+                    "specifier": "==0.0.34",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip_api-0.0.34.dist-info"
+                }
+            ]
+        },
+        "pip_audit": {
+            "name": "pip_audit",
+            "version": "2.9.0",
+            "requirements": [
+                {
+                    "raw": "pip_audit==2.9.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pip_audit",
+                    "specifier": "==2.9.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip_audit-2.9.0.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-htmlhelp": {
+            "name": "sphinxcontrib-htmlhelp",
+            "version": "2.1.0",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-htmlhelp==2.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-htmlhelp",
+                    "specifier": "==2.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_htmlhelp-2.1.0.dist-info"
+                }
+            ]
+        },
+        "tokenizers": {
+            "name": "tokenizers",
+            "version": "0.22.1",
+            "requirements": [
+                {
+                    "raw": "tokenizers==0.22.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tokenizers",
+                    "specifier": "==0.22.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/tokenizers-0.22.1.dist-info"
+                }
+            ]
+        },
+        "docutils": {
+            "name": "docutils",
+            "version": "0.21.2",
+            "requirements": [
+                {
+                    "raw": "docutils==0.21.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "docutils",
+                    "specifier": "==0.21.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/docutils-0.21.2.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-applehelp": {
+            "name": "sphinxcontrib-applehelp",
+            "version": "2.0.0",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-applehelp==2.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-applehelp",
+                    "specifier": "==2.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_applehelp-2.0.0.dist-info"
+                }
+            ]
+        },
+        "sympy": {
+            "name": "sympy",
+            "version": "1.14.0",
+            "requirements": [
+                {
+                    "raw": "sympy==1.14.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sympy",
+                    "specifier": "==1.14.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sympy-1.14.0.dist-info"
+                }
+            ]
+        },
+        "setuptools": {
+            "name": "setuptools",
+            "version": "80.9.0",
+            "requirements": [
+                {
+                    "raw": "setuptools==80.9.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "setuptools",
+                    "specifier": "==80.9.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/setuptools-80.9.0.dist-info"
+                }
+            ]
+        },
+        "sphinxcontrib-jquery": {
+            "name": "sphinxcontrib-jquery",
+            "version": "4.1",
+            "requirements": [
+                {
+                    "raw": "sphinxcontrib-jquery==4.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sphinxcontrib-jquery",
+                    "specifier": "==4.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinxcontrib_jquery-4.1.dist-info"
+                }
+            ]
+        },
+        "annotated-doc": {
+            "name": "annotated-doc",
+            "version": "0.0.4",
+            "requirements": [
+                {
+                    "raw": "annotated-doc==0.0.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "annotated-doc",
+                    "specifier": "==0.0.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/annotated_doc-0.0.4.dist-info"
+                }
+            ]
+        },
+        "cyclonedx-python-lib": {
+            "name": "cyclonedx-python-lib",
+            "version": "9.1.0",
+            "requirements": [
+                {
+                    "raw": "cyclonedx-python-lib==9.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cyclonedx-python-lib",
+                    "specifier": "==9.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/cyclonedx_python_lib-9.1.0.dist-info"
+                }
+            ]
+        },
+        "nvidia-cuda-nvrtc-cu12": {
+            "name": "nvidia-cuda-nvrtc-cu12",
+            "version": "12.8.93",
+            "requirements": [
+                {
+                    "raw": "nvidia-cuda-nvrtc-cu12==12.8.93",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cuda-nvrtc-cu12",
+                    "specifier": "==12.8.93",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cuda_nvrtc_cu12-12.8.93.dist-info"
+                }
+            ]
+        },
+        "openai": {
+            "name": "openai",
+            "version": "2.8.1",
+            "requirements": [
+                {
+                    "raw": "openai==2.8.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "openai",
+                    "specifier": "==2.8.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/openai-2.8.1.dist-info"
+                }
+            ]
+        },
+        "pytest": {
+            "name": "pytest",
+            "version": "9.0.1",
+            "requirements": [
+                {
+                    "raw": "pytest==9.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pytest",
+                    "specifier": "==9.0.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pytest-9.0.1.dist-info"
+                }
+            ]
+        },
+        "black": {
+            "name": "black",
+            "version": "25.11.0",
+            "requirements": [
+                {
+                    "raw": "black==25.11.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "black",
+                    "specifier": "==25.11.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/black-25.11.0.dist-info"
+                }
+            ]
+        },
+        "anyio": {
+            "name": "anyio",
+            "version": "4.11.0",
+            "requirements": [
+                {
+                    "raw": "anyio==4.11.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "anyio",
+                    "specifier": "==4.11.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/anyio-4.11.0.dist-info"
+                }
+            ]
+        },
+        "attrs": {
+            "name": "attrs",
+            "version": "25.4.0",
+            "requirements": [
+                {
+                    "raw": "attrs==25.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "attrs",
+                    "specifier": "==25.4.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/attrs-25.4.0.dist-info"
+                }
+            ]
+        },
+        "dparse": {
+            "name": "dparse",
+            "version": "0.6.4",
+            "requirements": [
+                {
+                    "raw": "dparse==0.6.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "dparse",
+                    "specifier": "==0.6.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/dparse-0.6.4.dist-info"
+                }
+            ]
+        },
+        "jiter": {
+            "name": "jiter",
+            "version": "0.12.0",
+            "requirements": [
+                {
+                    "raw": "jiter==0.12.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "jiter",
+                    "specifier": "==0.12.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/jiter-0.12.0.dist-info"
+                }
+            ]
+        },
+        "shellingham": {
+            "name": "shellingham",
+            "version": "1.5.4",
+            "requirements": [
+                {
+                    "raw": "shellingham==1.5.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "shellingham",
+                    "specifier": "==1.5.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/shellingham-1.5.4.dist-info"
+                }
+            ]
+        },
+        "safetensors": {
+            "name": "safetensors",
+            "version": "0.7.0",
+            "requirements": [
+                {
+                    "raw": "safetensors==0.7.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "safetensors",
+                    "specifier": "==0.7.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/safetensors-0.7.0.dist-info"
+                }
+            ]
+        },
+        "pip": {
+            "name": "pip",
+            "version": "25.1.1",
+            "requirements": [
+                {
+                    "raw": "pip==25.1.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pip",
+                    "specifier": "==25.1.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip-25.1.1.dist-info"
+                }
+            ]
+        },
+        "PyYAML": {
+            "name": "PyYAML",
+            "version": "6.0.3",
+            "requirements": [
+                {
+                    "raw": "PyYAML==6.0.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "PyYAML",
+                    "specifier": "==6.0.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pyyaml-6.0.3.dist-info"
+                }
+            ]
+        },
+        "nvidia-cusolver-cu12": {
+            "name": "nvidia-cusolver-cu12",
+            "version": "11.7.3.90",
+            "requirements": [
+                {
+                    "raw": "nvidia-cusolver-cu12==11.7.3.90",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cusolver-cu12",
+                    "specifier": "==11.7.3.90",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cusolver_cu12-11.7.3.90.dist-info"
+                }
+            ]
+        },
+        "MarkupSafe": {
+            "name": "MarkupSafe",
+            "version": "3.0.3",
+            "requirements": [
+                {
+                    "raw": "MarkupSafe==3.0.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "MarkupSafe",
+                    "specifier": "==3.0.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/markupsafe-3.0.3.dist-info"
+                }
+            ]
+        },
+        "markdown-it-py": {
+            "name": "markdown-it-py",
+            "version": "3.0.0",
+            "requirements": [
+                {
+                    "raw": "markdown-it-py==3.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "markdown-it-py",
+                    "specifier": "==3.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/markdown_it_py-3.0.0.dist-info"
+                }
+            ]
+        },
+        "toml": {
+            "name": "toml",
+            "version": "0.10.2",
+            "requirements": [
+                {
+                    "raw": "toml==0.10.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "toml",
+                    "specifier": "==0.10.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/toml-0.10.2.dist-info"
+                }
+            ]
+        },
+        "nvidia-cusparselt-cu12": {
+            "name": "nvidia-cusparselt-cu12",
+            "version": "0.7.1",
+            "requirements": [
+                {
+                    "raw": "nvidia-cusparselt-cu12==0.7.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cusparselt-cu12",
+                    "specifier": "==0.7.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cusparselt_cu12-0.7.1.dist-info"
+                }
+            ]
+        },
+        "license-expression": {
+            "name": "license-expression",
+            "version": "30.4.4",
+            "requirements": [
+                {
+                    "raw": "license-expression==30.4.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "license-expression",
+                    "specifier": "==30.4.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/license_expression-30.4.4.dist-info"
+                }
+            ]
+        },
+        "numpy": {
+            "name": "numpy",
+            "version": "2.3.5",
+            "requirements": [
+                {
+                    "raw": "numpy==2.3.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "numpy",
+                    "specifier": "==2.3.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/numpy-2.3.5.dist-info"
+                }
+            ]
+        },
+        "cfgv": {
+            "name": "cfgv",
+            "version": "3.5.0",
+            "requirements": [
+                {
+                    "raw": "cfgv==3.5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cfgv",
+                    "specifier": "==3.5.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/cfgv-3.5.0.dist-info"
+                }
+            ]
+        },
+        "typer": {
+            "name": "typer",
+            "version": "0.20.0",
+            "requirements": [
+                {
+                    "raw": "typer==0.20.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "typer",
+                    "specifier": "==0.20.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/typer-0.20.0.dist-info"
+                }
+            ]
+        },
+        "myst-parser": {
+            "name": "myst-parser",
+            "version": "4.0.1",
+            "requirements": [
+                {
+                    "raw": "myst-parser==4.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "myst-parser",
+                    "specifier": "==4.0.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/myst_parser-4.0.1.dist-info"
+                }
+            ]
+        },
+        "six": {
+            "name": "six",
+            "version": "1.17.0",
+            "requirements": [
+                {
+                    "raw": "six==1.17.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "six",
+                    "specifier": "==1.17.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/six-1.17.0.dist-info"
+                }
+            ]
+        },
+        "nvidia-cufft-cu12": {
+            "name": "nvidia-cufft-cu12",
+            "version": "11.3.3.83",
+            "requirements": [
+                {
+                    "raw": "nvidia-cufft-cu12==11.3.3.83",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cufft-cu12",
+                    "specifier": "==11.3.3.83",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cufft_cu12-11.3.3.83.dist-info"
+                }
+            ]
+        },
+        "pre_commit": {
+            "name": "pre_commit",
+            "version": "4.4.0",
+            "requirements": [
+                {
+                    "raw": "pre_commit==4.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pre_commit",
+                    "specifier": "==4.4.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pre_commit-4.4.0.dist-info"
+                }
+            ]
+        },
+        "aiosqlite": {
+            "name": "aiosqlite",
+            "version": "0.21.0",
+            "requirements": [
+                {
+                    "raw": "aiosqlite==0.21.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "aiosqlite",
+                    "specifier": "==0.21.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/aiosqlite-0.21.0.dist-info"
+                }
+            ]
+        },
+        "ruff": {
+            "name": "ruff",
+            "version": "0.14.5",
+            "requirements": [
+                {
+                    "raw": "ruff==0.14.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ruff",
+                    "specifier": "==0.14.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ruff-0.14.5.dist-info"
+                }
+            ]
+        },
+        "Pygments": {
+            "name": "Pygments",
+            "version": "2.19.2",
+            "requirements": [
+                {
+                    "raw": "Pygments==2.19.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "Pygments",
+                    "specifier": "==2.19.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pygments-2.19.2.dist-info"
+                }
+            ]
+        },
+        "boolean.py": {
+            "name": "boolean.py",
+            "version": "5.0",
+            "requirements": [
+                {
+                    "raw": "boolean.py==5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "boolean.py",
+                    "specifier": "==5.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/boolean_py-5.0.dist-info"
+                }
+            ]
+        },
+        "ruamel.yaml": {
+            "name": "ruamel.yaml",
+            "version": "0.18.16",
+            "requirements": [
+                {
+                    "raw": "ruamel.yaml==0.18.16",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ruamel.yaml",
+                    "specifier": "==0.18.16",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ruamel.yaml-0.18.16.dist-info"
+                }
+            ]
+        },
+        "cryptography": {
+            "name": "cryptography",
+            "version": "46.0.3",
+            "requirements": [
+                {
+                    "raw": "cryptography==46.0.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cryptography",
+                    "specifier": "==46.0.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/cryptography-46.0.3.dist-info"
+                }
+            ]
+        },
+        "frozenlist": {
+            "name": "frozenlist",
+            "version": "1.8.0",
+            "requirements": [
+                {
+                    "raw": "frozenlist==1.8.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "frozenlist",
+                    "specifier": "==1.8.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/frozenlist-1.8.0.dist-info"
+                }
+            ]
+        },
+        "huggingface-hub": {
+            "name": "huggingface-hub",
+            "version": "0.36.0",
+            "requirements": [
+                {
+                    "raw": "huggingface-hub==0.36.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "huggingface-hub",
+                    "specifier": "==0.36.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/huggingface_hub-0.36.0.dist-info"
+                }
+            ]
+        },
+        "annotated-types": {
+            "name": "annotated-types",
+            "version": "0.7.0",
+            "requirements": [
+                {
+                    "raw": "annotated-types==0.7.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "annotated-types",
+                    "specifier": "==0.7.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/annotated_types-0.7.0.dist-info"
+                }
+            ]
+        },
+        "rsa": {
+            "name": "rsa",
+            "version": "4.9.1",
+            "requirements": [
+                {
+                    "raw": "rsa==4.9.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "rsa",
+                    "specifier": "==4.9.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/rsa-4.9.1.dist-info"
+                }
+            ]
+        },
+        "starlette": {
+            "name": "starlette",
+            "version": "0.50.0",
+            "requirements": [
+                {
+                    "raw": "starlette==0.50.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "starlette",
+                    "specifier": "==0.50.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/starlette-0.50.0.dist-info"
+                }
+            ]
+        },
+        "SQLAlchemy": {
+            "name": "SQLAlchemy",
+            "version": "2.0.44",
+            "requirements": [
+                {
+                    "raw": "SQLAlchemy==2.0.44",
+                    "extras": [],
+                    "marker": null,
+                    "name": "SQLAlchemy",
+                    "specifier": "==2.0.44",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sqlalchemy-2.0.44.dist-info"
+                }
+            ]
+        },
+        "triton": {
+            "name": "triton",
+            "version": "3.5.1",
+            "requirements": [
+                {
+                    "raw": "triton==3.5.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "triton",
+                    "specifier": "==3.5.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/triton-3.5.1.dist-info"
+                }
+            ]
+        },
+        "yarl": {
+            "name": "yarl",
+            "version": "1.22.0",
+            "requirements": [
+                {
+                    "raw": "yarl==1.22.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "yarl",
+                    "specifier": "==1.22.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/yarl-1.22.0.dist-info"
+                }
+            ]
+        },
+        "bcrypt": {
+            "name": "bcrypt",
+            "version": "5.0.0",
+            "requirements": [
+                {
+                    "raw": "bcrypt==5.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "bcrypt",
+                    "specifier": "==5.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/bcrypt-5.0.0.dist-info"
+                }
+            ]
+        },
+        "urllib3": {
+            "name": "urllib3",
+            "version": "2.5.0",
+            "requirements": [
+                {
+                    "raw": "urllib3==2.5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "urllib3",
+                    "specifier": "==2.5.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/urllib3-2.5.0.dist-info"
+                }
+            ]
+        },
+        "mypy": {
+            "name": "mypy",
+            "version": "1.18.2",
+            "requirements": [
+                {
+                    "raw": "mypy==1.18.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mypy",
+                    "specifier": "==1.18.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/mypy-1.18.2.dist-info"
+                }
+            ]
+        },
+        "pytest-cov": {
+            "name": "pytest-cov",
+            "version": "7.0.0",
+            "requirements": [
+                {
+                    "raw": "pytest-cov==7.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pytest-cov",
+                    "specifier": "==7.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pytest_cov-7.0.0.dist-info"
+                }
+            ]
+        },
+        "sniffio": {
+            "name": "sniffio",
+            "version": "1.3.1",
+            "requirements": [
+                {
+                    "raw": "sniffio==1.3.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sniffio",
+                    "specifier": "==1.3.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sniffio-1.3.1.dist-info"
+                }
+            ]
+        },
+        "charset-normalizer": {
+            "name": "charset-normalizer",
+            "version": "3.4.4",
+            "requirements": [
+                {
+                    "raw": "charset-normalizer==3.4.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "charset-normalizer",
+                    "specifier": "==3.4.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/charset_normalizer-3.4.4.dist-info"
+                }
+            ]
+        },
+        "alabaster": {
+            "name": "alabaster",
+            "version": "1.0.0",
+            "requirements": [
+                {
+                    "raw": "alabaster==1.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "alabaster",
+                    "specifier": "==1.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/alabaster-1.0.0.dist-info"
+                }
+            ]
+        },
+        "scipy": {
+            "name": "scipy",
+            "version": "1.16.3",
+            "requirements": [
+                {
+                    "raw": "scipy==1.16.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "scipy",
+                    "specifier": "==1.16.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/scipy-1.16.3.dist-info"
+                }
+            ]
+        },
+        "safety": {
+            "name": "safety",
+            "version": "3.7.0",
+            "requirements": [
+                {
+                    "raw": "safety==3.7.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "safety",
+                    "specifier": "==3.7.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/safety-3.7.0.dist-info"
+                }
+            ]
+        },
+        "sortedcontainers": {
+            "name": "sortedcontainers",
+            "version": "2.4.0",
+            "requirements": [
+                {
+                    "raw": "sortedcontainers==2.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sortedcontainers",
+                    "specifier": "==2.4.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sortedcontainers-2.4.0.dist-info"
+                }
+            ]
+        },
+        "msgpack": {
+            "name": "msgpack",
+            "version": "1.1.2",
+            "requirements": [
+                {
+                    "raw": "msgpack==1.1.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "msgpack",
+                    "specifier": "==1.1.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/msgpack-1.1.2.dist-info"
+                }
+            ]
+        },
+        "build": {
+            "name": "build",
+            "version": "1.3.0",
+            "requirements": [
+                {
+                    "raw": "build==1.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "build",
+                    "specifier": "==1.3.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/build-1.3.0.dist-info"
+                }
+            ]
+        },
+        "aiohttp": {
+            "name": "aiohttp",
+            "version": "3.13.2",
+            "requirements": [
+                {
+                    "raw": "aiohttp==3.13.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "aiohttp",
+                    "specifier": "==3.13.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/aiohttp-3.13.2.dist-info"
+                }
+            ]
+        },
+        "pydantic": {
+            "name": "pydantic",
+            "version": "2.12.4",
+            "requirements": [
+                {
+                    "raw": "pydantic==2.12.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pydantic",
+                    "specifier": "==2.12.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pydantic-2.12.4.dist-info"
+                }
+            ]
+        },
+        "cffi": {
+            "name": "cffi",
+            "version": "2.0.0",
+            "requirements": [
+                {
+                    "raw": "cffi==2.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cffi",
+                    "specifier": "==2.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/cffi-2.0.0.dist-info"
+                }
+            ]
+        },
+        "pluggy": {
+            "name": "pluggy",
+            "version": "1.6.0",
+            "requirements": [
+                {
+                    "raw": "pluggy==1.6.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pluggy",
+                    "specifier": "==1.6.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pluggy-1.6.0.dist-info"
+                }
+            ]
+        },
+        "nodeenv": {
+            "name": "nodeenv",
+            "version": "1.9.1",
+            "requirements": [
+                {
+                    "raw": "nodeenv==1.9.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nodeenv",
+                    "specifier": "==1.9.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nodeenv-1.9.1.dist-info"
+                }
+            ]
+        },
+        "tqdm": {
+            "name": "tqdm",
+            "version": "4.67.1",
+            "requirements": [
+                {
+                    "raw": "tqdm==4.67.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tqdm",
+                    "specifier": "==4.67.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/tqdm-4.67.1.dist-info"
+                }
+            ]
+        },
+        "ruamel.yaml.clib": {
+            "name": "ruamel.yaml.clib",
+            "version": "0.2.15",
+            "requirements": [
+                {
+                    "raw": "ruamel.yaml.clib==0.2.15",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ruamel.yaml.clib",
+                    "specifier": "==0.2.15",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ruamel_yaml_clib-0.2.15.dist-info"
+                }
+            ]
+        },
+        "requests": {
+            "name": "requests",
+            "version": "2.32.5",
+            "requirements": [
+                {
+                    "raw": "requests==2.32.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "requests",
+                    "specifier": "==2.32.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/requests-2.32.5.dist-info"
+                }
+            ]
+        },
+        "packaging": {
+            "name": "packaging",
+            "version": "25.0",
+            "requirements": [
+                {
+                    "raw": "packaging==25.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "packaging",
+                    "specifier": "==25.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/packaging-25.0.dist-info"
+                }
+            ]
+        },
+        "filelock": {
+            "name": "filelock",
+            "version": "3.20.0",
+            "requirements": [
+                {
+                    "raw": "filelock==3.20.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "filelock",
+                    "specifier": "==3.20.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/filelock-3.20.0.dist-info"
+                }
+            ]
+        },
+        "Jinja2": {
+            "name": "Jinja2",
+            "version": "3.1.6",
+            "requirements": [
+                {
+                    "raw": "Jinja2==3.1.6",
+                    "extras": [],
+                    "marker": null,
+                    "name": "Jinja2",
+                    "specifier": "==3.1.6",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/jinja2-3.1.6.dist-info"
+                }
+            ]
+        },
+        "snowballstemmer": {
+            "name": "snowballstemmer",
+            "version": "3.0.1",
+            "requirements": [
+                {
+                    "raw": "snowballstemmer==3.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "snowballstemmer",
+                    "specifier": "==3.0.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info"
+                }
+            ]
+        },
+        "mdurl": {
+            "name": "mdurl",
+            "version": "0.1.2",
+            "requirements": [
+                {
+                    "raw": "mdurl==0.1.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mdurl",
+                    "specifier": "==0.1.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/mdurl-0.1.2.dist-info"
+                }
+            ]
+        },
+        "hf-xet": {
+            "name": "hf-xet",
+            "version": "1.2.0",
+            "requirements": [
+                {
+                    "raw": "hf-xet==1.2.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "hf-xet",
+                    "specifier": "==1.2.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/hf_xet-1.2.0.dist-info"
+                }
+            ]
+        },
+        "bandit": {
+            "name": "bandit",
+            "version": "1.9.1",
+            "requirements": [
+                {
+                    "raw": "bandit==1.9.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "bandit",
+                    "specifier": "==1.9.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/bandit-1.9.1.dist-info"
+                }
+            ]
+        },
+        "passlib": {
+            "name": "passlib",
+            "version": "1.7.4",
+            "requirements": [
+                {
+                    "raw": "passlib==1.7.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "passlib",
+                    "specifier": "==1.7.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/passlib-1.7.4.dist-info"
+                }
+            ]
+        },
+        "nvidia-cuda-runtime-cu12": {
+            "name": "nvidia-cuda-runtime-cu12",
+            "version": "12.8.90",
+            "requirements": [
+                {
+                    "raw": "nvidia-cuda-runtime-cu12==12.8.90",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cuda-runtime-cu12",
+                    "specifier": "==12.8.90",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cuda_runtime_cu12-12.8.90.dist-info"
+                }
+            ]
+        },
+        "nvidia-nccl-cu12": {
+            "name": "nvidia-nccl-cu12",
+            "version": "2.27.5",
+            "requirements": [
+                {
+                    "raw": "nvidia-nccl-cu12==2.27.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-nccl-cu12",
+                    "specifier": "==2.27.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_nccl_cu12-2.27.5.dist-info"
+                }
+            ]
+        },
+        "ecdsa": {
+            "name": "ecdsa",
+            "version": "0.19.1",
+            "requirements": [
+                {
+                    "raw": "ecdsa==0.19.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ecdsa",
+                    "specifier": "==0.19.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ecdsa-0.19.1.dist-info"
+                }
+            ]
+        },
+        "greenlet": {
+            "name": "greenlet",
+            "version": "3.2.4",
+            "requirements": [
+                {
+                    "raw": "greenlet==3.2.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "greenlet",
+                    "specifier": "==3.2.4",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/greenlet-3.2.4.dist-info"
+                }
+            ]
+        },
+        "pyparsing": {
+            "name": "pyparsing",
+            "version": "3.2.5",
+            "requirements": [
+                {
+                    "raw": "pyparsing==3.2.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pyparsing",
+                    "specifier": "==3.2.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info"
+                }
+            ]
+        },
+        "python-multipart": {
+            "name": "python-multipart",
+            "version": "0.0.20",
+            "requirements": [
+                {
+                    "raw": "python-multipart==0.0.20",
+                    "extras": [],
+                    "marker": null,
+                    "name": "python-multipart",
+                    "specifier": "==0.0.20",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/python_multipart-0.0.20.dist-info"
+                }
+            ]
+        },
+        "pillow": {
+            "name": "pillow",
+            "version": "12.0.0",
+            "requirements": [
+                {
+                    "raw": "pillow==12.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pillow",
+                    "specifier": "==12.0.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pillow-12.0.0.dist-info"
+                }
+            ]
+        },
+        "distlib": {
+            "name": "distlib",
+            "version": "0.4.0",
+            "requirements": [
+                {
+                    "raw": "distlib==0.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "distlib",
+                    "specifier": "==0.4.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/distlib-0.4.0.dist-info"
+                }
+            ]
+        },
+        "nvidia-nvtx-cu12": {
+            "name": "nvidia-nvtx-cu12",
+            "version": "12.8.90",
+            "requirements": [
+                {
+                    "raw": "nvidia-nvtx-cu12==12.8.90",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-nvtx-cu12",
+                    "specifier": "==12.8.90",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_nvtx_cu12-12.8.90.dist-info"
+                }
+            ]
+        },
+        "torch": {
+            "name": "torch",
+            "version": "2.9.1",
+            "requirements": [
+                {
+                    "raw": "torch==2.9.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "torch",
+                    "specifier": "==2.9.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/torch-2.9.1.dist-info"
+                }
+            ]
+        },
+        "certifi": {
+            "name": "certifi",
+            "version": "2025.11.12",
+            "requirements": [
+                {
+                    "raw": "certifi==2025.11.12",
+                    "extras": [],
+                    "marker": null,
+                    "name": "certifi",
+                    "specifier": "==2025.11.12",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/certifi-2025.11.12.dist-info"
+                }
+            ]
+        },
+        "Authlib": {
+            "name": "Authlib",
+            "version": "1.6.5",
+            "requirements": [
+                {
+                    "raw": "Authlib==1.6.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "Authlib",
+                    "specifier": "==1.6.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/authlib-1.6.5.dist-info"
+                }
+            ]
+        },
+        "fsspec": {
+            "name": "fsspec",
+            "version": "2025.10.0",
+            "requirements": [
+                {
+                    "raw": "fsspec==2025.10.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "fsspec",
+                    "specifier": "==2025.10.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/fsspec-2025.10.0.dist-info"
+                }
+            ]
+        },
+        "typing_extensions": {
+            "name": "typing_extensions",
+            "version": "4.15.0",
+            "requirements": [
+                {
+                    "raw": "typing_extensions==4.15.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "typing_extensions",
+                    "specifier": "==4.15.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/typing_extensions-4.15.0.dist-info"
+                }
+            ]
+        },
+        "defusedxml": {
+            "name": "defusedxml",
+            "version": "0.7.1",
+            "requirements": [
+                {
+                    "raw": "defusedxml==0.7.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "defusedxml",
+                    "specifier": "==0.7.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/defusedxml-0.7.1.dist-info"
+                }
+            ]
+        },
+        "aiohttpx": {
+            "name": "aiohttpx",
+            "version": "0.0.12",
+            "requirements": [
+                {
+                    "raw": "aiohttpx==0.0.12",
+                    "extras": [],
+                    "marker": null,
+                    "name": "aiohttpx",
+                    "specifier": "==0.0.12",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/aiohttpx-0.0.12.dist-info"
+                }
+            ]
+        },
+        "packageurl-python": {
+            "name": "packageurl-python",
+            "version": "0.17.5",
+            "requirements": [
+                {
+                    "raw": "packageurl-python==0.17.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "packageurl-python",
+                    "specifier": "==0.17.5",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/packageurl_python-0.17.5.dist-info"
+                }
+            ]
+        },
+        "babel": {
+            "name": "babel",
+            "version": "2.17.0",
+            "requirements": [
+                {
+                    "raw": "babel==2.17.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "babel",
+                    "specifier": "==2.17.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/babel-2.17.0.dist-info"
+                }
+            ]
+        },
+        "idna": {
+            "name": "idna",
+            "version": "3.11",
+            "requirements": [
+                {
+                    "raw": "idna==3.11",
+                    "extras": [],
+                    "marker": null,
+                    "name": "idna",
+                    "specifier": "==3.11",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/idna-3.11.dist-info"
+                }
+            ]
+        },
+        "iniconfig": {
+            "name": "iniconfig",
+            "version": "2.3.0",
+            "requirements": [
+                {
+                    "raw": "iniconfig==2.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "iniconfig",
+                    "specifier": "==2.3.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info"
+                }
+            ]
+        },
+        "tomlkit": {
+            "name": "tomlkit",
+            "version": "0.13.3",
+            "requirements": [
+                {
+                    "raw": "tomlkit==0.13.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tomlkit",
+                    "specifier": "==0.13.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/tomlkit-0.13.3.dist-info"
+                }
+            ]
+        },
+        "scikit-learn": {
+            "name": "scikit-learn",
+            "version": "1.7.2",
+            "requirements": [
+                {
+                    "raw": "scikit-learn==1.7.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "scikit-learn",
+                    "specifier": "==1.7.2",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/scikit_learn-1.7.2.dist-info"
+                }
+            ]
+        },
+        "pathspec": {
+            "name": "pathspec",
+            "version": "0.12.1",
+            "requirements": [
+                {
+                    "raw": "pathspec==0.12.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pathspec",
+                    "specifier": "==0.12.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pathspec-0.12.1.dist-info"
+                }
+            ]
+        },
+        "safety-schemas": {
+            "name": "safety-schemas",
+            "version": "0.0.16",
+            "requirements": [
+                {
+                    "raw": "safety-schemas==0.0.16",
+                    "extras": [],
+                    "marker": null,
+                    "name": "safety-schemas",
+                    "specifier": "==0.0.16",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/safety_schemas-0.0.16.dist-info"
+                }
+            ]
+        },
+        "pyasn1": {
+            "name": "pyasn1",
+            "version": "0.6.1",
+            "requirements": [
+                {
+                    "raw": "pyasn1==0.6.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pyasn1",
+                    "specifier": "==0.6.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pyasn1-0.6.1.dist-info"
+                }
+            ]
+        },
+        "threadpoolctl": {
+            "name": "threadpoolctl",
+            "version": "3.6.0",
+            "requirements": [
+                {
+                    "raw": "threadpoolctl==3.6.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "threadpoolctl",
+                    "specifier": "==3.6.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/threadpoolctl-3.6.0.dist-info"
+                }
+            ]
+        },
+        "uvicorn": {
+            "name": "uvicorn",
+            "version": "0.38.0",
+            "requirements": [
+                {
+                    "raw": "uvicorn==0.38.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "uvicorn",
+                    "specifier": "==0.38.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/uvicorn-0.38.0.dist-info"
+                }
+            ]
+        },
+        "nvidia-cudnn-cu12": {
+            "name": "nvidia-cudnn-cu12",
+            "version": "9.10.2.21",
+            "requirements": [
+                {
+                    "raw": "nvidia-cudnn-cu12==9.10.2.21",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-cudnn-cu12",
+                    "specifier": "==9.10.2.21",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_cudnn_cu12-9.10.2.21.dist-info"
+                }
+            ]
+        },
+        "identify": {
+            "name": "identify",
+            "version": "2.6.15",
+            "requirements": [
+                {
+                    "raw": "identify==2.6.15",
+                    "extras": [],
+                    "marker": null,
+                    "name": "identify",
+                    "specifier": "==2.6.15",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/identify-2.6.15.dist-info"
+                }
+            ]
+        },
+        "nvidia-curand-cu12": {
+            "name": "nvidia-curand-cu12",
+            "version": "10.3.9.90",
+            "requirements": [
+                {
+                    "raw": "nvidia-curand-cu12==10.3.9.90",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nvidia-curand-cu12",
+                    "specifier": "==10.3.9.90",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/nvidia_curand_cu12-10.3.9.90.dist-info"
+                }
+            ]
+        },
+        "Sphinx": {
+            "name": "Sphinx",
+            "version": "8.2.3",
+            "requirements": [
+                {
+                    "raw": "Sphinx==8.2.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "Sphinx",
+                    "specifier": "==8.2.3",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/sphinx-8.2.3.dist-info"
+                }
+            ]
+        },
+        "raglint": {
+            "name": "raglint",
+            "version": "0.1.0",
+            "requirements": [
+                {
+                    "raw": "raglint==0.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "raglint",
+                    "specifier": "==0.1.0",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/raglint-0.1.0.dist-info"
+                }
+            ]
+        }
+    },
+    "affected_packages": {
+        "ecdsa": {
+            "name": "ecdsa",
+            "version": "0.19.1",
+            "requirements": [
+                {
+                    "raw": "ecdsa==0.19.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ecdsa",
+                    "specifier": "==0.19.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ecdsa-0.19.1.dist-info"
+                }
+            ],
+            "found": null,
+            "insecure_versions": [
+                "0.10",
+                "0.11",
+                "0.12",
+                "0.13",
+                "0.13.1",
+                "0.13.2",
+                "0.13.3",
+                "0.14",
+                "0.14.1",
+                "0.15",
+                "0.16.0",
+                "0.16.1",
+                "0.17.0",
+                "0.18.0",
+                "0.18.0b1",
+                "0.18.0b2",
+                "0.19.0",
+                "0.19.1",
+                "0.6",
+                "0.7",
+                "0.8",
+                "0.9"
+            ],
+            "secure_versions": [],
+            "latest_version_without_known_vulnerabilities": "",
+            "latest_version": "0.19.1",
+            "more_info_url": "https://data.safetycli.com/p/pypi/ecdsa/97c/"
+        },
+        "pip": {
+            "name": "pip",
+            "version": "25.1.1",
+            "requirements": [
+                {
+                    "raw": "pip==25.1.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pip",
+                    "specifier": "==25.1.1",
+                    "url": null,
+                    "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip-25.1.1.dist-info"
+                }
+            ],
+            "found": null,
+            "insecure_versions": [
+                "0.2",
+                "0.2.1",
+                "0.3",
+                "0.3.1",
+                "0.4",
+                "0.5",
+                "0.5.1",
+                "0.6",
+                "0.6.1",
+                "0.6.2",
+                "0.6.3",
+                "0.7",
+                "0.7.1",
+                "0.7.2",
+                "0.8",
+                "0.8.1",
+                "0.8.2",
+                "0.8.3",
+                "1.0",
+                "10.0.0",
+                "10.0.0b1",
+                "10.0.0b2",
+                "10.0.1",
+                "1.0.1",
+                "1.0.2",
+                "1.1",
+                "1.2",
+                "1.2.1",
+                "1.3",
+                "1.3.1",
+                "1.4",
+                "1.4.1",
+                "1.5",
+                "1.5.1",
+                "1.5.2",
+                "1.5.3",
+                "1.5.4",
+                "1.5.5",
+                "1.5.6",
+                "18.0",
+                "18.1",
+                "19.0",
+                "19.0.1",
+                "19.0.2",
+                "19.0.3",
+                "19.1",
+                "19.1.1",
+                "19.2",
+                "19.2.1",
+                "19.2.2",
+                "19.2.3",
+                "19.3",
+                "19.3.1",
+                "20.0",
+                "20.0.1",
+                "20.0.2",
+                "20.1",
+                "20.1.1",
+                "20.1b1",
+                "20.2",
+                "20.2.1",
+                "20.2.2",
+                "20.2.3",
+                "20.2.4",
+                "20.2b1",
+                "20.3",
+                "20.3.1",
+                "20.3.2",
+                "20.3.3",
+                "20.3.4",
+                "20.3b1",
+                "21.0",
+                "21.0.1",
+                "21.1",
+                "21.1.1",
+                "21.1.2",
+                "21.1.3",
+                "21.2",
+                "21.2.1",
+                "21.2.2",
+                "21.2.3",
+                "21.2.4",
+                "21.3",
+                "21.3.1",
+                "22.0",
+                "22.0.1",
+                "22.0.2",
+                "22.0.3",
+                "22.0.4",
+                "22.1",
+                "22.1.1",
+                "22.1.2",
+                "22.1b1",
+                "22.2",
+                "22.2.1",
+                "22.2.2",
+                "22.3",
+                "22.3.1",
+                "23.0",
+                "23.0.1",
+                "23.1",
+                "23.1.1",
+                "23.1.2",
+                "23.2",
+                "23.2.1",
+                "23.3",
+                "23.3.1",
+                "23.3.2",
+                "24.0",
+                "24.1",
+                "24.1.1",
+                "24.1.2",
+                "24.1b1",
+                "24.1b2",
+                "24.2",
+                "24.3",
+                "24.3.1",
+                "25.0",
+                "25.0.1",
+                "25.1",
+                "25.1.1",
+                "6.0",
+                "6.0.1",
+                "6.0.2",
+                "6.0.3",
+                "6.0.4",
+                "6.0.5",
+                "6.0.6",
+                "6.0.7",
+                "6.0.8",
+                "6.1.0",
+                "6.1.1",
+                "7.0.0",
+                "7.0.1",
+                "7.0.2",
+                "7.0.3",
+                "7.1.0",
+                "7.1.1",
+                "7.1.2",
+                "8.0.0",
+                "8.0.1",
+                "8.0.2",
+                "8.0.3",
+                "8.1.0",
+                "8.1.1",
+                "8.1.2",
+                "9.0.0",
+                "9.0.1",
+                "9.0.2",
+                "9.0.3"
+            ],
+            "secure_versions": [
+                "25.3",
+                "25.2"
+            ],
+            "latest_version_without_known_vulnerabilities": "25.3",
+            "latest_version": "25.3",
+            "more_info_url": "https://data.safetycli.com/p/pypi/pip/97c/"
+        }
+    },
+    "announcements": [],
+    "vulnerabilities": [
+        {
+            "vulnerability_id": "64459",
+            "package_name": "ecdsa",
+            "ignored": {},
+            "ignored_reason": null,
+            "ignored_expires": null,
+            "vulnerable_spec": [
+                ">=0"
+            ],
+            "all_vulnerable_specs": [
+                ">=0"
+            ],
+            "analyzed_version": "0.19.1",
+            "analyzed_requirement": {
+                "raw": "ecdsa==0.19.1",
+                "extras": [],
+                "marker": null,
+                "name": "ecdsa",
+                "specifier": "==0.19.1",
+                "url": null,
+                "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ecdsa-0.19.1.dist-info"
+            },
+            "advisory": "The python-ecdsa library, which implements ECDSA cryptography in Python, is vulnerable to the Minerva attack (CVE-2024-23342). This vulnerability arises because scalar multiplication is not performed in constant time, affecting ECDSA signatures, key generation, and ECDH operations. ECDSA signature verification remains unaffected. The project maintainers have stated that there is no plan to release a fix for this vulnerability, citing their security policy:\r\n\"As stated in the security policy, side-channel vulnerabilities are outside the scope of the project. This is not due to a lack of interest in side-channel secure implementations but rather because the main goal of the project is to be pure Python. Implementing side-channel-free code in pure Python is impossible. Therefore, we do not plan to release a fix for this vulnerability.\"\r\nNOTE: The specs we include in this advisory differ from the publicly available on other sources. That's because research by Safety CLI Cybersecurity Team confirms that there is no plan to address this vulnerability.",
+            "is_transitive": false,
+            "published_date": null,
+            "fixed_versions": [],
+            "closest_versions_without_known_vulnerabilities": [],
+            "resources": [],
+            "CVE": "CVE-2024-23342",
+            "severity": null,
+            "affected_versions": [],
+            "more_info_url": "https://data.safetycli.com/v/64459/97c"
+        },
+        {
+            "vulnerability_id": "64396",
+            "package_name": "ecdsa",
+            "ignored": {},
+            "ignored_reason": null,
+            "ignored_expires": null,
+            "vulnerable_spec": [
+                ">=0"
+            ],
+            "all_vulnerable_specs": [
+                ">=0"
+            ],
+            "analyzed_version": "0.19.1",
+            "analyzed_requirement": {
+                "raw": "ecdsa==0.19.1",
+                "extras": [],
+                "marker": null,
+                "name": "ecdsa",
+                "specifier": "==0.19.1",
+                "url": null,
+                "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ecdsa-0.19.1.dist-info"
+            },
+            "advisory": "Ecdsa does not protects against side-channel attacks. This is because Python does not provide side-channel secure primitives (with the exception of hmac.compare_digest()), making side-channel secure programming impossible. For a sophisticated attacker observing just one operation with a private key will be sufficient to completely reconstruct the private key.\r\nhttps://pypi.org/project/ecdsa/#Security",
+            "is_transitive": false,
+            "published_date": null,
+            "fixed_versions": [],
+            "closest_versions_without_known_vulnerabilities": [],
+            "resources": [],
+            "CVE": null,
+            "severity": null,
+            "affected_versions": [],
+            "more_info_url": "https://data.safetycli.com/v/64396/97c"
+        },
+        {
+            "vulnerability_id": "79883",
+            "package_name": "pip",
+            "ignored": {},
+            "ignored_reason": null,
+            "ignored_expires": null,
+            "vulnerable_spec": [
+                "<25.2"
+            ],
+            "all_vulnerable_specs": [
+                "<25.2"
+            ],
+            "analyzed_version": "25.1.1",
+            "analyzed_requirement": {
+                "raw": "pip==25.1.1",
+                "extras": [],
+                "marker": null,
+                "name": "pip",
+                "specifier": "==25.1.1",
+                "url": null,
+                "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip-25.1.1.dist-info"
+            },
+            "advisory": "Affected versions of the pip package are vulnerable to Arbitrary File Overwrite due to improper validation of symbolic link targets in the fallback tar extraction code. In src/pip/_internal/utils/unpacking.py, the _untar_without_filter routine used when the Python tarfile module lacks PEP 706 (no tarfile.data_filter) extracted symlink members with tar._extract_member without verifying that link destinations resolve under the extraction root, a check later added via the is_symlink_target_in_tar helper.",
+            "is_transitive": false,
+            "published_date": null,
+            "fixed_versions": [],
+            "closest_versions_without_known_vulnerabilities": [],
+            "resources": [],
+            "CVE": "CVE-2025-8869",
+            "severity": null,
+            "affected_versions": [],
+            "more_info_url": "https://data.safetycli.com/v/79883/97c"
+        }
+    ],
+    "ignored_vulnerabilities": [],
+    "remediations": {
+        "ecdsa": {
+            "requirements": {
+                "==0.19.1": {
+                    "vulnerabilities_found": 2,
+                    "version": "0.19.1",
+                    "requirement": {
+                        "raw": "ecdsa==0.19.1",
+                        "extras": [],
+                        "marker": null,
+                        "name": "ecdsa",
+                        "specifier": "==0.19.1",
+                        "url": null,
+                        "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/ecdsa-0.19.1.dist-info"
+                    },
+                    "more_info_url": "https://data.safetycli.com/p/pypi/ecdsa/97c/"
+                }
+            },
+            "current_version": null,
+            "vulnerabilities_found": null,
+            "recommended_version": null,
+            "other_recommended_versions": [],
+            "more_info_url": null
+        },
+        "pip": {
+            "requirements": {
+                "==25.1.1": {
+                    "vulnerabilities_found": 1,
+                    "version": "25.1.1",
+                    "requirement": {
+                        "raw": "pip==25.1.1",
+                        "extras": [],
+                        "marker": null,
+                        "name": "pip",
+                        "specifier": "==25.1.1",
+                        "url": null,
+                        "found": "/home/yesir/Dokument/RAGlint/venv/lib/python3.13/site-packages/pip-25.1.1.dist-info"
+                    },
+                    "more_info_url": "https://data.safetycli.com/p/pypi/pip/97c/"
+                }
+            },
+            "current_version": null,
+            "vulnerabilities_found": null,
+            "recommended_version": null,
+            "other_recommended_versions": [],
+            "more_info_url": null
+        }
+    },
+    "remediations_results": {
+        "vulnerabilities_fixed": [],
+        "remediations_applied": {},
+        "remediations_skipped": {}
+    }
+}
+
+
++===========================================================================================================================================================================================+
+
+
+DEPRECATED: this command (`check`) has been DEPRECATED, and will be unsupported beyond 01 June 2024.
+
+
+We highly encourage switching to the new `scan` command which is easier to use, more powerful, and can be set up to mimic the deprecated command if required.
+
+
++===========================================================================================================================================================================================+
+
+

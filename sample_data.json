@@ -1,0 +1,33 @@
+[
+  {
+    "query": "What is the return policy for laptops?",
+    "retrieved_contexts": [
+      "You can return any electronic item within 30 days of purchase. The item must be in original packaging.",
+      "Refunds are processed within 5-7 business days after we receive the return."
+    ],
+    "ground_truth_contexts": [
+      "Electronics can be returned within 30 days in original packaging."
+    ],
+    "response": "You can return laptops within 30 days if they are in their original packaging."
+  },
+  {
+    "query": "Do you offer free shipping?",
+    "retrieved_contexts": [
+      "Free standard shipping is available on all orders over $50.",
+      "Expedited shipping costs $15 regardless of order size."
+    ],
+    "ground_truth_contexts": [
+      "Free shipping on orders over $50."
+    ],
+    "response": "Yes, we offer free standard shipping on orders over $50."
+  },
+  {
+    "query": "How do I reset my password?",
+    "retrieved_contexts": [
+      "To reset your password, go to Settings > Security and click 'Change Password'.",
+      "If you forgot your password, click 'Forgot Password' on the login screen and follow the email instructions."
+    ],
+    "ground_truth_contexts": [],
+    "response": "You can reset your password by clicking 'Forgot Password' on the login page."
+  }
+]

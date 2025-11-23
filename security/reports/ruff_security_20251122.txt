@@ -1,0 +1,44 @@
+S110 `try`-`except`-`pass` detected, consider logging the exception
+   --> raglint/dashboard/app.py:494:5
+    |
+492 |               data = await websocket.receive_text()
+493 |               await websocket.send_text(f"Message text was: {data}")
+494 | /     except Exception:
+495 | |         pass
+    | |____________^
+    |
+
+S113 Probable use of `requests` call without timeout
+   --> raglint/llm.py:144:24
+    |
+142 |     def generate(self, prompt: str) -> str:
+143 |         try:
+144 |             response = requests.post(
+    |                        ^^^^^^^^^^^^^
+145 |                 f"{self.base_url}/api/generate",
+146 |                 json={"model": self.model, "prompt": prompt, "stream": False},
+    |
+
+S110 `try`-`except`-`pass` detected, consider logging the exception
+  --> raglint/plugins/builtins/completeness.py:92:9
+   |
+90 |                   json_str = response[start:end]
+91 |                   return json.loads(json_str)
+92 | /         except:
+93 | |             pass
+   | |________________^
+94 |           
+95 |           # Fallback parsing
+   |
+
+S701 By default, jinja2 sets `autoescape` to `False`. Consider using `autoescape=True` or the `select_autoescape` function to mitigate XSS vulnerabilities.
+  --> raglint/reporting/html_generator.py:13:11
+   |
+11 |     """
+12 |     template_dir = os.path.join(os.path.dirname(__file__), "templates")
+13 |     env = Environment(loader=FileSystemLoader(template_dir))
+   |           ^^^^^^^^^^^
+14 |     template = env.get_template("report.html")
+   |
+
+Found 4 errors.

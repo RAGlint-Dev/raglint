@@ -1,0 +1,772 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>Troubleshooting Guide - RAGLint</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=f3d240d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0ea5e9;
+  --color-brand-content: #0ea5e9;
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">RAGLint</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">RAGLint</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/metrics.html">Metrics API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tracking.html">Tracking API</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/plugins.html">Custom Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/benchmarks.html">RAGLint Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/integrations.html">LangChain Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cost-tracking.html">Cost &amp; Latency Tracking</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/TROUBLESHOOTING.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="troubleshooting-guide">
+<h1>Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Link to this heading">¶</a></h1>
+<p>Common issues and solutions when using RAGLint.</p>
+<section id="installation-issues">
+<h2>Installation Issues<a class="headerlink" href="#installation-issues" title="Link to this heading">¶</a></h2>
+<section id="importerror-no-module-named-raglint">
+<h3>ImportError: No module named ‘raglint’<a class="headerlink" href="#importerror-no-module-named-raglint" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Package not installed or wrong Python environment.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if installed</span>
+pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>raglint
+
+<span class="c1"># Install if missing</span>
+pip<span class="w"> </span>install<span class="w"> </span>raglint
+
+<span class="c1"># Or install from source</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+
+<span class="c1"># Verify installation</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import raglint; print(raglint.__version__)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="modulenotfounderror-sentence-transformers">
+<h3>ModuleNotFoundError: sentence_transformers<a class="headerlink" href="#modulenotfounderror-sentence-transformers" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Missing optional dependencies.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install all dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+
+<span class="c1"># Or install missing package</span>
+pip<span class="w"> </span>install<span class="w"> </span>sentence-transformers
+</pre></div>
+</div>
+</section>
+</section>
+<section id="runtime-issues">
+<h2>Runtime Issues<a class="headerlink" href="#runtime-issues" title="Link to this heading">¶</a></h2>
+<section id="error-invalid-json-in-input-file">
+<h3>“Error: Invalid JSON in input file”<a class="headerlink" href="#error-invalid-json-in-input-file" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Malformed JSON file.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Validate JSON</span>
+python<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>data.json
+
+<span class="c1"># Check file encoding</span>
+file<span class="w"> </span>data.json<span class="w">  </span><span class="c1"># Should be UTF-8 text</span>
+
+<span class="c1"># Fix common issues:</span>
+<span class="c1"># - Remove trailing commas</span>
+<span class="c1"># - Ensure double quotes (not single)</span>
+<span class="c1"># - Check for special characters</span>
+</pre></div>
+</div>
+</section>
+<section id="openai-api-error-401-unauthorized">
+<h3>“OpenAI API Error: 401 Unauthorized”<a class="headerlink" href="#openai-api-error-401-unauthorized" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Invalid or missing API key.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check API key in config</span>
+cat<span class="w"> </span>raglint.yml
+
+<span class="c1"># Or set environment variable</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;sk-...&quot;</span>
+
+<span class="c1"># Verify key is valid at https://platform.openai.com/api-keys</span>
+</pre></div>
+</div>
+</section>
+<section id="mock-mode-warning-when-using-smart">
+<h3>“Mock mode warning” when using –smart<a class="headerlink" href="#mock-mode-warning-when-using-smart" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: LLM provider not configured.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create raglint.yml</span>
+<span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openai</span>
+<span class="nt">openai_api_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sk-...&quot;</span>
+<span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gpt-4</span>
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--smart<span class="w"> </span>--api-key<span class="w"> </span>sk-...
+</pre></div>
+</div>
+</section>
+<section id="slow-analysis-with-smart-metrics">
+<h3>Slow analysis with smart metrics<a class="headerlink" href="#slow-analysis-with-smart-metrics" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Sequential processing.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># RAGLint auto-uses async for 5+ items</span>
+<span class="c1"># But you can force it:</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_async</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="c1"># Or increase dataset size to trigger async</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="data-format-issues">
+<h2>Data Format Issues<a class="headerlink" href="#data-format-issues" title="Link to this heading">¶</a></h2>
+<section id="error-input-data-must-be-a-list">
+<h3>“Error: Input data must be a list”<a class="headerlink" href="#error-input-data-must-be-a-list" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Wrong data structure.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ Wrong</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;What is RAG?&quot;</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ Correct</span>
+<span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;What is RAG?&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retrieved_contexts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;...&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;ground_truth_contexts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;...&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="missing-required-fields">
+<h3>Missing required fields<a class="headerlink" href="#missing-required-fields" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Data missing required fields.</p>
+<p><strong>Required fields</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">query</span></code> (string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retrieved_contexts</span></code> (list of strings)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">response</span></code> (string) - for smart metrics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ground_truth_contexts</span></code> (list of strings) - for retrieval metrics</p></li>
+</ul>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Validate your data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="s2">&quot;Your query&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;retrieved_contexts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Context 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Context 2&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;ground_truth_contexts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Truth 1&quot;</span><span class="p">],</span>  <span class="c1"># Optional</span>
+        <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="s2">&quot;AI response&quot;</span>  <span class="c1"># Optional</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="empty-contexts-or-responses">
+<h3>Empty contexts or responses<a class="headerlink" href="#empty-contexts-or-responses" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Empty lists or strings.</p>
+<p><strong>Expected</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">retrieved_contexts</span></code>: Should have at least 1 context</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ground_truth_contexts</span></code>: Can be empty (skips retrieval metrics)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">response</span></code>: Can be empty (skips faithfulness)</p></li>
+</ul>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Handle missing data gracefully</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">data_item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;response&quot;</span><span class="p">):</span>
+    <span class="c1"># RAGLint will skip faithfulness scoring</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-issues">
+<h2>Configuration Issues<a class="headerlink" href="#configuration-issues" title="Link to this heading">¶</a></h2>
+<section id="config-file-not-found">
+<h3>“Config file not found”<a class="headerlink" href="#config-file-not-found" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: No <code class="docutils literal notranslate"><span class="pre">raglint.yml</span></code> in current directory.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create basic config</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>raglint.yml<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">provider: mock</span>
+<span class="s">metrics:</span>
+<span class="s">  chunking: true</span>
+<span class="s">  retrieval: true</span>
+<span class="s">  semantic: true</span>
+<span class="s">  faithfulness: true</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Or specify custom path</span>
+raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--config<span class="w"> </span>/path/to/config.yml
+</pre></div>
+</div>
+</section>
+<section id="custom-prompts-not-working">
+<h3>Custom prompts not working<a class="headerlink" href="#custom-prompts-not-working" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Prompt template syntax error.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct template syntax</span>
+<span class="nt">prompts</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">faithfulness</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">Query: {query}</span>
+<span class="w">    </span><span class="no">Context: {context}</span>
+<span class="w">    </span><span class="no">Response: {response}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="no">Evaluate faithfulness...</span>
+
+<span class="c1"># Available variables:</span>
+<span class="c1"># - {query}</span>
+<span class="c1"># - {context}</span>
+<span class="c1"># - {response}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-issues">
+<h2>Performance Issues<a class="headerlink" href="#performance-issues" title="Link to this heading">¶</a></h2>
+<section id="high-memory-usage">
+<h3>High memory usage<a class="headerlink" href="#high-memory-usage" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Processing very large datasets.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Process in batches</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+    <span class="c1"># Save results</span>
+</pre></div>
+</div>
+</section>
+<section id="timeout-errors-with-llm">
+<h3>Timeout errors with LLM<a class="headerlink" href="#timeout-errors-with-llm" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: LLM taking too long.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Switch to faster model</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;provider&quot;</span><span class="p">:</span> <span class="s2">&quot;openai&quot;</span><span class="p">,</span> <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">}</span>  <span class="c1"># Faster than gpt-4</span>
+
+<span class="c1"># Or use Ollama locally</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;provider&quot;</span><span class="p">:</span> <span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;llama3&quot;</span><span class="p">}</span>
+
+<span class="c1"># Or increase timeout (future feature)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-issues">
+<h2>Testing Issues<a class="headerlink" href="#testing-issues" title="Link to this heading">¶</a></h2>
+<section id="tests-fail-due-to-missing-dependencies">
+<h3>Tests fail due to missing dependencies<a class="headerlink" href="#tests-fail-due-to-missing-dependencies" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Dev dependencies not installed.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="coverage-too-low">
+<h3>Coverage too low<a class="headerlink" href="#coverage-too-low" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Not all code paths tested.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># See coverage report</span>
+pytest<span class="w"> </span>--cov<span class="o">=</span>raglint<span class="w"> </span>--cov-report<span class="o">=</span>html
+open<span class="w"> </span>htmlcov/index.html
+
+<span class="c1"># Focus on untested modules</span>
+pytest<span class="w"> </span>--cov<span class="o">=</span>raglint<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+</pre></div>
+</div>
+</section>
+<section id="async-tests-fail">
+<h3>Async tests fail<a class="headerlink" href="#async-tests-fail" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Missing pytest-asyncio.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pytest-asyncio
+
+<span class="c1"># Verify</span>
+pytest<span class="w"> </span>tests/test_async.py<span class="w"> </span>-v
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cli-issues">
+<h2>CLI Issues<a class="headerlink" href="#cli-issues" title="Link to this heading">¶</a></h2>
+<section id="command-not-found-raglint">
+<h3>Command not found: raglint<a class="headerlink" href="#command-not-found-raglint" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Script not in PATH.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reinstall package</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+
+<span class="c1"># Or run directly</span>
+python<span class="w"> </span>-m<span class="w"> </span>raglint.cli<span class="w"> </span>analyze<span class="w"> </span>data.json
+
+<span class="c1"># Check installation</span>
+which<span class="w"> </span>raglint
+</pre></div>
+</div>
+</section>
+<section id="exit-code-always-0">
+<h3>Exit code always 0<a class="headerlink" href="#exit-code-always-0" title="Link to this heading">¶</a></h3>
+<p><strong>Problem</strong>: Using old version without proper error handling.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update to latest version</span>
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>raglint
+
+<span class="c1"># Verify error codes work</span>
+raglint<span class="w"> </span>analyze<span class="w"> </span>nonexistent.json
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span><span class="w">  </span><span class="c1"># Should be 1</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-error-messages">
+<h2>Common Error Messages<a class="headerlink" href="#common-error-messages" title="Link to this heading">¶</a></h2>
+<section id="error-during-analysis">
+<h3>“Error during analysis: …”<a class="headerlink" href="#error-during-analysis" title="Link to this heading">¶</a></h3>
+<p><strong>Cause</strong>: Generic error, check logs.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with verbose logging</span>
+raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--verbose<span class="w"> </span>--log-file<span class="w"> </span>debug.log
+
+<span class="c1"># Check log file</span>
+cat<span class="w"> </span>debug.log
+</pre></div>
+</div>
+</section>
+<section id="coverage-failure-total-of-x-is-less-than-fail-under-y">
+<h3>“Coverage failure: total of X is less than fail-under=Y”<a class="headerlink" href="#coverage-failure-total-of-x-is-less-than-fail-under-y" title="Link to this heading">¶</a></h3>
+<p><strong>Cause</strong>: Test coverage below threshold.</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lower threshold temporarily</span>
+pytest<span class="w"> </span>--cov-fail-under<span class="o">=</span><span class="m">70</span>
+
+<span class="c1"># Or add more tests</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading">¶</a></h2>
+<section id="still-stuck">
+<h3>Still stuck?<a class="headerlink" href="#still-stuck" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Check documentation</strong>:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="API.html"><span class="std std-doc">API.md</span></a> - Complete API reference</p></li>
+<li><p><span class="xref myst">CONTRIBUTING.md</span> - Development guide</p></li>
+<li><p><span class="xref myst">README.md</span> - Usage examples</p></li>
+</ul>
+</li>
+<li><p><strong>Search existing issues</strong>:</p>
+<ul class="simple">
+<li><p>https://github.com/yourusername/raglint/issues</p></li>
+</ul>
+</li>
+<li><p><strong>Create an issue</strong>:</p>
+<ul class="simple">
+<li><p>Include error message</p></li>
+<li><p>Provide minimal code example</p></li>
+<li><p>Share your configuration</p></li>
+<li><p>Specify Python version and OS</p></li>
+</ul>
+</li>
+<li><p><strong>Enable debug logging</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>raglint<span class="w"> </span>analyze<span class="w"> </span>data.json<span class="w"> </span>--verbose<span class="w"> </span>--log-file<span class="w"> </span>debug.log
+</pre></div>
+</div>
+<p>Include <code class="docutils literal notranslate"><span class="pre">debug.log</span></code> in your issue.</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="tips-for-success">
+<h2>Tips for Success<a class="headerlink" href="#tips-for-success" title="Link to this heading">¶</a></h2>
+<p>✅ <strong>Do</strong>:</p>
+<ul class="simple">
+<li><p>Use virtual environments</p></li>
+<li><p>Keep dependencies updated</p></li>
+<li><p>Validate JSON before processing</p></li>
+<li><p>Start with mock mode for testing</p></li>
+<li><p>Read error messages carefully</p></li>
+<li><p>Check logs with –verbose</p></li>
+</ul>
+<p>❌ <strong>Don’t</strong>:</p>
+<ul class="simple">
+<li><p>Mix Python versions</p></li>
+<li><p>Ignore warnings</p></li>
+<li><p>Skip dependency installation</p></li>
+<li><p>Use global pip install</p></li>
+<li><p>Hardcode API keys in code</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, RAGLint Contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/raglint/raglint" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Troubleshooting Guide</a><ul>
+<li><a class="reference internal" href="#installation-issues">Installation Issues</a><ul>
+<li><a class="reference internal" href="#importerror-no-module-named-raglint">ImportError: No module named ‘raglint’</a></li>
+<li><a class="reference internal" href="#modulenotfounderror-sentence-transformers">ModuleNotFoundError: sentence_transformers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#runtime-issues">Runtime Issues</a><ul>
+<li><a class="reference internal" href="#error-invalid-json-in-input-file">“Error: Invalid JSON in input file”</a></li>
+<li><a class="reference internal" href="#openai-api-error-401-unauthorized">“OpenAI API Error: 401 Unauthorized”</a></li>
+<li><a class="reference internal" href="#mock-mode-warning-when-using-smart">“Mock mode warning” when using –smart</a></li>
+<li><a class="reference internal" href="#slow-analysis-with-smart-metrics">Slow analysis with smart metrics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-format-issues">Data Format Issues</a><ul>
+<li><a class="reference internal" href="#error-input-data-must-be-a-list">“Error: Input data must be a list”</a></li>
+<li><a class="reference internal" href="#missing-required-fields">Missing required fields</a></li>
+<li><a class="reference internal" href="#empty-contexts-or-responses">Empty contexts or responses</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration-issues">Configuration Issues</a><ul>
+<li><a class="reference internal" href="#config-file-not-found">“Config file not found”</a></li>
+<li><a class="reference internal" href="#custom-prompts-not-working">Custom prompts not working</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#performance-issues">Performance Issues</a><ul>
+<li><a class="reference internal" href="#high-memory-usage">High memory usage</a></li>
+<li><a class="reference internal" href="#timeout-errors-with-llm">Timeout errors with LLM</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing-issues">Testing Issues</a><ul>
+<li><a class="reference internal" href="#tests-fail-due-to-missing-dependencies">Tests fail due to missing dependencies</a></li>
+<li><a class="reference internal" href="#coverage-too-low">Coverage too low</a></li>
+<li><a class="reference internal" href="#async-tests-fail">Async tests fail</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cli-issues">CLI Issues</a><ul>
+<li><a class="reference internal" href="#command-not-found-raglint">Command not found: raglint</a></li>
+<li><a class="reference internal" href="#exit-code-always-0">Exit code always 0</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#common-error-messages">Common Error Messages</a><ul>
+<li><a class="reference internal" href="#error-during-analysis">“Error during analysis: …”</a></li>
+<li><a class="reference internal" href="#coverage-failure-total-of-x-is-less-than-fail-under-y">“Coverage failure: total of X is less than fail-under=Y”</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-help">Getting Help</a><ul>
+<li><a class="reference internal" href="#still-stuck">Still stuck?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tips-for-success">Tips for Success</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

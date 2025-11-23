@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+:root {
+    --font-stack: 'Inter', sans-serif;
+    --font-display: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* --- Dark Mode Overrides (Furo) --- */
+body[data-theme="dark"] {
+    --color-background-primary: #020617;
+    --color-background-secondary: #0f172a;
+    --color-background-hover: #1e293b;
+
+    --color-foreground-primary: #f8fafc;
+    --color-foreground-secondary: #94a3b8;
+    --color-foreground-muted: #64748b;
+
+    --color-brand-primary: #38bdf8;
+    --color-brand-content: #38bdf8;
+
+    --color-api-background: #1e293b;
+    --color-inline-code-background: #1e293b;
+
+    --color-admonition-background: #1e293b;
+}
+
+/* --- Typography --- */
+body {
+    font-family: var(--font-stack);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+h1 {
+    background: linear-gradient(to right, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Glassmorphism Sidebar --- */
+.sidebar-drawer {
+    background-color: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-brand-text {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    background: linear-gradient(to right, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Content Area --- */
+.main-content {
+    background-color: transparent;
+}
+
+/* --- Admonitions (Alerts) --- */
+.admonition {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.admonition-title {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-family: var(--font-display);
+}
+
+/* --- Code Blocks --- */
+div.highlight {
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* --- Tables --- */
+.table-wrapper table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-wrapper th {
+    background-color: #1e293b;
+    color: #f8fafc;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.table-wrapper td {
+    background-color: rgba(30, 41, 59, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Search --- */
+.sidebar-search-container {
+    background-color: transparent;
+}
+
+.sidebar-search {
+    background-color: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    border-radius: 0.5rem;
+}
+
+.sidebar-search:focus-within {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* --- Background Blobs (Pseudo-elements) --- */
+/* Note: This is a bit hacky for Sphinx, but tries to mimic the landing page blobs */
+body::before {
+    content: "";
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(60px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -10%;
+    right: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(60px);
+    z-index: -1;
+    pointer-events: none;
+}

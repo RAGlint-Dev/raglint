@@ -1,0 +1,66 @@
+Run started:2025-11-22 15:26:06.259735+00:00
+
+Test results:
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.1/plugins/b110_try_except_pass.html
+   Location: raglint/dashboard/app.py:494:4
+493	            await websocket.send_text(f"Message text was: {data}")
+494	    except Exception:
+495	        pass
+496	
+
+--------------------------------------------------
+>> Issue: [B113:request_without_timeout] Call to requests without timeout
+   Severity: Medium   Confidence: Low
+   CWE: CWE-400 (https://cwe.mitre.org/data/definitions/400.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.1/plugins/b113_request_without_timeout.html
+   Location: raglint/llm.py:144:23
+143	        try:
+144	            response = requests.post(
+145	                f"{self.base_url}/api/generate",
+146	                json={"model": self.model, "prompt": prompt, "stream": False},
+147	            )
+148	            response.raise_for_status()
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.1/plugins/b110_try_except_pass.html
+   Location: raglint/plugins/builtins/completeness.py:92:8
+91	                return json.loads(json_str)
+92	        except:
+93	            pass
+94	        
+
+--------------------------------------------------
+>> Issue: [B701:jinja2_autoescape_false] By default, jinja2 sets autoescape to False. Consider using autoescape=True or use the select_autoescape function to mitigate XSS vulnerabilities.
+   Severity: High   Confidence: High
+   CWE: CWE-94 (https://cwe.mitre.org/data/definitions/94.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.1/plugins/b701_jinja2_autoescape_false.html
+   Location: raglint/reporting/html_generator.py:13:10
+12	    template_dir = os.path.join(os.path.dirname(__file__), "templates")
+13	    env = Environment(loader=FileSystemLoader(template_dir))
+14	    template = env.get_template("report.html")
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 5014
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 2
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 1
+		Medium: 0
+		High: 3
+Files skipped (0):

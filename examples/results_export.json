@@ -1,0 +1,28 @@
+{
+  "chunk_stats": {
+    "min": 52,
+    "max": 90,
+    "mean": 68.11111111111111,
+    "median": 67.0,
+    "std": 11.608851454763535,
+    "count": 9
+  },
+  "retrieval_stats": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "mrr": 0.0,
+    "ndcg": 0.0
+  },
+  "semantic_scores": [
+    0.6944761276245117,
+    0.7897490859031677,
+    0.6271953582763672
+  ],
+  "faithfulness_scores": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "is_mock": true,
+  "total_items": 3
+}

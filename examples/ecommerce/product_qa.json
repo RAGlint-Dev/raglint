@@ -1,0 +1,52 @@
+[
+    {
+        "query": "What's the return policy for the wireless headphones?",
+        "retrieved_contexts": [
+            "Our premium wireless headphones come with a 30-day money-back guarantee. If you're not satisfied, return them in original condition for a full refund. Simply contact customer service to initiate the return process.",
+            "All electronics purchases include free shipping on orders over $50. Standard delivery takes 3-5 business days.",
+            "We offer extended warranty options for all our audio products. The extended warranty covers defects and malfunctions for up to 2 years beyond the standard 1-year warranty."
+        ],
+        "response": "You can return the wireless headphones within 30 days if you're not satisfied. They must be in original condition. Contact customer service to start the return process, and you'll get a full refund.",
+        "ground_truth": "30-day money-back guarantee with full refund for items in original condition"
+    },
+    {
+        "query": "Do these headphones support noise cancellation?",
+        "retrieved_contexts": [
+            "Our XM-5000 wireless headphones feature active noise cancellation (ANC) with three modes: light, moderate, and maximum. The ANC technology reduces ambient noise by up to 95%.",
+            "Battery life is approximately 40 hours with ANC off, and 30 hours with ANC enabled. Quick charge feature provides 5 hours of playback from just 10 minutes of charging.",
+            "Compatible with both iOS and Android devices via Bluetooth 5.2. Also includes a 3.5mm audio jack for wired connection."
+        ],
+        "response": "Yes, the XM-5000 headphones have active noise cancellation with three modes. It can reduce ambient noise by up to 95%. Battery lasts 30 hours with ANC on.",
+        "ground_truth": "Yes, features active noise cancellation with three modes and up to 95% noise reduction"
+    },
+    {
+        "query": "What colors are available for the SmartWatch Pro?",
+        "retrieved_contexts": [
+            "The SmartWatch Pro is available in three elegant finishes: Midnight Black, Space Gray, and Rose Gold. Each color comes with a matching silicone sport band.",
+            "The watch face is a 1.4-inch AMOLED display with always-on capability. Resolution is 454x454 pixels with 326 PPI for crisp, clear visuals.",
+            "Includes health tracking features: heart rate monitor, sleep tracking, SpO2 sensor, and step counter. Compatible with both iOS and Android smartphones."
+        ],
+        "response": "The SmartWatch Pro comes in Midnight Black, Space Gray, and Rose Gold. Each includes a matching sport band.",
+        "ground_truth": "Available in Midnight Black, Space Gray, and Rose Gold"
+    },
+    {
+        "query": "Is the laptop suitable for gaming?",
+        "retrieved_contexts": [
+            "This ultra-portable laptop is designed for productivity and everyday tasks. It features an Intel i5 processor, 8GB RAM, and integrated graphics.",
+            "Battery life is excellent at up to 12 hours of web browsing. The lightweight design (2.8 lbs) makes it perfect for students and business professionals.",
+            "Includes a 13.3-inch Full HD display, 256GB SSD storage, and Windows 11 Home. Connectivity options include USB-C, USB-A, HDMI, and headphone jack."
+        ],
+        "response": "This laptop has integrated graphics and an i5 processor with 8GB RAM. While it can handle light gaming, it's really designed for productivity tasks like web browsing, office work, and everyday use. For serious gaming, you'd want a model with dedicated graphics.",
+        "ground_truth": "Not suitable for serious gaming - designed for productivity with integrated graphics"
+    },
+    {
+        "query": "Can I use my own pods with the coffee machine?",
+        "retrieved_contexts": [
+            "The UltraBrew Coffee Machine is compatible with standard K-Cup pods and also includes a reusable filter basket for ground coffee. This gives you flexibility to use your favorite coffee brands.",
+            "Features include programmable brewing, auto shut-off, and a 12-cup carafe. The hot plate keeps coffee warm for up to 2 hours.",
+            "Easy to clean with removable parts that are dishwasher safe. The water reservoir holds 60 oz and has a removable design for easy filling."
+        ],
+        "response": "Yes! The UltraBrew works with standard K-Cup pods and includes a reusable filter basket, so you can use ground coffee too. This lets you choose any coffee brand you prefer.",
+        "ground_truth": "Compatible with K-Cup pods and includes reusable filter for ground coffee"
+    }
+]

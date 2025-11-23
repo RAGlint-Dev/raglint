@@ -1,0 +1,637 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>GitHub Actions CI/CD - RAGLint</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=f3d240d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0ea5e9;
+  --color-brand-content: #0ea5e9;
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">RAGLint</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">RAGLint</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/metrics.html">Metrics API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tracking.html">Tracking API</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/plugins.html">Custom Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/benchmarks.html">RAGLint Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/integrations.html">LangChain Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cost-tracking.html">Cost &amp; Latency Tracking</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/CICD.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="github-actions-ci-cd">
+<h1>GitHub Actions CI/CD<a class="headerlink" href="#github-actions-ci-cd" title="Link to this heading">¶</a></h1>
+<p>RAGLint uses GitHub Actions for continuous integration and deployment.</p>
+<section id="workflows">
+<h2>Workflows<a class="headerlink" href="#workflows" title="Link to this heading">¶</a></h2>
+<section id="ci-continuous-integration">
+<h3>CI (Continuous Integration)<a class="headerlink" href="#ci-continuous-integration" title="Link to this heading">¶</a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code></p>
+<p><strong>Triggers:</strong></p>
+<ul class="simple">
+<li><p>Push to <code class="docutils literal notranslate"><span class="pre">main</span></code> or <code class="docutils literal notranslate"><span class="pre">develop</span></code></p></li>
+<li><p>Pull requests to <code class="docutils literal notranslate"><span class="pre">main</span></code> or <code class="docutils literal notranslate"><span class="pre">develop</span></code></p></li>
+</ul>
+<p><strong>Jobs:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Test</strong> - Run tests on Python 3.10, 3.11, 3.12</p>
+<ul class="simple">
+<li><p>Lint with ruff</p></li>
+<li><p>Format check with black</p></li>
+<li><p>Run pytest with coverage</p></li>
+<li><p>Upload to Codecov</p></li>
+</ul>
+</li>
+<li><p><strong>Security</strong> - Security scanning</p>
+<ul class="simple">
+<li><p>Bandit (code security)</p></li>
+<li><p>Safety (dependency vulnerabilities)</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="release-pypi-publishing">
+<h3>Release (PyPI Publishing)<a class="headerlink" href="#release-pypi-publishing" title="Link to this heading">¶</a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">.github/workflows/release.yml</span></code></p>
+<p><strong>Triggers:</strong></p>
+<ul class="simple">
+<li><p>Git tags matching <code class="docutils literal notranslate"><span class="pre">v*.*.*</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">v0.1.0</span></code>)</p></li>
+<li><p>Manual workflow dispatch</p></li>
+</ul>
+<p><strong>Jobs:</strong></p>
+<ol class="arabic simple">
+<li><p>Build Python package</p></li>
+<li><p>Check package with twine</p></li>
+<li><p>Publish to Test PyPI (manual dispatch)</p></li>
+<li><p>Publish to PyPI (on tags)</p></li>
+<li><p>Create GitHub release</p></li>
+</ol>
+<p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create and push a tag</span>
+git<span class="w"> </span>tag<span class="w"> </span>v0.2.0
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.2.0
+
+<span class="c1"># GitHub Actions will automatically:</span>
+<span class="c1"># 1. Build the package</span>
+<span class="c1"># 2. Publish to PyPI</span>
+<span class="c1"># 3. Create a GitHub release</span>
+</pre></div>
+</div>
+</section>
+<section id="docker-build">
+<h3>Docker Build<a class="headerlink" href="#docker-build" title="Link to this heading">¶</a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">.github/workflows/docker.yml</span></code></p>
+<p><strong>Triggers:</strong></p>
+<ul class="simple">
+<li><p>Push to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>Git tags matching <code class="docutils literal notranslate"><span class="pre">v*.*.*</span></code></p></li>
+<li><p>Pull requests to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>Manual workflow dispatch</p></li>
+</ul>
+<p><strong>Jobs:</strong></p>
+<ol class="arabic simple">
+<li><p>Build Docker image</p></li>
+<li><p>Push to GitHub Container Registry (ghcr.io)</p></li>
+<li><p>Test image (on PRs)</p></li>
+</ol>
+<p><strong>Image Tags:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">latest</span></code> - Latest main branch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">v1.0.0</span></code> - Semantic version tags</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sha-abc123</span></code> - Git commit SHA</p></li>
+</ul>
+<p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pull the latest image</span>
+docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/yourusername/raglint:latest
+
+<span class="c1"># Run RAGLint dashboard</span>
+docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>ghcr.io/yourusername/raglint:latest
+</pre></div>
+</div>
+</section>
+<section id="benchmark-weekly-testing">
+<h3>Benchmark (Weekly Testing)<a class="headerlink" href="#benchmark-weekly-testing" title="Link to this heading">¶</a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">.github/workflows/benchmark.yml</span></code></p>
+<p><strong>Triggers:</strong></p>
+<ul class="simple">
+<li><p>Weekly schedule (Monday 00:00 UTC)</p></li>
+<li><p>Manual workflow dispatch</p></li>
+</ul>
+<p><strong>Jobs:</strong></p>
+<ol class="arabic simple">
+<li><p>Run SQUAD benchmark</p></li>
+<li><p>Upload results as artifacts</p></li>
+<li><p>Comment results on PRs (if applicable)</p></li>
+</ol>
+</section>
+</section>
+<section id="setting-up">
+<h2>Setting Up<a class="headerlink" href="#setting-up" title="Link to this heading">¶</a></h2>
+<section id="pypi-secrets">
+<h3>1. PyPI Secrets<a class="headerlink" href="#pypi-secrets" title="Link to this heading">¶</a></h3>
+<p>Add these secrets to your GitHub repository:</p>
+<ol class="arabic simple">
+<li><p>Go to <strong>Settings → Secrets and variables → Actions</strong></p></li>
+<li><p>Add secrets:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PYPI_API_TOKEN</span></code> - PyPI API token</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEST_PYPI_API_TOKEN</span></code> - Test PyPI token (optional)</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Get PyPI token:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Create account at https://pypi.org/</span>
+<span class="c1"># 2. Go to Account Settings → API tokens</span>
+<span class="c1"># 3. Create token with &quot;Upload packages&quot; scope</span>
+<span class="c1"># 4. Copy token and add to GitHub secrets</span>
+</pre></div>
+</div>
+</section>
+<section id="github-container-registry">
+<h3>2. GitHub Container Registry<a class="headerlink" href="#github-container-registry" title="Link to this heading">¶</a></h3>
+<p>No setup needed! GitHub automatically provides GITHUB_TOKEN with package write permissions.</p>
+</section>
+</section>
+<section id="status-badges">
+<h2>Status Badges<a class="headerlink" href="#status-badges" title="Link to this heading">¶</a></h2>
+<p>Add these to your README.md:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>![<span class="nt">CI</span>](<span class="na">https://github.com/yourusername/raglint/workflows/CI/badge.svg</span>)
+![<span class="nt">PyPI</span>](<span class="na">https://img.shields.io/pypi/v/raglint</span>)
+![<span class="nt">Docker</span>](<span class="na">https://ghcr-badge.egpl.dev/yourusername/raglint/latest_tag?trim=major&amp;label=docker</span>)
+[<span class="nt">![codecov</span>](<span class="na">https://codecov.io/gh/yourusername/raglint/branch/main/graph/badge.svg</span>)](https://codecov.io/gh/yourusername/raglint)
+</pre></div>
+</div>
+</section>
+<section id="manual-workflows">
+<h2>Manual Workflows<a class="headerlink" href="#manual-workflows" title="Link to this heading">¶</a></h2>
+<section id="test-release-to-test-pypi">
+<h3>Test Release to Test PyPI<a class="headerlink" href="#test-release-to-test-pypi" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># From GitHub UI:</span>
+<span class="c1"># 1. Go to Actions → Release to PyPI</span>
+<span class="c1"># 2. Click &quot;Run workflow&quot;</span>
+<span class="c1"># 3. Select branch</span>
+<span class="c1"># 4. Click &quot;Run workflow&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="build-docker-image">
+<h3>Build Docker Image<a class="headerlink" href="#build-docker-image" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># From GitHub UI:</span>
+<span class="c1"># 1. Go to Actions → Docker Build</span>
+<span class="c1"># 2. Click &quot;Run workflow&quot;</span>
+<span class="c1"># 3. Select branch</span>
+<span class="c1"># 4. Click &quot;Run workflow&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="run-benchmark">
+<h3>Run Benchmark<a class="headerlink" href="#run-benchmark" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># From GitHub UI:</span>
+<span class="c1"># 1. Go to Actions → Benchmark</span>
+<span class="c1"># 2. Click &quot;Run workflow&quot;</span>
+<span class="c1"># 3. Wait for results</span>
+<span class="c1"># 4. Download artifacts</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="local-testing">
+<h2>Local Testing<a class="headerlink" href="#local-testing" title="Link to this heading">¶</a></h2>
+<p>Test workflows locally with <a class="reference external" href="https://github.com/nektos/act">act</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install act</span>
+brew<span class="w"> </span>install<span class="w"> </span>act<span class="w">  </span><span class="c1"># macOS</span>
+<span class="c1"># or</span>
+curl<span class="w"> </span>https://raw.githubusercontent.com/nektos/act/master/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash<span class="w">  </span><span class="c1"># Linux</span>
+
+<span class="c1"># Run CI workflow</span>
+act<span class="w"> </span>-j<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Run release workflow</span>
+act<span class="w"> </span>-j<span class="w"> </span>build-and-publish<span class="w"> </span>--secret-file<span class="w"> </span>.secrets
+
+<span class="c1"># Run Docker build</span>
+act<span class="w"> </span>-j<span class="w"> </span>build-and-push
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<section id="pypi-upload-fails">
+<h3>PyPI Upload Fails<a class="headerlink" href="#pypi-upload-fails" title="Link to this heading">¶</a></h3>
+<p><strong>Error:</strong> <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">already</span> <span class="pre">exists</span></code></p>
+<p><strong>Solution:</strong> Increment version in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> before creating tag.</p>
+</section>
+<section id="docker-build-fails">
+<h3>Docker Build Fails<a class="headerlink" href="#docker-build-fails" title="Link to this heading">¶</a></h3>
+<p><strong>Error:</strong> <code class="docutils literal notranslate"><span class="pre">denied:</span> <span class="pre">permission_denied</span></code></p>
+<p><strong>Solution:</strong> Ensure <code class="docutils literal notranslate"><span class="pre">packages:</span> <span class="pre">write</span></code> permission in workflow file.</p>
+</section>
+<section id="tests-fail-on-ci-but-pass-locally">
+<h3>Tests Fail on CI but Pass Locally<a class="headerlink" href="#tests-fail-on-ci-but-pass-locally" title="Link to this heading">¶</a></h3>
+<p><strong>Possible causes:</strong></p>
+<ol class="arabic simple">
+<li><p>Missing dependencies in CI</p></li>
+<li><p>Environment variables not set</p></li>
+<li><p>Python version differences</p></li>
+</ol>
+<p><strong>Debug:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Debug environment</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">python --version</span>
+<span class="w">    </span><span class="no">pip list</span>
+<span class="w">    </span><span class="no">env</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Version Bumping</strong></p>
+<ul class="simple">
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> version</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code></p></li>
+<li><p>Create git tag matching version</p></li>
+</ul>
+</li>
+<li><p><strong>Testing Before Release</strong></p>
+<ul class="simple">
+<li><p>Run tests locally</p></li>
+<li><p>Test with <code class="docutils literal notranslate"><span class="pre">./release.sh</span></code></p></li>
+<li><p>Verify package builds cleanly</p></li>
+</ul>
+</li>
+<li><p><strong>Docker Images</strong></p>
+<ul class="simple">
+<li><p>Keep images small</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code></p></li>
+<li><p>Test locally before pushing</p></li>
+</ul>
+</li>
+<li><p><strong>Security</strong></p>
+<ul class="simple">
+<li><p>Never commit secrets</p></li>
+<li><p>Use GitHub Secrets</p></li>
+<li><p>Rotate tokens periodically</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.github.com/en/actions">GitHub Actions Documentation</a></p></li>
+<li><p><a class="reference external" href="https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/">PyPI Publishing Guide</a></p></li>
+<li><p><a class="reference external" href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry">GitHub Container Registry</a></p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, RAGLint Contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/raglint/raglint" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">GitHub Actions CI/CD</a><ul>
+<li><a class="reference internal" href="#workflows">Workflows</a><ul>
+<li><a class="reference internal" href="#ci-continuous-integration">CI (Continuous Integration)</a></li>
+<li><a class="reference internal" href="#release-pypi-publishing">Release (PyPI Publishing)</a></li>
+<li><a class="reference internal" href="#docker-build">Docker Build</a></li>
+<li><a class="reference internal" href="#benchmark-weekly-testing">Benchmark (Weekly Testing)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up">Setting Up</a><ul>
+<li><a class="reference internal" href="#pypi-secrets">1. PyPI Secrets</a></li>
+<li><a class="reference internal" href="#github-container-registry">2. GitHub Container Registry</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#status-badges">Status Badges</a></li>
+<li><a class="reference internal" href="#manual-workflows">Manual Workflows</a><ul>
+<li><a class="reference internal" href="#test-release-to-test-pypi">Test Release to Test PyPI</a></li>
+<li><a class="reference internal" href="#build-docker-image">Build Docker Image</a></li>
+<li><a class="reference internal" href="#run-benchmark">Run Benchmark</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#local-testing">Local Testing</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#pypi-upload-fails">PyPI Upload Fails</a></li>
+<li><a class="reference internal" href="#docker-build-fails">Docker Build Fails</a></li>
+<li><a class="reference internal" href="#tests-fail-on-ci-but-pass-locally">Tests Fail on CI but Pass Locally</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

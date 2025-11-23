@@ -1,0 +1,706 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>Optimizing RAG Chunking - Step-by-Step Tutorial - RAGLint</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f3d240d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0ea5e9;
+  --color-brand-content: #0ea5e9;
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #38bdf8;
+  --color-brand-content: #38bdf8;
+  --color-background-primary: #020617;
+  --color-background-secondary: #0f172a;
+  --color-background-hover: #1e293b;
+  --color-foreground-primary: #f8fafc;
+  --color-foreground-secondary: #94a3b8;
+  --color-foreground-muted: #64748b;
+  --color-background-border: rgba(255, 255, 255, 0.1);
+  --font-stack: Inter, sans-serif;
+  --font-stack--monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">RAGLint</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">RAGLint</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/metrics.html">Metrics API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/tracking.html">Tracking API</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/plugins.html">Custom Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/benchmarks.html">RAGLint Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/integrations.html">LangChain Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/cost-tracking.html">Cost &amp; Latency Tracking</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/tutorials/optimizing_chunks.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="optimizing-rag-chunking-step-by-step-tutorial">
+<h1>Optimizing RAG Chunking - Step-by-Step Tutorial<a class="headerlink" href="#optimizing-rag-chunking-step-by-step-tutorial" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>Chunk size is one of the most critical parameters in RAG systems. Too small, and you lose context. Too large, and you get noisy, irrelevant information. This tutorial shows you how to find the optimal chunk size for your use case using RAGlint.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>RAGlint installed (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">raglint</span></code>)</p></li>
+<li><p>Sample documents to test</p></li>
+<li><p>OpenAI API key (for smart metrics)</p></li>
+</ul>
+</section>
+<section id="step-1-prepare-test-data-15-minutes">
+<h2>Step 1: Prepare Test Data (15 minutes)<a class="headerlink" href="#step-1-prepare-test-data-15-minutes" title="Link to this heading">¶</a></h2>
+<section id="create-baseline-chunks">
+<h3>Create Baseline Chunks<a class="headerlink" href="#create-baseline-chunks" title="Link to this heading">¶</a></h3>
+<p>We’ll test 4 different chunk sizes: 256, 512, 1024, and 2048 tokens.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chunk_optimizer.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chunk_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple chunking with overlap.&quot;&quot;&quot;</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">chunk_size</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">overlap</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">),</span> <span class="n">step</span><span class="p">):</span>
+        <span class="n">chunk</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+            <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">chunks</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># Limit for testing</span>
+
+<span class="c1"># Load your document</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;your_document.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Create test datasets for each chunk size</span>
+<span class="n">chunk_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">chunk_sizes</span><span class="p">:</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="n">chunk_text</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    
+    <span class="c1"># Create test queries (you provide these)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the return policy?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;retrieved_contexts&quot;</span><span class="p">:</span> <span class="n">chunks</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>  <span class="c1"># Top 3 chunks</span>
+            <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="s2">&quot;Generated response here...&quot;</span><span class="p">,</span>  <span class="c1"># From your RAG</span>
+            <span class="s2">&quot;ground_truth&quot;</span><span class="p">:</span> <span class="s2">&quot;Expected answer...&quot;</span>
+        <span class="p">},</span>
+        <span class="c1"># Add more test queries</span>
+    <span class="p">]</span>
+    
+    <span class="c1"># Save to file</span>
+    <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;chunks_</span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;chunks_</span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">/test_data.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-2-run-raglint-on-each-configuration-10-minutes">
+<h2>Step 2: Run RAGlint on Each Configuration (10 minutes)<a class="headerlink" href="#step-2-run-raglint-on-each-configuration-10-minutes" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze each chunk size</span>
+<span class="k">for</span><span class="w"> </span>size<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="m">512</span><span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="m">2048</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testing chunk size: </span><span class="nv">$size</span><span class="s2">&quot;</span>
+<span class="w">    </span>raglint<span class="w"> </span>analyze<span class="w"> </span>chunks_<span class="nv">$size</span>/test_data.json<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--smart<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output-dir<span class="o">=</span>results/chunks_<span class="nv">$size</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-compare-results-10-minutes">
+<h2>Step 3: Compare Results (10 minutes)<a class="headerlink" href="#step-3-compare-results-10-minutes" title="Link to this heading">¶</a></h2>
+<section id="manual-comparison">
+<h3>Manual Comparison<a class="headerlink" href="#manual-comparison" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare all results</span>
+raglint<span class="w"> </span>compare<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/chunks_256/results.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/chunks_512/results.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/chunks_1024/results.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/chunks_2048/results.json
+</pre></div>
+</div>
+</section>
+<section id="python-analysis">
+<h3>Python Analysis<a class="headerlink" href="#python-analysis" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># analyze_chunks.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">chunk_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Load all results</span>
+<span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">chunk_sizes</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;results/chunks_</span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">/results.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">size</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Extract metrics</span>
+<span class="n">faithfulness</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="s1">&#39;faithfulness_score&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chunk_sizes</span><span class="p">]</span>
+<span class="n">context_relevance</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="s1">&#39;metrics&#39;</span><span class="p">][</span><span class="s1">&#39;context_relevance&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chunk_sizes</span><span class="p">]</span>
+<span class="n">retrieval_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retrieval_time&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chunk_sizes</span><span class="p">]</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chunk_sizes</span><span class="p">,</span> <span class="n">faithfulness</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Faithfulness vs Chunk Size&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Chunk Size (tokens)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Faithfulness&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chunk_sizes</span><span class="p">,</span> <span class="n">context_relevance</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Context Relevance vs Chunk Size&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Chunk Size (tokens)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Context Relevance&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chunk_sizes</span><span class="p">,</span> <span class="n">retrieval_time</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Retrieval Time vs Chunk Size&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Chunk Size (tokens)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Time (seconds)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;chunk_optimization.png&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📊 Saved visualization to chunk_optimization.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-4-interpret-results">
+<h2>Step 4: Interpret Results<a class="headerlink" href="#step-4-interpret-results" title="Link to this heading">¶</a></h2>
+<section id="key-metrics-to-watch">
+<h3>Key Metrics to Watch<a class="headerlink" href="#key-metrics-to-watch" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Faithfulness</strong>: Higher is better</p>
+<ul class="simple">
+<li><p>If it decreases with larger chunks → too much noise</p></li>
+<li><p>If it decreases with smaller chunks →missing context</p></li>
+</ul>
+</li>
+<li><p><strong>Context Relevance</strong>: Balance is key</p>
+<ul class="simple">
+<li><p>Too small: Precision high, but may miss information</p></li>
+<li><p>Too large: More information, but less relevant</p></li>
+</ul>
+</li>
+<li><p><strong>Retrieval Time</strong>: Smaller chunks = faster (usually)</p></li>
+</ol>
+</section>
+<section id="decision-matrix">
+<h3>Decision Matrix<a class="headerlink" href="#decision-matrix" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Chunk Size</p></th>
+<th class="head"><p>Faithfulness</p></th>
+<th class="head"><p>Context Rel</p></th>
+<th class="head"><p>Speed</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>256</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+<td><p>Fast</p></td>
+<td><p>FAQ, simple queries</p></td>
+</tr>
+<tr class="row-odd"><td><p>512</p></td>
+<td><p><strong>High</strong></p></td>
+<td><p><strong>High</strong></p></td>
+<td><p><strong>Fast</strong></p></td>
+<td><p><strong>Most use cases</strong> ✅</p></td>
+</tr>
+<tr class="row-even"><td><p>1024</p></td>
+<td><p>High</p></td>
+<td><p>Medium</p></td>
+<td><p>Medium</p></td>
+<td><p>Complex technical docs</p></td>
+</tr>
+<tr class="row-odd"><td><p>2048</p></td>
+<td><p>Medium</p></td>
+<td><p>Medium-Low</p></td>
+<td><p>Slow</p></td>
+<td><p>Legal documents, contracts</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="step-5-fine-tune-your-winner-20-minutes">
+<h2>Step 5: Fine-Tune Your Winner (20 minutes)<a class="headerlink" href="#step-5-fine-tune-your-winner-20-minutes" title="Link to this heading">¶</a></h2>
+<p>Let’s say 512 tokens performed best. Now optimize overlap:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test overlaps: 0%, 10%, 20%, 30%</span>
+<span class="n">overlaps</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">overlap</span> <span class="ow">in</span> <span class="n">overlaps</span><span class="p">:</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="n">chunk_text</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
+    <span class="c1"># ... create test_data and run RAGlint</span>
+</pre></div>
+</div>
+<p><strong>Typical finding</strong>: 10-20% overlap is optimal for most cases.</p>
+</section>
+<section id="step-6-validate-on-real-queries-30-minutes">
+<h2>Step 6: Validate on Real Queries (30 minutes)<a class="headerlink" href="#step-6-validate-on-real-queries-30-minutes" title="Link to this heading">¶</a></h2>
+<p>Don’t just test on synthetic data!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># real_world_test.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">raglint</span><span class="w"> </span><span class="kn">import</span> <span class="n">RAGPipelineAnalyzer</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validate_production</span><span class="p">():</span>
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">RAGPipelineAnalyzer</span><span class="p">(</span><span class="n">use_smart_metrics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Use real user queries from production logs</span>
+    <span class="n">real_queries</span> <span class="o">=</span> <span class="n">load_production_queries</span><span class="p">()</span>  <span class="c1"># Your function</span>
+    
+    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_async</span><span class="p">(</span><span class="n">real_queries</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Faithfulness: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;faithfulness_score&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context Relevance: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">][</span><span class="s1">&#39;context_relevance&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Check if it meets your thresholds</span>
+    <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;faithfulness_score&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.85</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ WARNING: Faithfulness below threshold!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Consider increasing chunk size or improving retrieval&quot;</span><span class="p">)</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">validate_production</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="step-7-deploy-and-monitor">
+<h2>Step 7: Deploy and Monitor<a class="headerlink" href="#step-7-deploy-and-monitor" title="Link to this heading">¶</a></h2>
+<section id="update-your-rag-pipeline">
+<h3>Update Your RAG Pipeline<a class="headerlink" href="#update-your-rag-pipeline" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># config.py</span>
+<span class="n">OPTIMAL_CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">512</span>  <span class="c1"># From your testing</span>
+<span class="n">CHUNK_OVERLAP</span> <span class="o">=</span>  <span class="mf">0.15</span>      <span class="c1"># 15% overlap</span>
+</pre></div>
+</div>
+</section>
+<section id="monitor-in-production">
+<h3>Monitor in Production<a class="headerlink" href="#monitor-in-production" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">raglint.tracking</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tracker</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">generate_response</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">contexts</span><span class="p">):</span>
+    <span class="n">tracker</span> <span class="o">=</span> <span class="n">get_tracker</span><span class="p">()</span>
+    
+    <span class="c1"># Your RAG logic here</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">your_rag_pipeline</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">contexts</span><span class="p">)</span>
+    
+    <span class="c1"># Quick quality check</span>
+    <span class="k">if</span> <span class="n">tracker</span><span class="o">.</span><span class="n">get_summary</span><span class="p">()[</span><span class="s1">&#39;avg_faithfulness&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.85</span><span class="p">:</span>
+        <span class="n">send_alert</span><span class="p">(</span><span class="s2">&quot;RAG quality degrading - review chunks&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-issues-solutions">
+<h2>Common Issues &amp; Solutions<a class="headerlink" href="#common-issues-solutions" title="Link to this heading">¶</a></h2>
+<section id="issue-1-all-chunk-sizes-perform-poorly">
+<h3>Issue 1: All Chunk Sizes Perform Poorly<a class="headerlink" href="#issue-1-all-chunk-sizes-perform-poorly" title="Link to this heading">¶</a></h3>
+<p><strong>Cause</strong>: Problem isn’t chunk size, it’s retrieval or prompting<br />
+<strong>Solution</strong>:</p>
+<ul class="simple">
+<li><p>Improve embeddings (try <code class="docutils literal notranslate"><span class="pre">text-embedding-3-large</span></code>)</p></li>
+<li><p>Use hybrid search (BM25 + vector)</p></li>
+<li><p>Better system prompts</p></li>
+</ul>
+</section>
+<section id="issue-2-large-variation-across-queries">
+<h3>Issue 2: Large Variation Across Queries<a class="headerlink" href="#issue-2-large-variation-across-queries" title="Link to this heading">¶</a></h3>
+<p><strong>Cause</strong>: Different query types need different chunks<br />
+<strong>Solution</strong>:</p>
+<ul class="simple">
+<li><p>Classify queries first</p></li>
+<li><p>Use dynamic chunking (small for simple, large for complex)</p></li>
+</ul>
+</section>
+<section id="issue-3-good-metrics-but-poor-user-feedback">
+<h3>Issue 3: Good Metrics But Poor User Feedback<a class="headerlink" href="#issue-3-good-metrics-but-poor-user-feedback" title="Link to this heading">¶</a></h3>
+<p><strong>Cause</strong>: Metrics don’t perfectly align with user satisfaction<br />
+<strong>Solution</strong>:</p>
+<ul class="simple">
+<li><p>Add custom plugins for your domain</p></li>
+<li><p>Collect user ratings and correlate with metrics</p></li>
+<li><p>A/B test in production</p></li>
+</ul>
+</section>
+</section>
+<section id="checklist">
+<h2>Checklist<a class="headerlink" href="#checklist" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>[ ] Created test data for 4 chunk sizes</p></li>
+<li><p>[ ] Ran RAGlint on all configurations</p></li>
+<li><p>[ ] Compared results visually</p></li>
+<li><p>[ ] Selected optimal chunk size</p></li>
+<li><p>[ ] Fine-tuned overlap</p></li>
+<li><p>[ ] Validated on real queries</p></li>
+<li><p>[ ] Deployed to production</p></li>
+<li><p>[ ] Set up monitoring</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Optimize other parameters</strong>: top-k, temperature, retrieval method</p></li>
+<li><p><strong>Try semantic chunking</strong>: Chunk by topics, not just size</p></li>
+<li><p><strong>A/B test</strong>: Deploy both configs and compare real metrics</p></li>
+</ol>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../BEST_PRACTICES.html"><span class="std std-doc">RAGlint Best Practices</span></a></p></li>
+<li><p><a class="reference internal" href="#../../examples/chunking/"><span class="xref myst">Chunking Analysis Example</span></a></p></li>
+<li><p><a class="reference internal" href="#./production_deployment.md"><span class="xref myst">Production Monitoring Guide</span></a></p></li>
+</ul>
+<p><strong>Estimated time</strong>: 2-3 hours for complete optimization</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, RAGLint Contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/raglint/raglint" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Optimizing RAG Chunking - Step-by-Step Tutorial</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#step-1-prepare-test-data-15-minutes">Step 1: Prepare Test Data (15 minutes)</a><ul>
+<li><a class="reference internal" href="#create-baseline-chunks">Create Baseline Chunks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-2-run-raglint-on-each-configuration-10-minutes">Step 2: Run RAGlint on Each Configuration (10 minutes)</a></li>
+<li><a class="reference internal" href="#step-3-compare-results-10-minutes">Step 3: Compare Results (10 minutes)</a><ul>
+<li><a class="reference internal" href="#manual-comparison">Manual Comparison</a></li>
+<li><a class="reference internal" href="#python-analysis">Python Analysis</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-4-interpret-results">Step 4: Interpret Results</a><ul>
+<li><a class="reference internal" href="#key-metrics-to-watch">Key Metrics to Watch</a></li>
+<li><a class="reference internal" href="#decision-matrix">Decision Matrix</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-5-fine-tune-your-winner-20-minutes">Step 5: Fine-Tune Your Winner (20 minutes)</a></li>
+<li><a class="reference internal" href="#step-6-validate-on-real-queries-30-minutes">Step 6: Validate on Real Queries (30 minutes)</a></li>
+<li><a class="reference internal" href="#step-7-deploy-and-monitor">Step 7: Deploy and Monitor</a><ul>
+<li><a class="reference internal" href="#update-your-rag-pipeline">Update Your RAG Pipeline</a></li>
+<li><a class="reference internal" href="#monitor-in-production">Monitor in Production</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#common-issues-solutions">Common Issues &amp; Solutions</a><ul>
+<li><a class="reference internal" href="#issue-1-all-chunk-sizes-perform-poorly">Issue 1: All Chunk Sizes Perform Poorly</a></li>
+<li><a class="reference internal" href="#issue-2-large-variation-across-queries">Issue 2: Large Variation Across Queries</a></li>
+<li><a class="reference internal" href="#issue-3-good-metrics-but-poor-user-feedback">Issue 3: Good Metrics But Poor User Feedback</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#checklist">Checklist</a></li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>
