@@ -1,9 +1,7 @@
 name: Release to PyPI
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  # Disable automatic releases - manual only
   workflow_dispatch:
 
 jobs:
