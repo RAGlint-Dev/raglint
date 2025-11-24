@@ -260,11 +260,11 @@ async def test_auth_flow(test_db):
             follow_redirects=False
         )
         assert response.status_code == 303
-        assert "/" in response.headers["location"]
+        assert "/dashboard" in response.headers["location"]
         assert "access_token" in response.cookies
         
-        # 4. Access Home with Cookie
+        # 4. Access Dashboard with Cookie
         client.cookies = response.cookies # Set cookie for subsequent requests
-        response = client.get("/")
+        response = client.get("/dashboard")
         assert response.status_code == 200
         assert "test@example.com" in response.text
