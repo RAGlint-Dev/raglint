@@ -31,7 +31,7 @@ def test_config_from_dict():
 def test_config_to_dict():
     """Test Config can be converted to dictionary."""
     config = Config(provider="ollama", model_name="llama2")
-    config_dict = config.to_dict()
+    config_dict = config.as_dict()
     assert isinstance(config_dict, dict)
     assert config_dict["provider"] == "ollama"
     assert config_dict["model_name"] == "llama2"

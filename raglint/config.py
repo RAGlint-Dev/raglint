@@ -93,6 +93,11 @@ class Config:
         return config
 
     @classmethod
+    def from_yaml(cls, path: str) -> "Config":
+        """Load config from YAML file (alias for load)."""
+        return cls.load(path)
+
+    @classmethod
     def load(cls, path: str = "raglint.yml") -> "Config":
         config = cls()
 

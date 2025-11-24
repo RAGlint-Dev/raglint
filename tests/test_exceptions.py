@@ -30,21 +30,21 @@ def test_generation_error():
 def test_plugin_error():
     """Test PluginError exception."""
     with pytest.raises(PluginError):
-        raise PluginError("Plugin failed")
+        raise PluginError("test-plugin", "Plugin failed")
     
     # Should also catch as RAGLintError
     with pytest.raises(RAGLintError):
-        raise PluginError("Plugin failed")
+        raise PluginError("test-plugin", "Plugin failed")
 
 
 def test_llm_error():
     """Test LLMError exception."""
     with pytest.raises(LLMError):
-        raise LLMError("LLM call failed")
+        raise LLMError("openai", "LLM call failed")
     
     # Should also catch as RAGLintError
     with pytest.raises(RAGLintError):
-        raise LLMError("LLM call failed")
+        raise LLMError("openai", "LLM call failed")
 
 
 def test_exception_with_message():
