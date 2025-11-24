@@ -10,10 +10,11 @@ from raglint.llm import MockLLM, OpenAI_LLM, OllamaLLM
 class TestMockLLM:
     """Tests for MockLLM class."""
     
-    def test_generate_json(self):
+    @pytest.mark.asyncio
+    async def test_generate_json(self):
         """Test synchronous JSON generation."""
         llm = MockLLM()
-        result = llm.generate_json("test prompt")
+        result = await llm.generate_json("test prompt")
         
         assert isinstance(result, dict)
         assert "score" in result
@@ -24,7 +25,7 @@ class TestMockLLM:
     async def test_agenerate_json(self):
         """Test async JSON generation."""
         llm = MockLLM()
-        result = await llm.agenerate_json("test prompt")
+        result = await llm.generate_json("test prompt")  # generate_json is already async
         
         assert isinstance(result, dict)
         assert "score" in result
