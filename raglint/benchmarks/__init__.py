@@ -12,5 +12,5 @@ __all__ = [
     "CoQABenchmark",
     "HotpotQABenchmark",
     "BenchmarkRegistry",
-    "download_squad"
+    "download_squad",
 ]

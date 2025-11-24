@@ -62,6 +62,7 @@ class MetricPlugin(BasePlugin):
         """Type of metric (e.g., 'retrieval', 'generation', 'e2e')."""
         pass
 
+
 class PluginInterface(MetricPlugin):
     """
     Adapter for plugins using the async-first interface.

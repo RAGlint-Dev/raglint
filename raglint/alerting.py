@@ -12,10 +12,12 @@ import aiohttp
 
 logger = logging.getLogger(__name__)
 
+
 class AlertManager:
     """
     Manages system alerts and notifications.
     """
+
     _instance = None
 
     def __new__(cls):
@@ -25,7 +27,13 @@ class AlertManager:
             cls._instance.enabled = bool(cls._instance.slack_webhook_url)
         return cls._instance
 
-    async def send_alert(self, title: str, message: str, level: str = "info", details: Optional[dict[str, Any]] = None):
+    async def send_alert(
+        self,
+        title: str,
+        message: str,
+        level: str = "info",
+        details: Optional[dict[str, Any]] = None,
+    ):
         """
         Send an alert to configured channels.
         """
@@ -35,7 +43,9 @@ class AlertManager:
         if self.slack_webhook_url:
             await self._send_slack_alert(title, message, level, details)
 
-    async def _send_slack_alert(self, title: str, message: str, level: str, details: Optional[dict[str, Any]]):
+    async def _send_slack_alert(
+        self, title: str, message: str, level: str, details: Optional[dict[str, Any]]
+    ):
         """Send alert to Slack."""
         color = "#36a64f"  # Green (Info)
         if level == "warning":
@@ -45,22 +55,15 @@ class AlertManager:
 
         payload = {
             "attachments": [
-                {
-                    "color": color,
-                    "title": f"RAGLint Alert: {title}",
-                    "text": message,
-                    "fields": []
-                }
+                {"color": color, "title": f"RAGLint Alert: {title}", "text": message, "fields": []}
             ]
         }
 
         if details:
             for k, v in details.items():
-                payload["attachments"][0]["fields"].append({
-                    "title": k,
-                    "value": str(v),
-                    "short": True
-                })
+                payload["attachments"][0]["fields"].append(
+                    {"title": k, "value": str(v), "short": True}
+                )
 
         try:
             async with aiohttp.ClientSession() as session:
@@ -70,7 +73,13 @@ class AlertManager:
         except Exception as e:
             logger.error(f"Error sending Slack alert: {e}")
 
-    def send_alert_sync(self, title: str, message: str, level: str = "info", details: Optional[dict[str, Any]] = None):
+    def send_alert_sync(
+        self,
+        title: str,
+        message: str,
+        level: str = "info",
+        details: Optional[dict[str, Any]] = None,
+    ):
         """Synchronous wrapper for sending alerts."""
         if not self.enabled:
             return

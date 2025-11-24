@@ -24,11 +24,12 @@ class User(Base):
     versions = relationship("PipelineVersion", back_populates="user")
     datasets = relationship("Dataset", back_populates="user")
 
+
 class PipelineVersion(Base):
     __tablename__ = "pipeline_versions"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    hash = Column(String, index=True, unique=True) # SHA256 of config
+    hash = Column(String, index=True, unique=True)  # SHA256 of config
     config = Column(JSON, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     description = Column(String, nullable=True)
@@ -38,14 +39,15 @@ class PipelineVersion(Base):
 
     runs = relationship("AnalysisRun", back_populates="version")
 
+
 class AnalysisRun(Base):
     __tablename__ = "analysis_runs"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
-    config = Column(JSON, nullable=True) # Snapshot of config at run time (redundant but safe)
+    config = Column(JSON, nullable=True)  # Snapshot of config at run time (redundant but safe)
     metrics_summary = Column(JSON, nullable=True)
-    status = Column(String, default="pending") # pending, running, completed, failed
+    status = Column(String, default="pending")  # pending, running, completed, failed
     error_message = Column(Text, nullable=True)
 
     version_id = Column(String, ForeignKey("pipeline_versions.id"), nullable=True)
@@ -73,6 +75,7 @@ class ResultItem(Base):
 
     run = relationship("AnalysisRun", back_populates="items")
 
+
 class Dataset(Base):
     __tablename__ = "datasets"
 
@@ -86,12 +89,13 @@ class Dataset(Base):
 
     items = relationship("DatasetItem", back_populates="dataset", cascade="all, delete-orphan")
 
+
 class DatasetItem(Base):
     __tablename__ = "dataset_items"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     dataset_id = Column(String, ForeignKey("datasets.id"))
 
-    data = Column(JSON) # Stores the row data (query, ground_truth, etc.)
+    data = Column(JSON)  # Stores the row data (query, ground_truth, etc.)
 
     dataset = relationship("Dataset", back_populates="items")

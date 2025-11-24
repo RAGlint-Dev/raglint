@@ -80,6 +80,7 @@ class PluginLoader:
         """Load built-in plugins."""
         try:
             from raglint.plugins import builtins
+
             for attr_name in dir(builtins):
                 attr = getattr(builtins, attr_name)
                 if (
@@ -142,7 +143,7 @@ class PluginLoader:
         """
         import ast
 
-        DANGEROUS_IMPORTS = {'os', 'sys', 'subprocess', 'shutil', 'pickle'}
+        DANGEROUS_IMPORTS = {"os", "sys", "subprocess", "shutil", "pickle"}
 
         try:
             with open(file_path) as f:
@@ -151,12 +152,16 @@ class PluginLoader:
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
-                        if alias.name.split('.')[0] in DANGEROUS_IMPORTS:
-                            logger.warning(f"Security Alert: Plugin {file_path.name} attempts to import '{alias.name}'")
+                        if alias.name.split(".")[0] in DANGEROUS_IMPORTS:
+                            logger.warning(
+                                f"Security Alert: Plugin {file_path.name} attempts to import '{alias.name}'"
+                            )
                             return False
                 elif isinstance(node, ast.ImportFrom):
-                    if node.module and node.module.split('.')[0] in DANGEROUS_IMPORTS:
-                        logger.warning(f"Security Alert: Plugin {file_path.name} attempts to import from '{node.module}'")
+                    if node.module and node.module.split(".")[0] in DANGEROUS_IMPORTS:
+                        logger.warning(
+                            f"Security Alert: Plugin {file_path.name} attempts to import from '{node.module}'"
+                        )
                         return False
             return True
         except Exception as e:
@@ -189,7 +194,7 @@ class PluginLoader:
                 "name": p.name,
                 "version": p.version,
                 "description": p.description,
-                "type": self._get_plugin_type(p)
+                "type": self._get_plugin_type(p),
             }
             for p in self.plugins.values()
         ]
@@ -200,6 +205,7 @@ class PluginLoader:
         if isinstance(plugin, MetricPlugin):
             return "Metric"
         return "Generic"
+
 
 class PluginRegistry:
     """Registry for RAGLint Marketplace."""
@@ -218,7 +224,7 @@ class PluginRegistry:
                 "author": "RAGLint Team",
                 "type": "Metric",
                 "downloads": 120,
-                "verified": True
+                "verified": True,
             },
             {
                 "name": "raglint-toxicity-bert",
@@ -227,7 +233,7 @@ class PluginRegistry:
                 "author": "Community",
                 "type": "Metric",
                 "downloads": 85,
-                "verified": False
+                "verified": False,
             },
             {
                 "name": "raglint-citation-checker",
@@ -236,7 +242,7 @@ class PluginRegistry:
                 "author": "ResearchLab",
                 "type": "Metric",
                 "downloads": 210,
-                "verified": True
+                "verified": True,
             },
             {
                 "name": "raglint-bias-detector",
@@ -244,7 +250,7 @@ class PluginRegistry:
                 "description": "Detects gender and racial bias in responses.",
                 "author": "EthicsAI",
                 "type": "Metric",
-                "downloads": 45
+                "downloads": 45,
             },
             {
                 "name": "raglint-hallucination-checker",
@@ -252,7 +258,7 @@ class PluginRegistry:
                 "description": "Advanced hallucination detection using NLI.",
                 "author": "RAGLint Team",
                 "type": "Metric",
-                "downloads": 350
+                "downloads": 350,
             },
             {
                 "name": "raglint-code-eval",
@@ -260,11 +266,13 @@ class PluginRegistry:
                 "description": "Evaluates quality of generated code snippets.",
                 "author": "DevTools",
                 "type": "Metric",
-                "downloads": 20
-            }
+                "downloads": 20,
+            },
         ]
 
-    def install_plugin(self, plugin_name: str, version: Optional[str] = None, target_dir: str = "plugins") -> bool:
+    def install_plugin(
+        self, plugin_name: str, version: Optional[str] = None, target_dir: str = "plugins"
+    ) -> bool:
         """Install a plugin from the registry."""
         import httpx
 
@@ -282,16 +290,22 @@ class PluginRegistry:
             is_verified = plugin_name.startswith("raglint-") and "community" not in plugin_name
 
             if not is_verified:
-                logger.warning(f"⚠️  Installing UNVERIFIED plugin: {plugin_name}. Proceed with caution.")
+                logger.warning(
+                    f"⚠️  Installing UNVERIFIED plugin: {plugin_name}. Proceed with caution."
+                )
 
             # Attempt real download
             # We set a short timeout so it fails fast in demo/dev if offline
             response = httpx.get(download_url, timeout=2.0)
             if response.status_code == 200:
                 code = response.text
-                logger.info(f"Downloaded plugin {plugin_name} (v{version or 'latest'}) from {download_url}")
+                logger.info(
+                    f"Downloaded plugin {plugin_name} (v{version or 'latest'}) from {download_url}"
+                )
             else:
-                logger.warning(f"Failed to download plugin {plugin_name}: Status {response.status_code}")
+                logger.warning(
+                    f"Failed to download plugin {plugin_name}: Status {response.status_code}"
+                )
         except Exception as e:
             logger.warning(f"Network error downloading plugin {plugin_name}: {e}")
 
@@ -303,7 +317,7 @@ class PluginRegistry:
         path = Path(target_dir)
         path.mkdir(exist_ok=True)
 
-        safe_name = plugin_name.replace('-', '_')
+        safe_name = plugin_name.replace("-", "_")
         file_path = path / f"{safe_name}.py"
 
         with open(file_path, "w") as f:
@@ -313,8 +327,8 @@ class PluginRegistry:
 
     def _generate_mock_plugin_code(self, plugin_name: str, version: Optional[str] = None) -> str:
         """Generate dummy code for a plugin."""
-        safe_name = plugin_name.replace('-', '_')
-        class_name = "".join(x.title() for x in safe_name.split('_'))
+        safe_name = plugin_name.replace("-", "_")
+        class_name = "".join(x.title() for x in safe_name.split("_"))
         ver = version or "1.0.0"
 
         return f"""

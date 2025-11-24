@@ -3,6 +3,7 @@ Context Compression Analyzer - Evaluates context efficiency and redundancy.
 
 Helps optimize RAG systems by identifying redundant or unnecessary context.
 """
+
 from typing import Any
 
 from raglint.plugins.interface import PluginInterface
@@ -23,11 +24,7 @@ class ContextCompressionPlugin(PluginInterface):
     description = "Analyzes context efficiency and compression opportunities"
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs: Any
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
     ) -> dict[str, Any]:
         """Analyze context compression potential."""
 
@@ -55,7 +52,7 @@ class ContextCompressionPlugin(PluginInterface):
             "efficiency_level": self._get_efficiency_level(compression_score),
             "recommendation": self._get_recommendation(redundancy, utilization),
             "context_count": len(contexts),
-            "avg_context_length": sum(len(c.split()) for c in contexts) // len(contexts)
+            "avg_context_length": sum(len(c.split()) for c in contexts) // len(contexts),
         }
 
     def _calculate_redundancy(self, contexts: list[str]) -> float:
@@ -146,8 +143,8 @@ if __name__ == "__main__":
             contexts=[
                 "The product costs $299 and is available now",
                 "The item is priced at $299 with free shipping",
-                "Price: $299, available in stock"
-            ]
+                "Price: $299, available in stock",
+            ],
         )
         print("\nRedundant contexts:")
         print(f"  Score: {result1['score']}")
@@ -159,11 +156,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="Tell me about the product",
             response="The laptop has a 15-inch screen, 16GB RAM, and costs $1299.",
-            contexts=[
-                "Screen size: 15 inches",
-                "Memory: 16GB RAM",
-                "Price: $1299"
-            ]
+            contexts=["Screen size: 15 inches", "Memory: 16GB RAM", "Price: $1299"],
         )
         print("\nEfficient contexts:")
         print(f"  Score: {result2['score']}")

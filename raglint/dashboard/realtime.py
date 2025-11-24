@@ -31,8 +31,10 @@ class ConnectionManager:
                 # Connection closed, will be cleaned up
                 pass
 
+
 # Global manager instance
 manager = ConnectionManager()
+
 
 async def send_metric_update(metric_name: str, value: float, metadata: dict[str, Any] = None):
     """
@@ -43,22 +45,20 @@ async def send_metric_update(metric_name: str, value: float, metadata: dict[str,
         "metric": metric_name,
         "value": value,
         "timestamp": datetime.utcnow().isoformat(),
-        "metadata": metadata or {}
+        "metadata": metadata or {},
     }
 
     await manager.broadcast(message)
+
 
 async def send_trace_event(event: dict[str, Any]):
     """
     Send a trace event to all connected dashboards
     """
-    message = {
-        "type": "trace_event",
-        "event": event,
-        "timestamp": datetime.utcnow().isoformat()
-    }
+    message = {"type": "trace_event", "event": event, "timestamp": datetime.utcnow().isoformat()}
 
     await manager.broadcast(message)
+
 
 async def stream_metrics(websocket: WebSocket):
     """
@@ -68,10 +68,9 @@ async def stream_metrics(websocket: WebSocket):
 
     try:
         # Send initial state
-        await websocket.send_json({
-            "type": "connected",
-            "message": "Real-time metrics stream started"
-        })
+        await websocket.send_json(
+            {"type": "connected", "message": "Real-time metrics stream started"}
+        )
 
         # Keep connection alive and handle incoming messages
         while True:

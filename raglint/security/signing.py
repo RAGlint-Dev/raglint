@@ -18,7 +18,9 @@ logger = logging.getLogger(__name__)
 class PluginSigner:
     """Sign and verify plugin code using RSA."""
 
-    def __init__(self, private_key_path: Optional[Path] = None, public_key_path: Optional[Path] = None):
+    def __init__(
+        self, private_key_path: Optional[Path] = None, public_key_path: Optional[Path] = None
+    ):
         self.private_key = None
         self.public_key = None
 
@@ -31,9 +33,7 @@ class PluginSigner:
     def generate_keys(self, private_key_path: Path, public_key_path: Path):
         """Generate a new RSA key pair."""
         private_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=2048,
-            backend=default_backend()
+            public_exponent=65537, key_size=2048, backend=default_backend()
         )
 
         public_key = private_key.public_key()
@@ -42,14 +42,14 @@ class PluginSigner:
         pem_private = private_key.private_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PrivateFormat.PKCS8,
-            encryption_algorithm=serialization.NoEncryption()
+            encryption_algorithm=serialization.NoEncryption(),
         )
         private_key_path.write_bytes(pem_private)
 
         # Save public key
         pem_public = public_key.public_bytes(
             encoding=serialization.Encoding.PEM,
-            format=serialization.PublicFormat.SubjectPublicKeyInfo
+            format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
         public_key_path.write_bytes(pem_public)
 
@@ -63,14 +63,11 @@ class PluginSigner:
         if not self.private_key:
             raise ValueError("No private key loaded")
 
-        code_bytes = code.encode('utf-8')
+        code_bytes = code.encode("utf-8")
         signature = self.private_key.sign(
             code_bytes,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
+            padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+            hashes.SHA256(),
         )
 
         return signature
@@ -81,15 +78,12 @@ class PluginSigner:
             raise ValueError("No public key loaded")
 
         try:
-            code_bytes = code.encode('utf-8')
+            code_bytes = code.encode("utf-8")
             self.public_key.verify(
                 signature,
                 code_bytes,
-                padding.PSS(
-                    mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
-                ),
-                hashes.SHA256()
+                padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+                hashes.SHA256(),
             )
             return True
         except Exception as e:
@@ -100,15 +94,10 @@ class PluginSigner:
         """Load private key from file."""
         pem_data = path.read_bytes()
         return serialization.load_pem_private_key(
-            pem_data,
-            password=None,
-            backend=default_backend()
+            pem_data, password=None, backend=default_backend()
         )
 
     def _load_public_key(self, path: Path):
         """Load public key from file."""
         pem_data = path.read_bytes()
-        return serialization.load_pem_public_key(
-            pem_data,
-            backend=default_backend()
-        )
+        return serialization.load_pem_public_key(pem_data, backend=default_backend())

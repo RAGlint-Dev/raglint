@@ -45,7 +45,7 @@ class HotpotQABenchmark:
         # Generate sample data
         data = self._generate_sample_hotpotqa()
 
-        with open(cache_file, 'w') as f:
+        with open(cache_file, "w") as f:
             json.dump(data, f, indent=2)
 
         return data
@@ -58,9 +58,9 @@ class HotpotQABenchmark:
                 "answer": "The Beatles",
                 "supporting_facts": [
                     "The Beatles were formed in Liverpool in 1960.",
-                    "Linkin Park is an American rock band from Agoura Hills, California, formed in 1996."
+                    "Linkin Park is an American rock band from Agoura Hills, California, formed in 1996.",
                 ],
-                "type": "comparison"
+                "type": "comparison",
             },
             {
                 "question": "Who is the director of the movie starring Tom Hanks as Forrest Gump?",
@@ -68,19 +68,19 @@ class HotpotQABenchmark:
                 "supporting_facts": [
                     "Forrest Gump is a 1994 American comedy-drama film.",
                     "It stars Tom Hanks, Robin Wright, Gary Sinise.",
-                    "The film was directed by Robert Zemeckis."
+                    "The film was directed by Robert Zemeckis.",
                 ],
-                "type": "bridge"
+                "type": "bridge",
             },
             {
                 "question": "What is the capital of the country where the Eiffel Tower is located?",
                 "answer": "Paris",
                 "supporting_facts": [
                     "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France.",
-                    "Paris is the capital and most populous city of France."
+                    "Paris is the capital and most populous city of France.",
                 ],
-                "type": "bridge"
-            }
+                "type": "bridge",
+            },
         ]
 
         raglint_data = []
@@ -96,10 +96,7 @@ class HotpotQABenchmark:
                 "ground_truth_contexts": sample["supporting_facts"],
                 "response": sample["answer"],
                 "ground_truth": sample["answer"],
-                "metadata": {
-                    "type": sample["type"],
-                    "source": "hotpotqa"
-                }
+                "metadata": {"type": sample["type"], "source": "hotpotqa"},
             }
             raglint_data.append(raglint_item)
 

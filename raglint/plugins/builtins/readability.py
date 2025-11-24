@@ -3,6 +3,7 @@ Readability Scorer Plugin - Measures text readability using standard metrics.
 
 Useful for ensuring responses are appropriate for target audience education level.
 """
+
 import re
 from typing import Any
 
@@ -24,11 +25,7 @@ class ReadabilityPlugin(PluginInterface):
     description = "Measures text readability for target audience appropriateness"
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs: Any
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
     ) -> dict[str, Any]:
         """Calculate readability metrics."""
 
@@ -42,7 +39,7 @@ class ReadabilityPlugin(PluginInterface):
             return {
                 "error": "Text too short to analyze",
                 "flesch_reading_ease": 0,
-                "grade_level": 0
+                "grade_level": 0,
             }
 
         # Calculate metrics
@@ -62,33 +59,33 @@ class ReadabilityPlugin(PluginInterface):
                 "words": words,
                 "syllables": syllables,
                 "avg_words_per_sentence": round(words / sentences, 1),
-                "avg_syllables_per_word": round(syllables / words, 2)
-            }
+                "avg_syllables_per_word": round(syllables / words, 2),
+            },
         }
 
     def _count_sentences(self, text: str) -> int:
         """Count sentences in text."""
-        sentences = re.split(r'[.!?]+', text)
+        sentences = re.split(r"[.!?]+", text)
         return len([s for s in sentences if s.strip()])
 
     def _count_words(self, text: str) -> int:
         """Count words in text."""
-        words = re.findall(r'\b\w+\b', text)
+        words = re.findall(r"\b\w+\b", text)
         return len(words)
 
     def _count_syllables(self, text: str) -> int:
         """Estimate syllables using simple heuristic."""
         text = text.lower()
         syllables = 0
-        words = re.findall(r'\b\w+\b', text)
+        words = re.findall(r"\b\w+\b", text)
 
         for word in words:
             # Count vowel groups
-            vowel_groups = re.findall(r'[aeiouy]+', word)
+            vowel_groups = re.findall(r"[aeiouy]+", word)
             count = len(vowel_groups)
 
             # Adjust for silent e
-            if word.endswith('e') and count > 1:
+            if word.endswith("e") and count > 1:
                 count -= 1
 
             # Minimum 1 syllable per word
@@ -98,11 +95,11 @@ class ReadabilityPlugin(PluginInterface):
 
     def _count_complex_words(self, text: str) -> int:
         """Count words with 3+ syllables."""
-        words = re.findall(r'\b\w+\b', text.lower())
+        words = re.findall(r"\b\w+\b", text.lower())
         complex_count = 0
 
         for word in words:
-            vowel_groups = re.findall(r'[aeiouy]+', word)
+            vowel_groups = re.findall(r"[aeiouy]+", word)
             if len(vowel_groups) >= 3:
                 complex_count += 1
 
@@ -133,6 +130,7 @@ class ReadabilityPlugin(PluginInterface):
         Estimates years of education needed.
         """
         import math
+
         if sentences == 0:
             return 0
         return 1.0430 * math.sqrt(complex_words * 30 / sentences) + 3.1291
@@ -188,9 +186,7 @@ if __name__ == "__main__":
 
         # Simple text
         result1 = await plugin.calculate_async(
-            query="",
-            response="The cat sat on the mat. It was warm. The cat liked it.",
-            contexts=[]
+            query="", response="The cat sat on the mat. It was warm. The cat liked it.", contexts=[]
         )
         print("\nSimple text:")
         print(f"  Grade level: {result1['flesch_kincaid_grade']}")
@@ -201,7 +197,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="",
             response="The implementation of sophisticated algorithmic methodologies necessitates comprehensive understanding of computational complexity theory and asymptotic analysis.",
-            contexts=[]
+            contexts=[],
         )
         print("\nComplex text:")
         print(f"  Grade level: {result2['flesch_kincaid_grade']}")

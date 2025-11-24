@@ -1,3 +1,5 @@
+import csv
+import io
 import logging
 import os
 import uuid
@@ -41,6 +43,7 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
+
 # Dependency to get user from cookie for UI
 async def get_current_user_from_cookie(request: Request, db: AsyncSession = Depends(get_db)):
     token = request.cookies.get("access_token")
@@ -54,6 +57,7 @@ async def get_current_user_from_cookie(request: Request, db: AsyncSession = Depe
     except HTTPException:
         return None
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -61,11 +65,12 @@ async def lifespan(app: FastAPI):
     yield
     # Shutdown
 
+
 app = FastAPI(
     title="RAGLint Dashboard",
     description="API for RAGLint Observability Platform",
     version="0.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Mount static files
@@ -92,15 +97,14 @@ from datetime import datetime, timedelta
 # Track export requests: {user_id: [timestamps]}
 export_rate_limits = defaultdict(list)
 
+
 def check_export_rate_limit(user_id: str, max_requests: int = 10, window_minutes: int = 5) -> bool:
     """Check if user has exceeded export rate limit."""
     now = datetime.utcnow()
     cutoff = now - timedelta(minutes=window_minutes)
 
     # Clean old requests
-    export_rate_limits[user_id] = [
-        ts for ts in export_rate_limits[user_id] if ts > cutoff
-    ]
+    export_rate_limits[user_id] = [ts for ts in export_rate_limits[user_id] if ts > cutoff]
 
     # Check limit
     if len(export_rate_limits[user_id]) >= max_requests:
@@ -110,10 +114,14 @@ def check_export_rate_limit(user_id: str, max_requests: int = 10, window_minutes
     export_rate_limits[user_id].append(now)
     return True
 
+
 # --- Auth Routes ---
 
+
 @app.post("/auth/register")
-async def register(email: str = Form(...), password: str = Form(...), db: AsyncSession = Depends(get_db)):
+async def register(
+    email: str = Form(...), password: str = Form(...), db: AsyncSession = Depends(get_db)
+):
     from sqlalchemy import select
 
     # Check existing
@@ -129,8 +137,11 @@ async def register(email: str = Form(...), password: str = Form(...), db: AsyncS
 
     return RedirectResponse(url="/login?registered=true", status_code=303)
 
+
 @app.post("/auth/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)
+):
     from sqlalchemy import select
 
     # Find user
@@ -152,8 +163,11 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
     response = {"access_token": access_token, "token_type": "bearer"}
     return response
 
+
 @app.post("/auth/login-ui")
-async def login_ui(email: str = Form(...), password: str = Form(...), db: AsyncSession = Depends(get_db)):
+async def login_ui(
+    email: str = Form(...), password: str = Form(...), db: AsyncSession = Depends(get_db)
+):
     from sqlalchemy import select
 
     # Find user
@@ -161,7 +175,9 @@ async def login_ui(email: str = Form(...), password: str = Form(...), db: AsyncS
     user = result.scalar_one_or_none()
 
     if not user or not auth.verify_password(password, user.hashed_password):
-        return templates.TemplateResponse("login.html", {"request": {}, "error": "Invalid credentials"}, status_code=401)
+        return templates.TemplateResponse(
+            "login.html", {"request": {}, "error": "Invalid credentials"}, status_code=401
+        )
 
     # Create token
     access_token = auth.create_access_token(data={"sub": user.email})
@@ -170,8 +186,11 @@ async def login_ui(email: str = Form(...), password: str = Form(...), db: AsyncS
     response.set_cookie(key="access_token", value=access_token, httponly=True)
     return response
 
+
 @app.get("/playground", response_class=HTMLResponse)
-async def playground_page(request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)):
+async def playground_page(
+    request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)
+):
     """Render the playground page."""
     # Allow access without login for testing
     # if not user:
@@ -181,10 +200,12 @@ async def playground_page(request: Request, user: Optional[models.User] = Depend
     prefill = {
         "query": request.query_params.get("query", ""),
         "response": request.query_params.get("response", ""),
-        "contexts": request.query_params.get("contexts", "")
+        "contexts": request.query_params.get("contexts", ""),
     }
 
-    return templates.TemplateResponse("playground.html", {"request": request, "user": user, "prefill": prefill})
+    return templates.TemplateResponse(
+        "playground.html", {"request": request, "user": user, "prefill": prefill}
+    )
 
 
 @app.post("/playground/analyze", response_class=HTMLResponse)
@@ -193,14 +214,14 @@ async def playground_analyze(
     query: str = Form(...),
     contexts: str = Form(...),
     response: str = Form(...),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Analyze a single item from the playground."""
     if not user:
         return "<div>Please login</div>"
 
     # Parse contexts (split by newline)
-    context_list = [c.strip() for c in contexts.split('\n') if c.strip()]
+    context_list = [c.strip() for c in contexts.split("\n") if c.strip()]
 
     # Create a temporary analyzer instance (using mock or configured provider)
     # For playground, we want fast feedback, maybe use the configured one.
@@ -216,16 +237,16 @@ async def playground_analyze(
     item = {
         "query": query,
         "retrieved_contexts": context_list,
-        "ground_truth_contexts": [], # No GT in playground usually
-        "response": response
+        "ground_truth_contexts": [],  # No GT in playground usually
+        "response": response,
     }
 
     # Use async analysis for the single item
     # For real-time updates, we return a shell that triggers individual metric calculations
-    return templates.TemplateResponse("partials/playground_result_shell.html", {
-        "request": request,
-        "item": item
-    })
+    return templates.TemplateResponse(
+        "partials/playground_result_shell.html", {"request": request, "item": item}
+    )
+
 
 @app.post("/playground/generate", response_class=HTMLResponse)
 async def playground_generate(
@@ -234,7 +255,7 @@ async def playground_generate(
     user_prompt_template: str = Form(...),
     context: str = Form(""),
     query: str = Form(""),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Generate a response using the configured LLM."""
     if not user:
@@ -265,14 +286,14 @@ async def playground_generate(
         "query": query,
         "retrieved_contexts": [context] if context else [],
         "response": response_text,
-        "ground_truth_contexts": []
+        "ground_truth_contexts": [],
     }
 
-    return templates.TemplateResponse("partials/playground_result_shell.html", {
-        "request": request,
-        "item": item,
-        "generated": True
-    })
+    return templates.TemplateResponse(
+        "partials/playground_result_shell.html",
+        {"request": request, "item": item, "generated": True},
+    )
+
 
 @app.post("/playground/analyze/metric/{metric_name}", response_class=HTMLResponse)
 async def playground_analyze_metric(
@@ -281,7 +302,7 @@ async def playground_analyze_metric(
     query: str = Form(...),
     contexts: str = Form(...),
     response: str = Form(...),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Calculate a single metric."""
     if not user:
@@ -295,7 +316,7 @@ async def playground_analyze_metric(
     # Optimization: Cache analyzer or use a lightweight version
     analyzer = RAGPipelineAnalyzer(use_smart_metrics=True, config=cfg)
 
-    context_list = [c.strip() for c in contexts.split('\n') if c.strip()]
+    context_list = [c.strip() for c in contexts.split("\n") if c.strip()]
 
     score = 0.0
     reasoning = ""
@@ -303,7 +324,9 @@ async def playground_analyze_metric(
     try:
         if metric_name == "faithfulness":
             if analyzer.faithfulness_scorer and response:
-                score, reasoning = await analyzer.faithfulness_scorer.ascore(query, context_list, response)
+                score, reasoning = await analyzer.faithfulness_scorer.ascore(
+                    query, context_list, response
+                )
         elif metric_name == "answer_relevance":
             if analyzer.answer_relevance_scorer and response:
                 score, reasoning = await analyzer.answer_relevance_scorer.ascore(query, response)
@@ -318,12 +341,16 @@ async def playground_analyze_metric(
     except Exception as e:
         logger.error(f"Error calculating {metric_name}: {e}")
 
-    return templates.TemplateResponse("partials/metric_card.html", {
-        "request": request,
-        "name": metric_name.replace("_", " ").title(),
-        "score": score,
-        "reasoning": reasoning
-    })
+    return templates.TemplateResponse(
+        "partials/metric_card.html",
+        {
+            "request": request,
+            "name": metric_name.replace("_", " ").title(),
+            "score": score,
+            "reasoning": reasoning,
+        },
+    )
+
 
 @app.get("/auth/logout")
 async def logout():
@@ -331,17 +358,19 @@ async def logout():
     response.delete_cookie(key="access_token")
     return response
 
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint for Docker and monitoring."""
     return {"status": "healthy", "service": "raglint"}
+
 
 @app.get("/runs/{run_id}/export")
 async def export_run(
     run_id: str,
     format: str = "json",
     db: AsyncSession = Depends(get_db),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Export run results as CSV or JSON."""
     if not user:
@@ -351,7 +380,7 @@ async def export_run(
     if not check_export_rate_limit(str(user.id)):
         raise HTTPException(
             status_code=429,
-            detail="Too many export requests. Please wait a few minutes and try again."
+            detail="Too many export requests. Please wait a few minutes and try again.",
         )
 
     from sqlalchemy import select
@@ -364,9 +393,7 @@ async def export_run(
         raise HTTPException(status_code=404, detail="Run not found")
 
     # Get items
-    result = await db.execute(
-        select(models.ResultItem).where(models.ResultItem.run_id == run_id)
-    )
+    result = await db.execute(select(models.ResultItem).where(models.ResultItem.run_id == run_id))
     items = result.scalars().all()
 
     if format == "csv":
@@ -377,33 +404,40 @@ async def export_run(
         writer = csv.writer(output)
 
         # Header
-        writer.writerow([
-            "Query", "Response", "Retrieved Contexts",
-            "Faithfulness", "Semantic Score",
-            "Context Precision", "Context Recall"
-        ])
+        writer.writerow(
+            [
+                "Query",
+                "Response",
+                "Retrieved Contexts",
+                "Faithfulness",
+                "Semantic Score",
+                "Context Precision",
+                "Context Recall",
+            ]
+        )
 
         # Data
         for item in items:
-            writer.writerow([
-                item.query or "",
-                item.response or "",
-                " | ".join(item.retrieved_contexts or []),
-                item.metrics.get("faithfulness_score", ""),
-                item.metrics.get("semantic_score", ""),
-                item.metrics.get("context_precision", ""),
-                item.metrics.get("context_recall", "")
-            ])
+            writer.writerow(
+                [
+                    item.query or "",
+                    item.response or "",
+                    " | ".join(item.retrieved_contexts or []),
+                    item.metrics.get("faithfulness_score", ""),
+                    item.metrics.get("semantic_score", ""),
+                    item.metrics.get("context_precision", ""),
+                    item.metrics.get("context_recall", ""),
+                ]
+            )
 
         csv_content = output.getvalue()
 
         from fastapi.responses import StreamingResponse
+
         return StreamingResponse(
             iter([csv_content]),
             media_type="text/csv",
-            headers={
-                "Content-Disposition": f"attachment; filename=raglint_run_{run_id[:8]}.csv"
-            }
+            headers={"Content-Disposition": f"attachment; filename=raglint_run_{run_id[:8]}.csv"},
         )
 
     else:  # JSON format
@@ -411,40 +445,44 @@ async def export_run(
             "run_id": run.id,
             "timestamp": run.timestamp.isoformat() if run.timestamp else None,
             "config": run.config,
-            "summary_metrics": run.metrics_summary, # Changed from run.summary_metrics to run.metrics_summary
+            "summary_metrics": run.metrics_summary,  # Changed from run.summary_metrics to run.metrics_summary
             "items": [
                 {
                     "query": item.query,
                     "response": item.response,
                     "retrieved_contexts": item.retrieved_contexts,
                     "ground_truth_contexts": item.ground_truth_contexts,
-                    "metrics": item.metrics
+                    "metrics": item.metrics,
                 }
                 for item in items
-            ]
+            ],
         }
 
         from fastapi.responses import JSONResponse
+
         return JSONResponse(
             content=export_data,
-            headers={
-                "Content-Disposition": f"attachment; filename=raglint_run_{run_id[:8]}.json"
-            }
+            headers={"Content-Disposition": f"attachment; filename=raglint_run_{run_id[:8]}.json"},
         )
+
 
 # ============================================================================
 # Dashboard Routes
 # ============================================================================
 
+
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
 
 @app.get("/register", response_class=HTMLResponse)
 async def register_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
+
 # --- Protected Routes ---
+
 
 async def run_analysis_task(run_id: str, request: schemas.AnalyzeRequest, db: AsyncSession):
     """Background task to run analysis and save results."""
@@ -475,24 +513,27 @@ async def run_analysis_task(run_id: str, request: schemas.AnalyzeRequest, db: As
         # BackgroundTasks runs after response, so we should manage session carefully.
         # Better to create a new session here.
         from .database import SessionLocal
+
         async with SessionLocal() as session:
             # Update Run status (if we had a status field)
             # Save items
 
             # Calculate summary metrics
             total_items = len(results)
-            avg_faithfulness = sum(r["metrics"]["faithfulness"] or 0 for r in results) / total_items if total_items else 0
+            avg_faithfulness = (
+                sum(r["metrics"]["faithfulness"] or 0 for r in results) / total_items
+                if total_items
+                else 0
+            )
             # ... other metrics
 
-            summary = {
-                "faithfulness": avg_faithfulness,
-                "total_items": total_items
-            }
+            summary = {"faithfulness": avg_faithfulness, "total_items": total_items}
 
             # Update the run with summary
-            stmt = models.AnalysisRun.__table__.update().where(models.AnalysisRun.id == run_id).values(
-                metrics_summary=summary,
-                status="completed"
+            stmt = (
+                models.AnalysisRun.__table__.update()
+                .where(models.AnalysisRun.id == run_id)
+                .values(metrics_summary=summary, status="completed")
             )
             await session.execute(stmt)
 
@@ -504,7 +545,7 @@ async def run_analysis_task(run_id: str, request: schemas.AnalyzeRequest, db: As
                     response=res["detailed"]["response"],
                     retrieved_contexts=res["chunks"],
                     ground_truth_contexts=res["detailed"].get("ground_truth_contexts"),
-                    metrics=res["metrics"]
+                    metrics=res["metrics"],
                 )
                 session.add(item)
 
@@ -515,19 +556,22 @@ async def run_analysis_task(run_id: str, request: schemas.AnalyzeRequest, db: As
         logger.error(f"Analysis {run_id} failed: {e}")
         # Update run status to FAILED
         from .database import SessionLocal
+
         async with SessionLocal() as session:
-             stmt = models.AnalysisRun.__table__.update().where(models.AnalysisRun.id == run_id).values(
-                status="failed",
-                error_message=str(e)
+            stmt = (
+                models.AnalysisRun.__table__.update()
+                .where(models.AnalysisRun.id == run_id)
+                .values(status="failed", error_message=str(e))
             )
-             await session.execute(stmt)
-             await session.commit()
+            await session.execute(stmt)
+            await session.commit()
+
 
 @app.post("/analyze", response_model=schemas.AnalysisRun)
 async def trigger_analysis(
     request: schemas.AnalyzeRequest,
     background_tasks: BackgroundTasks,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Trigger a new analysis run."""
     import hashlib
@@ -542,16 +586,18 @@ async def trigger_analysis(
     config_hash = hashlib.sha256(config_json.encode()).hexdigest()
 
     # Find matching version
-    result = await db.execute(select(models.PipelineVersion).where(models.PipelineVersion.hash == config_hash))
+    result = await db.execute(
+        select(models.PipelineVersion).where(models.PipelineVersion.hash == config_hash)
+    )
     version = result.scalar_one_or_none()
 
     # Create initial run record
     new_run = models.AnalysisRun(
         id=run_id,
         config=request.config,
-        metrics_summary={}, # Empty initially
+        metrics_summary={},  # Empty initially
         status="running",
-        version_id=version.id if version else None
+        version_id=version.id if version else None,
     )
     db.add(new_run)
     await db.commit()
@@ -566,27 +612,38 @@ async def trigger_analysis(
 
     return new_run
 
+
 @app.get("/runs", response_model=list[schemas.AnalysisRun])
 async def list_runs(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
     """List all analysis runs."""
     from sqlalchemy import select
-    result = await db.execute(select(models.AnalysisRun).order_by(models.AnalysisRun.timestamp.desc()).offset(skip).limit(limit))
+
+    result = await db.execute(
+        select(models.AnalysisRun)
+        .order_by(models.AnalysisRun.timestamp.desc())
+        .offset(skip)
+        .limit(limit)
+    )
     return result.scalars().all()
+
 
 @app.get("/runs/{run_id}", response_model=schemas.AnalysisRun)
 async def get_run(run_id: str, db: AsyncSession = Depends(get_db)):
     """Get a specific analysis run."""
     from sqlalchemy import select
+
     result = await db.execute(select(models.AnalysisRun).where(models.AnalysisRun.id == run_id))
     run = result.scalar_one_or_none()
     if not run:
         raise HTTPException(status_code=404, detail="Run not found")
     return run
 
+
 @app.get("/runs/{run_id}/items", response_model=list[schemas.ResultItem])
 async def get_run_items(run_id: str, db: AsyncSession = Depends(get_db)):
     """Get items for a specific run."""
     from sqlalchemy import select
+
     # Verify run exists first
     result = await db.execute(select(models.AnalysisRun).where(models.AnalysisRun.id == run_id))
     if not result.scalar_one_or_none():
@@ -596,6 +653,7 @@ async def get_run_items(run_id: str, db: AsyncSession = Depends(get_db)):
     return result.scalars().all()
 
     return result.scalars().all()
+
 
 @app.websocket("/ws/status/{run_id}")
 async def websocket_endpoint(websocket: WebSocket, run_id: str):
@@ -615,17 +673,20 @@ async def websocket_endpoint(websocket: WebSocket, run_id: str):
 async def dashboard_home(
     request: Request,
     db: AsyncSession = Depends(get_db),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Render the dashboard home page."""
     if not user:
         return RedirectResponse(url="/login")
 
     from sqlalchemy import select
+
     # Fetch recent runs (optionally filter by user)
-    query = select(models.AnalysisRun).order_by(models.AnalysisRun.timestamp.asc()) # Get all for chart, sorted by time
+    query = select(models.AnalysisRun).order_by(
+        models.AnalysisRun.timestamp.asc()
+    )  # Get all for chart, sorted by time
     if user:
-         query = query.where(models.AnalysisRun.user_id == user.id)
+        query = query.where(models.AnalysisRun.user_id == user.id)
 
     result = await db.execute(query)
     all_runs = result.scalars().all()
@@ -645,19 +706,25 @@ async def dashboard_home(
             # In a real app, we'd have a specific relevance score.
             # Let's use retrieval precision as a proxy for "Relevance" in this demo chart.
             retrieval = metrics.get("retrieval_stats", {})
-            relevance_scores.append(retrieval.get("precision", 0) if isinstance(retrieval, dict) else 0)
+            relevance_scores.append(
+                retrieval.get("precision", 0) if isinstance(retrieval, dict) else 0
+            )
 
     # Recent runs for table (reverse order)
     runs = sorted(all_runs, key=lambda x: x.timestamp, reverse=True)[:20]
 
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "runs": runs,
-        "user": user,
-        "dates": dates,
-        "faithfulness_scores": faithfulness_scores,
-        "relevance_scores": relevance_scores
-    })
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "runs": runs,
+            "user": user,
+            "dates": dates,
+            "faithfulness_scores": faithfulness_scores,
+            "relevance_scores": relevance_scores,
+        },
+    )
+
 
 @app.get("/runs/{run_id}/ui", response_class=HTMLResponse)
 async def run_details_ui(request: Request, run_id: str, db: AsyncSession = Depends(get_db)):
@@ -671,21 +738,32 @@ async def run_details_ui(request: Request, run_id: str, db: AsyncSession = Depen
         raise HTTPException(status_code=404, detail="Run not found")
 
     # Fetch items
-    result_items = await db.execute(select(models.ResultItem).where(models.ResultItem.run_id == run_id))
+    result_items = await db.execute(
+        select(models.ResultItem).where(models.ResultItem.run_id == run_id)
+    )
     items = result_items.scalars().all()
 
-    return templates.TemplateResponse("run_details.html", {"request": request, "run": run, "items": items})
+    return templates.TemplateResponse(
+        "run_details.html", {"request": request, "run": run, "items": items}
+    )
+
 
 @app.get("/compare", response_class=HTMLResponse)
-async def compare_runs_ui(request: Request, base_id: str, target_id: str, db: AsyncSession = Depends(get_db)):
+async def compare_runs_ui(
+    request: Request, base_id: str, target_id: str, db: AsyncSession = Depends(get_db)
+):
     """Render the comparison view between two runs."""
     from sqlalchemy import select
 
     # Fetch both runs
-    result_base = await db.execute(select(models.AnalysisRun).where(models.AnalysisRun.id == base_id))
+    result_base = await db.execute(
+        select(models.AnalysisRun).where(models.AnalysisRun.id == base_id)
+    )
     run_base = result_base.scalar_one_or_none()
 
-    result_target = await db.execute(select(models.AnalysisRun).where(models.AnalysisRun.id == target_id))
+    result_target = await db.execute(
+        select(models.AnalysisRun).where(models.AnalysisRun.id == target_id)
+    )
     run_target = result_target.scalar_one_or_none()
 
     if not run_base or not run_target:
@@ -704,15 +782,19 @@ async def compare_runs_ui(request: Request, base_id: str, target_id: str, db: As
             "base": val_base,
             "target": val_target,
             "diff": val_target - val_base,
-            "pct_change": ((val_target - val_base) / val_base * 100) if val_base != 0 else 0
+            "pct_change": ((val_target - val_base) / val_base * 100) if val_base != 0 else 0,
         }
 
-    return templates.TemplateResponse("compare.html", {
-        "request": request,
-        "run_base": run_base,
-        "run_target": run_target,
-        "metrics_diff": metrics_diff
-    })
+    return templates.TemplateResponse(
+        "compare.html",
+        {
+            "request": request,
+            "run_base": run_base,
+            "run_target": run_target,
+            "metrics_diff": metrics_diff,
+        },
+    )
+
 
 @app.get("/versions", response_class=HTMLResponse)
 async def versions_ui(request: Request, db: AsyncSession = Depends(get_db)):
@@ -731,19 +813,20 @@ async def versions_ui(request: Request, db: AsyncSession = Depends(get_db)):
 
     return templates.TemplateResponse("versions.html", {"request": request, "versions": versions})
 
+
 # === Real-time Metrics WebSocket ===
 @app.websocket("/ws/metrics")
 async def websocket_metrics(websocket: WebSocket):
     """WebSocket endpoint for real-time metrics"""
     from .realtime import stream_metrics
+
     await stream_metrics(websocket)
+
 
 # === Webhook Management Routes ===
 @app.post("/api/webhooks/register")
 async def register_webhook(
-    url: str,
-    events: list[str],
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    url: str, events: list[str], user: Optional[models.User] = Depends(get_current_user_from_cookie)
 ):
     """Register a new webhook"""
     from raglint.webhooks import WebhookEvent, webhook_manager
@@ -756,6 +839,7 @@ async def register_webhook(
 
     return {"status": "registered", "url": url}
 
+
 @app.get("/api/webhooks/list")
 async def list_webhooks(user: Optional[models.User] = Depends(get_current_user_from_cookie)):
     """List registered webhooks"""
@@ -766,12 +850,15 @@ async def list_webhooks(user: Optional[models.User] = Depends(get_current_user_f
 
     return {"webhooks": webhook_manager.webhooks}
 
+
 # === OAuth Routes ===
 @app.get("/auth/google/login")
 async def google_login_route(request: Request):
     """Initiate Google OAuth login"""
     from .oauth import google_login
+
     return await google_login(request)
+
 
 @app.get("/auth/google/callback")
 async def google_callback_route(request: Request, db: AsyncSession = Depends(get_db)):
@@ -782,7 +869,7 @@ async def google_callback_route(request: Request, db: AsyncSession = Depends(get
     from .oauth import google_callback
 
     user_info = await google_callback(request)
-    email = user_info.get('email')
+    email = user_info.get("email")
 
     # Find or create user
     result = await db.execute(select(models.User).where(models.User.email == email))
@@ -800,11 +887,14 @@ async def google_callback_route(request: Request, db: AsyncSession = Depends(get
     response.set_cookie(key="access_token", value=access_token, httponly=True)
     return response
 
+
 @app.get("/auth/github/login")
 async def github_login_route(request: Request):
     """Initiate GitHub OAuth login"""
     from .oauth import github_login
+
     return await github_login(request)
+
 
 @app.get("/auth/github/callback")
 async def github_callback_route(request: Request, db: AsyncSession = Depends(get_db)):
@@ -815,7 +905,7 @@ async def github_callback_route(request: Request, db: AsyncSession = Depends(get
     from .oauth import github_callback
 
     user_info = await github_callback(request)
-    email = user_info.get('email')
+    email = user_info.get("email")
 
     if not email:
         raise HTTPException(status_code=400, detail="Email not provided by GitHub")
@@ -835,12 +925,13 @@ async def github_callback_route(request: Request, db: AsyncSession = Depends(get
     response.set_cookie(key="access_token", value=access_token, httponly=True)
     return response
 
+
 # === Batch API Routes ===
 @app.post("/api/batch/analyze")
 async def batch_analyze(
     request: schemas.AnalyzeRequest,
     background_tasks: BackgroundTasks,
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Start a batch analysis job for large datasets"""
     from .batch import create_batch_job
@@ -852,8 +943,11 @@ async def batch_analyze(
 
     return {"job_id": job_id, "status": "started"}
 
+
 @app.get("/api/batch/status/{job_id}")
-async def batch_status(job_id: str, user: Optional[models.User] = Depends(get_current_user_from_cookie)):
+async def batch_status(
+    job_id: str, user: Optional[models.User] = Depends(get_current_user_from_cookie)
+):
     """Get the status of a batch job"""
     from .batch import get_batch_job_status
 
@@ -862,8 +956,11 @@ async def batch_status(job_id: str, user: Optional[models.User] = Depends(get_cu
 
     return get_batch_job_status(job_id)
 
+
 @app.get("/api/batch/results/{job_id}")
-async def batch_results(job_id: str, user: Optional[models.User] = Depends(get_current_user_from_cookie)):
+async def batch_results(
+    job_id: str, user: Optional[models.User] = Depends(get_current_user_from_cookie)
+):
     """Get the results of a completed batch job"""
     from .batch import get_batch_job_results
 
@@ -872,12 +969,13 @@ async def batch_results(job_id: str, user: Optional[models.User] = Depends(get_c
 
     return get_batch_job_results(job_id)
 
+
 # === PDF Export Route ===
 @app.get("/runs/{run_id}/export/pdf")
 async def export_run_pdf(
     run_id: str,
     db: AsyncSession = Depends(get_db),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Export run as PDF"""
     if not user:
@@ -895,48 +993,48 @@ async def export_run_pdf(
         raise HTTPException(status_code=404, detail="Run not found")
 
     # Get items
-    result = await db.execute(
-        select(models.ResultItem).where(models.ResultItem.run_id == run_id)
-    )
+    result = await db.execute(select(models.ResultItem).where(models.ResultItem.run_id == run_id))
     items = result.scalars().all()
 
     # Convert to dicts
-    run_dict = {
-        "id": run.id,
-        "metrics_summary": run.metrics_summary,
-        "timestamp": run.timestamp
-    }
+    run_dict = {"id": run.id, "metrics_summary": run.metrics_summary, "timestamp": run.timestamp}
     items_list = [
-        {
-            "query": item.query,
-            "response": item.response,
-            "metrics": item.metrics
-        }
-        for item in items
+        {"query": item.query, "response": item.response, "metrics": item.metrics} for item in items
     ]
 
     # Generate PDF
     pdf_bytes = generate_pdf_report(run_dict, items_list)
 
     from fastapi.responses import Response
+
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",
-        headers={
-            "Content-Disposition": f"attachment; filename=raglint_run_{run_id[:8]}.pdf"
-        }
+        headers={"Content-Disposition": f"attachment; filename=raglint_run_{run_id[:8]}.pdf"},
     )
 
+
 @app.get("/datasets", response_class=HTMLResponse)
-async def datasets_list(request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie), db: AsyncSession = Depends(get_db)):
+async def datasets_list(
+    request: Request,
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
+    db: AsyncSession = Depends(get_db),
+):
     """List all datasets."""
     if not user:
         return RedirectResponse(url="/login")
 
-    result = await db.execute(select(models.Dataset).where(models.Dataset.user_id == user.id).order_by(models.Dataset.created_at.desc()))
+    result = await db.execute(
+        select(models.Dataset)
+        .where(models.Dataset.user_id == user.id)
+        .order_by(models.Dataset.created_at.desc())
+    )
     datasets = result.scalars().all()
 
-    return templates.TemplateResponse("datasets.html", {"request": request, "datasets": datasets, "user": user})
+    return templates.TemplateResponse(
+        "datasets.html", {"request": request, "datasets": datasets, "user": user}
+    )
+
 
 @app.post("/datasets", response_class=HTMLResponse)
 async def datasets_create(
@@ -945,7 +1043,7 @@ async def datasets_create(
     description: str = Form(""),
     file: UploadFile = File(...),
     user: Optional[models.User] = Depends(get_current_user_from_cookie),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """Create a new dataset from CSV/JSON."""
     if not user:
@@ -954,7 +1052,7 @@ async def datasets_create(
     # Create Dataset
     dataset = models.Dataset(name=name, description=description, user_id=user.id)
     db.add(dataset)
-    await db.flush() # Get ID
+    await db.flush()  # Get ID
 
     # Parse File
     content = await file.read()
@@ -970,6 +1068,7 @@ async def datasets_create(
         elif file.filename.endswith(".json"):
             # Parse JSON
             import json
+
             items = json.loads(content)
             if not isinstance(items, list):
                 raise ValueError("JSON must be a list of objects")
@@ -987,32 +1086,45 @@ async def datasets_create(
 
     return RedirectResponse(url="/datasets", status_code=303)
 
+
 @app.get("/datasets/{dataset_id}", response_class=HTMLResponse)
 async def datasets_detail(
     request: Request,
     dataset_id: str,
     user: Optional[models.User] = Depends(get_current_user_from_cookie),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
     """View dataset details."""
     if not user:
         return RedirectResponse(url="/login")
 
     # Get Dataset
-    result = await db.execute(select(models.Dataset).where(models.Dataset.id == dataset_id, models.Dataset.user_id == user.id))
+    result = await db.execute(
+        select(models.Dataset).where(
+            models.Dataset.id == dataset_id, models.Dataset.user_id == user.id
+        )
+    )
     dataset = result.scalar_one_or_none()
 
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found")
 
     # Get Items
-    result = await db.execute(select(models.DatasetItem).where(models.DatasetItem.dataset_id == dataset_id))
+    result = await db.execute(
+        select(models.DatasetItem).where(models.DatasetItem.dataset_id == dataset_id)
+    )
     items = result.scalars().all()
 
-    return templates.TemplateResponse("dataset_detail.html", {"request": request, "dataset": dataset, "items": items, "user": user})
+    return templates.TemplateResponse(
+        "dataset_detail.html",
+        {"request": request, "dataset": dataset, "items": items, "user": user},
+    )
+
 
 @app.get("/traces", response_class=HTMLResponse)
-async def traces_ui(request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)):
+async def traces_ui(
+    request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)
+):
     """Render the traces page with tree visualization."""
     if not user:
         return RedirectResponse(url="/login")
@@ -1023,6 +1135,7 @@ async def traces_ui(request: Request, user: Optional[models.User] = Depends(get_
 
     if os.path.exists(trace_file):
         import json
+
         try:
             with open(trace_file) as f:
                 # Read all lines
@@ -1075,11 +1188,15 @@ async def traces_ui(request: Request, user: Optional[models.User] = Depends(get_
     # Limit to last 50 root traces for performance
     trace_trees = trace_trees[:50]
 
-    return templates.TemplateResponse("traces.html", {"request": request, "traces": trace_trees, "user": user})
+    return templates.TemplateResponse(
+        "traces.html", {"request": request, "traces": trace_trees, "user": user}
+    )
 
 
 @app.get("/marketplace", response_class=HTMLResponse)
-async def marketplace_ui(request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)):
+async def marketplace_ui(
+    request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)
+):
     """Render the plugin marketplace."""
     if not user:
         return RedirectResponse(url="/login")
@@ -1094,13 +1211,16 @@ async def marketplace_ui(request: Request, user: Optional[models.User] = Depends
     for p in available_plugins:
         p["installed"] = p["name"] in installed_names
 
-    return templates.TemplateResponse("marketplace.html", {"request": request, "plugins": available_plugins, "user": user})
+    return templates.TemplateResponse(
+        "marketplace.html", {"request": request, "plugins": available_plugins, "user": user}
+    )
+
 
 @app.post("/marketplace/install", response_class=HTMLResponse)
 async def marketplace_install(
     request: Request,
     plugin_name: str = Form(...),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Install a plugin."""
     if not user:
@@ -1121,8 +1241,7 @@ async def marketplace_install(
 
 @app.get("/analytics", response_class=HTMLResponse)
 async def analytics_page(
-    request: Request,
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    request: Request, user: Optional[models.User] = Depends(get_current_user_from_cookie)
 ):
     # Placeholder page for now
     return templates.TemplateResponse("analytics.html", {"request": request, "user": user})
@@ -1133,7 +1252,7 @@ async def get_drift_analysis(
     metric_name: str,
     threshold: float = 0.15,
     db: AsyncSession = Depends(get_db),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Get drift analysis for a specific metric."""
     try:
@@ -1146,10 +1265,7 @@ async def get_drift_analysis(
         # Convert to dict format
         historical_data = []
         for run in runs:
-            historical_data.append({
-                "timestamp": run.timestamp,
-                "metrics": run.metrics or {}
-            })
+            historical_data.append({"timestamp": run.timestamp, "metrics": run.metrics or {}})
 
         # Perform drift detection
         detector = DriftDetector()
@@ -1165,7 +1281,7 @@ async def get_drift_analysis(
 async def get_cohort_analysis(
     group_by: str = "config_hash",
     db: AsyncSession = Depends(get_db),
-    user: Optional[models.User] = Depends(get_current_user_from_cookie)
+    user: Optional[models.User] = Depends(get_current_user_from_cookie),
 ):
     """Get cohort analysis."""
     try:
@@ -1178,11 +1294,13 @@ async def get_cohort_analysis(
         # Convert to dict format
         runs_data = []
         for run in runs:
-            runs_data.append({
-                "config_hash": run.config_hash,
-                "tags": run.tags or [],
-                "metrics": run.metrics or {}
-            })
+            runs_data.append(
+                {
+                    "config_hash": run.config_hash,
+                    "tags": run.tags or [],
+                    "metrics": run.metrics or {},
+                }
+            )
 
         # Perform cohort analysis
         analyzer = CohortAnalyzer()
@@ -1193,6 +1311,8 @@ async def get_cohort_analysis(
         logger.error(f"Error in cohort analysis: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("raglint.dashboard.app:app", host="0.0.0.0", port=8000, reload=True)

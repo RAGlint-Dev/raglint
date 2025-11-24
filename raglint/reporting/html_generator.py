@@ -11,7 +11,7 @@ def generate_html_report(results: dict, output_file: str = "raglint_report.html"
     template_dir = os.path.join(os.path.dirname(__file__), "templates")
     env = Environment(
         loader=FileSystemLoader(template_dir),
-        autoescape=True  # Security: Enable autoescape to prevent XSS
+        autoescape=True,  # Security: Enable autoescape to prevent XSS
     )
     template = env.get_template("report.html")
 

@@ -15,6 +15,7 @@ from raglint.llm import LLMFactory
 
 logger = logging.getLogger(__name__)
 
+
 class TestsetGenerator:
     """Generates synthetic testsets from documents."""
 
@@ -92,10 +93,10 @@ class TestsetGenerator:
 
             return {
                 "query": data["question"],
-                "response": "", # Empty response for evaluation (model needs to generate this)
+                "response": "",  # Empty response for evaluation (model needs to generate this)
                 "ground_truth": data["answer"],
                 "ground_truth_contexts": [chunk],
-                "retrieved_contexts": [] # Empty for evaluation input
+                "retrieved_contexts": [],  # Empty for evaluation input
             }
         except Exception as e:
             logger.error(f"Failed to generate QA pair: {e}")
@@ -119,7 +120,7 @@ class TestsetGenerator:
         import re
 
         # Split into sentences using robust regex
-        sentence_endings = re.compile(r'(?<=[.!?])\s+')
+        sentence_endings = re.compile(r"(?<=[.!?])\s+")
         sentences = sentence_endings.split(text)
 
         chunks = []
@@ -131,7 +132,7 @@ class TestsetGenerator:
 
             # If adding this sentence exceeds chunk_size, finalize current chunk
             if current_size + sentence_len > chunk_size and current_chunk:
-                chunk_text = ' '.join(current_chunk)
+                chunk_text = " ".join(current_chunk)
                 if len(chunk_text) > 50:  # Filter very small chunks
                     chunks.append(chunk_text)
 
@@ -154,7 +155,7 @@ class TestsetGenerator:
 
         # Add final chunk
         if current_chunk:
-            chunk_text = ' '.join(current_chunk)
+            chunk_text = " ".join(current_chunk)
             if len(chunk_text) > 50:
                 chunks.append(chunk_text)
 

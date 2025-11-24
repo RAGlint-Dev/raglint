@@ -6,12 +6,14 @@ logger = logging.getLogger(__name__)
 _sentence_transformer = None
 _util = None
 
+
 def _ensure_dependencies():
     """Lazy load sentence-transformers to avoid import issues."""
     global _sentence_transformer, _util
     if _sentence_transformer is None:
         try:
             from sentence_transformers import SentenceTransformer, util
+
             _sentence_transformer = SentenceTransformer
             _util = util
         except ImportError as e:

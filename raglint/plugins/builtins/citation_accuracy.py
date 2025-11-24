@@ -3,6 +3,7 @@ Citation Accuracy Plugin - Verifies that citations in answers are accurate.
 
 Checks if responses properly cite sources and if cited information exists in context.
 """
+
 import re
 
 from raglint.plugins.interface import PluginInterface
@@ -28,9 +29,9 @@ class CitationAccuracyPlugin(PluginInterface):
         # Extract citation patterns
         # Supports: [1], [2], (Author, Year), etc.
         citation_patterns = [
-            r'\[(\d+)\]',  # [1], [2]
-            r'\(([A-Z][a-z]+,?\s+\d{4})\)',  # (Smith, 2020)
-            r'\(([A-Z][a-z]+\s+et\s+al\.,?\s+\d{4})\)',  # (Smith et al., 2020)
+            r"\[(\d+)\]",  # [1], [2]
+            r"\(([A-Z][a-z]+,?\s+\d{4})\)",  # (Smith, 2020)
+            r"\(([A-Z][a-z]+\s+et\s+al\.,?\s+\d{4})\)",  # (Smith et al., 2020)
         ]
 
         citations_found = []
@@ -41,7 +42,12 @@ class CitationAccuracyPlugin(PluginInterface):
         if not citations_found:
             # No citations found - perfect score if no claims made
             # Lower score if response makes factual claims without citations
-            claim_indicators = ['according to', 'studies show', 'research indicates', 'data suggests']
+            claim_indicators = [
+                "according to",
+                "studies show",
+                "research indicates",
+                "data suggests",
+            ]
             if any(indicator in response.lower() for indicator in claim_indicators):
                 return 0.5  # Claims made but no citations
             return 1.0  # No citations needed
@@ -50,7 +56,7 @@ class CitationAccuracyPlugin(PluginInterface):
         verified_count = 0
         for citation in citations_found:
             # Check if citation content appears in any context
-            if re.match(r'^\d+$', str(citation)):
+            if re.match(r"^\d+$", str(citation)):
                 # Numeric citation [1]
                 try:
                     idx = int(citation) - 1
@@ -61,7 +67,11 @@ class CitationAccuracyPlugin(PluginInterface):
             else:
                 # Author-year citation
                 # Check if author name appears in contexts
-                author_name = citation.split(',')[0].split()[0] if ',' in str(citation) else str(citation).split()[0]
+                author_name = (
+                    citation.split(",")[0].split()[0]
+                    if "," in str(citation)
+                    else str(citation).split()[0]
+                )
                 if any(author_name.lower() in ctx.lower() for ctx in context):
                     verified_count += 1
 

@@ -36,13 +36,13 @@ class BedrockLLM(BaseLLM):
 
     def generate(self, prompt: str) -> str:
         """Generate text using Bedrock."""
-        body = json.dumps({
-            "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": 1000,
-            "messages": [
-                {"role": "user", "content": prompt}
-            ]
-        })
+        body = json.dumps(
+            {
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1000,
+                "messages": [{"role": "user", "content": prompt}],
+            }
+        )
 
         try:
             response = self.client.invoke_model(

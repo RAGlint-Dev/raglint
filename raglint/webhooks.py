@@ -12,14 +12,17 @@ import aiohttp
 
 logger = logging.getLogger(__name__)
 
+
 class WebhookEvent(str, Enum):
     """Types of events that can trigger webhooks"""
+
     RUN_COMPLETED = "run.completed"
     RUN_FAILED = "run.failed"
     METRIC_THRESHOLD_BREACH = "metric.threshold_breach"
     HIGH_LATENCY = "trace.high_latency"
     ERROR_OCCURRED = "trace.error"
     DAILY_SUMMARY = "summary.daily"
+
 
 class WebhookManager:
     """
@@ -42,13 +45,15 @@ class WebhookManager:
             except:
                 logger.warning("Failed to parse RAGLINT_WEBHOOKS")
 
-    def register_webhook(self, url: str, events: list[WebhookEvent], headers: Optional[dict[str, str]] = None):
+    def register_webhook(
+        self, url: str, events: list[WebhookEvent], headers: Optional[dict[str, str]] = None
+    ):
         """Register a new webhook"""
         webhook = {
             "url": url,
             "events": [e.value for e in events],
             "headers": headers or {},
-            "enabled": True
+            "enabled": True,
         }
         self.webhooks.append(webhook)
 
@@ -57,8 +62,7 @@ class WebhookManager:
         Trigger webhooks for a specific event
         """
         matching_webhooks = [
-            wh for wh in self.webhooks
-            if wh["enabled"] and event.value in wh["events"]
+            wh for wh in self.webhooks if wh["enabled"] and event.value in wh["events"]
         ]
 
         if not matching_webhooks:
@@ -68,7 +72,7 @@ class WebhookManager:
         webhook_payload = {
             "event": event.value,
             "timestamp": payload.get("timestamp"),
-            "data": payload
+            "data": payload,
         }
 
         # Send to all matching webhooks
@@ -86,7 +90,7 @@ class WebhookManager:
                     webhook["url"],
                     json=payload,
                     headers=webhook.get("headers", {}),
-                    timeout=aiohttp.ClientTimeout(total=10)
+                    timeout=aiohttp.ClientTimeout(total=10),
                 ) as resp:
                     if resp.status >= 400:
                         logger.error(f"Webhook failed: {webhook['url']} - {resp.status}")
@@ -95,20 +99,19 @@ class WebhookManager:
         except Exception as e:
             logger.error(f"Webhook error: {webhook['url']} - {e}")
 
+
 # Global instance
 webhook_manager = WebhookManager()
+
 
 # Helper functions
 async def trigger_run_completed(run_id: str, metrics: dict[str, float]):
     """Trigger webhook when a run completes"""
     await webhook_manager.trigger(
         WebhookEvent.RUN_COMPLETED,
-        {
-            "run_id": run_id,
-            "metrics": metrics,
-            "timestamp": datetime.utcnow().isoformat()
-        }
+        {"run_id": run_id, "metrics": metrics, "timestamp": datetime.utcnow().isoformat()},
     )
+
 
 async def trigger_metric_breach(metric_name: str, value: float, threshold: float):
     """Trigger webhook when metric breaches threshold"""
@@ -119,8 +122,9 @@ async def trigger_metric_breach(metric_name: str, value: float, threshold: float
             "value": value,
             "threshold": threshold,
             "severity": "high" if value < threshold * 0.8 else "medium",
-            "timestamp": datetime.utcnow().isoformat()
-        }
+            "timestamp": datetime.utcnow().isoformat(),
+        },
     )
+
 
 from datetime import datetime

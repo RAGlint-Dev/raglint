@@ -19,6 +19,7 @@ class Monitor:
     """
     Singleton monitor to manage tracing and logging.
     """
+
     _instance = None
 
     def __new__(cls):
@@ -37,7 +38,7 @@ class Monitor:
             "event_id": str(uuid.uuid4()),
             "timestamp": datetime.utcnow().isoformat(),
             "type": event_type,
-            **data
+            **data,
         }
 
         with open(self.trace_file, "a", encoding="utf-8") as f:
@@ -46,19 +47,26 @@ class Monitor:
         # Check for alerts
         if event_type == "end" and data.get("status") == "error":
             from raglint.alerting import AlertManager
+
             AlertManager().send_alert_sync(
                 title="Operation Failed",
                 message=f"Operation '{data.get('operation')}' failed.",
                 level="error",
-                details={"Error": data.get("error"), "Trace ID": data.get("trace_id")}
+                details={"Error": data.get("error"), "Trace ID": data.get("trace_id")},
             )
-        elif event_type == "end" and data.get("latency_seconds", 0) > 5.0: # Latency threshold example
-             from raglint.alerting import AlertManager
-             AlertManager().send_alert_sync(
+        elif (
+            event_type == "end" and data.get("latency_seconds", 0) > 5.0
+        ):  # Latency threshold example
+            from raglint.alerting import AlertManager
+
+            AlertManager().send_alert_sync(
                 title="High Latency Detected",
                 message=f"Operation '{data.get('operation')}' took {data.get('latency_seconds'):.2f}s.",
                 level="warning",
-                details={"Latency": f"{data.get('latency_seconds'):.2f}s", "Trace ID": data.get("trace_id")}
+                details={
+                    "Latency": f"{data.get('latency_seconds'):.2f}s",
+                    "Trace ID": data.get("trace_id"),
+                },
             )
 
     def disable(self):
@@ -73,7 +81,7 @@ def watch(
     name: Optional[str] = None,
     log_inputs: bool = True,
     log_outputs: bool = True,
-    tags: Optional[list[str]] = None
+    tags: Optional[list[str]] = None,
 ):
     """
     Decorator to automatically log function calls.
@@ -83,6 +91,7 @@ def watch(
         def retrieve(query):
             ...
     """
+
     def decorator(func: Callable):
         operation_name = name or func.__name__
         monitor = Monitor()
@@ -102,14 +111,20 @@ def watch(
                     bound.apply_defaults()
                     inputs = dict(bound.arguments)
                 except Exception:
-                    inputs = {"args": [str(a) for a in args], "kwargs": {k: str(v) for k, v in kwargs.items()}}
+                    inputs = {
+                        "args": [str(a) for a in args],
+                        "kwargs": {k: str(v) for k, v in kwargs.items()},
+                    }
 
-            monitor.log_event("start", {
-                "trace_id": trace_id,
-                "operation": operation_name,
-                "inputs": inputs if log_inputs else None,
-                "tags": tags or []
-            })
+            monitor.log_event(
+                "start",
+                {
+                    "trace_id": trace_id,
+                    "operation": operation_name,
+                    "inputs": inputs if log_inputs else None,
+                    "tags": tags or [],
+                },
+            )
 
             try:
                 result = await func(*args, **kwargs)
@@ -122,14 +137,17 @@ def watch(
                 raise e
             finally:
                 latency = time.time() - start_time
-                monitor.log_event("end", {
-                    "trace_id": trace_id,
-                    "operation": operation_name,
-                    "outputs": result if log_outputs and status == "success" else None,
-                    "latency_seconds": latency,
-                    "status": status,
-                    "error": error
-                })
+                monitor.log_event(
+                    "end",
+                    {
+                        "trace_id": trace_id,
+                        "operation": operation_name,
+                        "outputs": result if log_outputs and status == "success" else None,
+                        "latency_seconds": latency,
+                        "status": status,
+                        "error": error,
+                    },
+                )
 
             return result
 
@@ -147,14 +165,20 @@ def watch(
                     bound.apply_defaults()
                     inputs = dict(bound.arguments)
                 except Exception:
-                    inputs = {"args": [str(a) for a in args], "kwargs": {k: str(v) for k, v in kwargs.items()}}
+                    inputs = {
+                        "args": [str(a) for a in args],
+                        "kwargs": {k: str(v) for k, v in kwargs.items()},
+                    }
 
-            monitor.log_event("start", {
-                "trace_id": trace_id,
-                "operation": operation_name,
-                "inputs": inputs if log_inputs else None,
-                "tags": tags or []
-            })
+            monitor.log_event(
+                "start",
+                {
+                    "trace_id": trace_id,
+                    "operation": operation_name,
+                    "inputs": inputs if log_inputs else None,
+                    "tags": tags or [],
+                },
+            )
 
             try:
                 result = func(*args, **kwargs)
@@ -167,14 +191,17 @@ def watch(
                 raise e
             finally:
                 latency = time.time() - start_time
-                monitor.log_event("end", {
-                    "trace_id": trace_id,
-                    "operation": operation_name,
-                    "outputs": result if log_outputs and status == "success" else None,
-                    "latency_seconds": latency,
-                    "status": status,
-                    "error": error
-                })
+                monitor.log_event(
+                    "end",
+                    {
+                        "trace_id": trace_id,
+                        "operation": operation_name,
+                        "outputs": result if log_outputs and status == "success" else None,
+                        "latency_seconds": latency,
+                        "status": status,
+                        "error": error,
+                    },
+                )
 
             return result
 

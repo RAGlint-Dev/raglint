@@ -3,6 +3,7 @@ User Intent Classifier - Classifies query intent and validates response alignmen
 
 Helps ensure responses match what the user is actually asking for.
 """
+
 from typing import Any
 
 from raglint.plugins.interface import PluginInterface
@@ -26,28 +27,24 @@ class UserIntentPlugin(PluginInterface):
 
     # Intent detection patterns
     INTENT_PATTERNS = {
-        'factual': ['what is', 'who is', 'when', 'where', 'define', 'explain'],
-        'instructional': ['how to', 'how do', 'how can', 'steps', 'guide', 'tutorial'],
-        'comparison': ['compare', 'vs', 'versus', 'better', 'difference', 'which'],
-        'troubleshooting': ['error', 'problem', 'issue', 'fix', 'not working', 'broken'],
-        'transactional': ['buy', 'purchase', 'order', 'subscribe', 'cancel', 'refund'],
+        "factual": ["what is", "who is", "when", "where", "define", "explain"],
+        "instructional": ["how to", "how do", "how can", "steps", "guide", "tutorial"],
+        "comparison": ["compare", "vs", "versus", "better", "difference", "which"],
+        "troubleshooting": ["error", "problem", "issue", "fix", "not working", "broken"],
+        "transactional": ["buy", "purchase", "order", "subscribe", "cancel", "refund"],
     }
 
     # Expected response characteristics
     EXPECTED_FEATURES = {
-        'factual': ['definitional', 'numbers', 'dates'],
-        'instructional': ['steps', 'numbered list', 'first', 'then', 'finally'],
-        'comparison': ['whereas', 'while', 'but', 'however', 'better', 'worse'],
-        'troubleshooting': ['try', 'check', 'ensure', 'verify', 'solution'],
-        'transactional': ['click', 'go to', 'button', 'link', 'form'],
+        "factual": ["definitional", "numbers", "dates"],
+        "instructional": ["steps", "numbered list", "first", "then", "finally"],
+        "comparison": ["whereas", "while", "but", "however", "better", "worse"],
+        "troubleshooting": ["try", "check", "ensure", "verify", "solution"],
+        "transactional": ["click", "go to", "button", "link", "form"],
     }
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs: Any
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
     ) -> dict[str, Any]:
         """Classify intent and check alignment."""
 
@@ -60,9 +57,11 @@ class UserIntentPlugin(PluginInterface):
         return {
             "score": round(alignment, 3),
             "detected_intent": intent,
-            "alignment_quality": "excellent" if alignment >= 0.8 else "good" if alignment >= 0.6 else "poor",
+            "alignment_quality": (
+                "excellent" if alignment >= 0.8 else "good" if alignment >= 0.6 else "poor"
+            ),
             "recommendation": self._get_recommendation(intent, alignment),
-            "query_type": intent if intent != 'unclear' else "Unable to determine"
+            "query_type": intent if intent != "unclear" else "Unable to determine",
         }
 
     def _classify_intent(self, query: str) -> str:
@@ -77,14 +76,14 @@ class UserIntentPlugin(PluginInterface):
                 scores[intent] = score
 
         if not scores:
-            return 'unclear'
+            return "unclear"
 
         # Return intent with highest score
         return max(scores, key=scores.get)
 
     def _check_alignment(self, intent: str, response: str) -> float:
         """Check if response aligns with detected intent."""
-        if intent == 'unclear':
+        if intent == "unclear":
             return 0.7  # Neutral score
 
         response_lower = response.lower()
@@ -102,15 +101,16 @@ class UserIntentPlugin(PluginInterface):
         base_alignment = matches / len(expected)
 
         # Boost for instructional if numbered/bullet points
-        if intent == 'instructional':
+        if intent == "instructional":
             import re
-            has_numbers = bool(re.search(r'\d+\.|\d+\)', response))
+
+            has_numbers = bool(re.search(r"\d+\.|\d+\)", response))
             if has_numbers:
                 base_alignment = min(1.0, base_alignment + 0.2)
 
         # Boost for comparison if contrasting words
-        if intent == 'comparison':
-            contrast_words = ['but', 'however', 'while', 'whereas', 'although']
+        if intent == "comparison":
+            contrast_words = ["but", "however", "while", "whereas", "although"]
             has_contrast = any(word in response_lower for word in contrast_words)
             if has_contrast:
                 base_alignment = min(1.0, base_alignment + 0.2)
@@ -124,11 +124,11 @@ class UserIntentPlugin(PluginInterface):
         elif alignment >= 0.6:
             return f"👍 Good alignment with {intent} intent"
         elif alignment >= 0.4:
-            if intent == 'instructional':
+            if intent == "instructional":
                 return "⚠️ Add step-by-step instructions for how-to query"
-            elif intent == 'comparison':
+            elif intent == "comparison":
                 return "⚠️ Add comparison language (better/worse, whereas, etc.)"
-            elif intent == 'troubleshooting':
+            elif intent == "troubleshooting":
                 return "⚠️ Provide actionable solutions and steps"
             else:
                 return f"⚠️ Response doesn't align well with {intent} query"
@@ -147,7 +147,7 @@ if __name__ == "__main__":
         result1 = await plugin.calculate_async(
             query="How do I reset my password?",
             response="1. Click 'Forgot Password'. 2. Enter your email. 3. Check your inbox for reset link.",
-            contexts=[]
+            contexts=[],
         )
         print("\nInstructional query:")
         print(f"  Intent: {result1['detected_intent']}")
@@ -158,7 +158,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="What's the difference between Plan A and Plan B?",
             response="Plan A is good.",
-            contexts=[]
+            contexts=[],
         )
         print("\nComparison query (poor response):")
         print(f"  Intent: {result2['detected_intent']}")
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         result3 = await plugin.calculate_async(
             query="What is the capital of France?",
             response="The capital of France is Paris, established as the capital in 987 AD.",
-            contexts=[]
+            contexts=[],
         )
         print("\nFactual query:")
         print(f"  Intent: {result3['detected_intent']}")

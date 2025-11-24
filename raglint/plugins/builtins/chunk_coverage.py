@@ -58,4 +58,4 @@ class ChunkCoveragePlugin(MetricPlugin):
         # Normalize score
         # This is a heuristic: ratio of overlap to total context length
         # Higher means more of the context was useful
-        return min(1.0, (total_overlap / total_tokens) * 5) # Scale up a bit as exact match is rare
+        return min(1.0, (total_overlap / total_tokens) * 5)  # Scale up a bit as exact match is rare

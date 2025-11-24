@@ -22,7 +22,9 @@ class ContextPrecisionScorer:
 
     def __init__(self, llm: BaseLLM, prompt_template: Optional[str] = None):
         self.llm = llm
-        self.prompt_template = prompt_template or """
+        self.prompt_template = (
+            prompt_template
+            or """
         Query: {query}
 
         Context Chunk:
@@ -36,12 +38,10 @@ class ContextPrecisionScorer:
             "reasoning": "brief explanation"
         }}
         """
+        )
 
     async def ascore(
-        self,
-        query: str,
-        retrieved_contexts: list[str],
-        response: Optional[str] = None
+        self, query: str, retrieved_contexts: list[str], response: Optional[str] = None
     ) -> float:
         """
         Calculate context precision asynchronously.
@@ -74,13 +74,11 @@ class ContextPrecisionScorer:
         return relevant_count / len(retrieved_contexts)
 
     def score(
-        self,
-        query: str,
-        retrieved_contexts: list[str],
-        response: Optional[str] = None
+        self, query: str, retrieved_contexts: list[str], response: Optional[str] = None
     ) -> float:
         """Sync version of ascore."""
         import asyncio
+
         return asyncio.run(self.ascore(query, retrieved_contexts, response))
 
 
@@ -96,7 +94,9 @@ class ContextRecallScorer:
 
     def __init__(self, llm: Optional[BaseLLM] = None, prompt_template: Optional[str] = None):
         self.llm = llm
-        self.prompt_template = prompt_template or """
+        self.prompt_template = (
+            prompt_template
+            or """
         Ground Truth Statement:
         {statement}
 
@@ -111,12 +111,10 @@ class ContextRecallScorer:
             "reasoning": "brief explanation"
         }}
         """
+        )
 
     async def ascore(
-        self,
-        query: str,
-        retrieved_contexts: list[str],
-        ground_truth_contexts: list[str]
+        self, query: str, retrieved_contexts: list[str], ground_truth_contexts: list[str]
     ) -> float:
         """
         Calculate context recall asynchronously.
@@ -149,10 +147,7 @@ class ContextRecallScorer:
             statements.extend(self._split_sentences(gt))
 
         for statement in statements:
-            prompt = self.prompt_template.format(
-                statement=statement,
-                contexts=retrieved_text
-            )
+            prompt = self.prompt_template.format(statement=statement, contexts=retrieved_text)
 
             try:
                 result = await self.llm.generate_json(prompt)
@@ -166,19 +161,15 @@ class ContextRecallScorer:
         return statements_covered / len(statements) if statements else 1.0
 
     def score(
-        self,
-        query: str,
-        retrieved_contexts: list[str],
-        ground_truth_contexts: list[str]
+        self, query: str, retrieved_contexts: list[str], ground_truth_contexts: list[str]
     ) -> float:
         """Sync version of ascore."""
         import asyncio
+
         return asyncio.run(self.ascore(query, retrieved_contexts, ground_truth_contexts))
 
     def _simple_recall(
-        self,
-        retrieved_contexts: list[str],
-        ground_truth_contexts: list[str]
+        self, retrieved_contexts: list[str], ground_truth_contexts: list[str]
     ) -> float:
         """Fallback: simple substring matching."""
         retrieved_text = " ".join(retrieved_contexts).lower()
@@ -196,5 +187,6 @@ class ContextRecallScorer:
     def _split_sentences(self, text: str) -> list[str]:
         """Simple sentence splitter."""
         import re
-        sentences = re.split(r'[.!?]+', text)
+
+        sentences = re.split(r"[.!?]+", text)
         return [s.strip() for s in sentences if s.strip()]

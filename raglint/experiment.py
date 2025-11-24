@@ -16,6 +16,7 @@ from raglint.core import AnalysisResult, RAGPipelineAnalyzer
 @dataclass
 class ComparisonResult:
     """Result of comparing two RAG configurations."""
+
     control_result: AnalysisResult
     treatment_result: AnalysisResult
     control_name: str = "Control"
@@ -29,9 +30,13 @@ class ComparisonResult:
 
         # Add averages for list metrics
         if result.semantic_scores:
-            metrics["semantic_similarity"] = sum(result.semantic_scores) / len(result.semantic_scores)
+            metrics["semantic_similarity"] = sum(result.semantic_scores) / len(
+                result.semantic_scores
+            )
         if result.faithfulness_scores:
-            metrics["faithfulness"] = sum(result.faithfulness_scores) / len(result.faithfulness_scores)
+            metrics["faithfulness"] = sum(result.faithfulness_scores) / len(
+                result.faithfulness_scores
+            )
 
         return metrics
 
@@ -87,12 +92,7 @@ class ComparisonResult:
             else:
                 diff_str = "0.0%"
 
-            table.add_row(
-                key.replace("_", " ").title(),
-                f"{c_val:.4f}",
-                f"{t_val:.4f}",
-                diff_str
-            )
+            table.add_row(key.replace("_", " ").title(), f"{c_val:.4f}", f"{t_val:.4f}", diff_str)
 
         console.print(table)
 
@@ -102,9 +102,19 @@ class ComparisonResult:
         losses = sum(1 for k, v in diffs.items() if v < 0)
 
         if wins > losses:
-            console.print(Panel(f"[bold green]WINNER: {self.treatment_name}[/bold green]\nTreatment improved {wins} metrics.", title="Verdict"))
+            console.print(
+                Panel(
+                    f"[bold green]WINNER: {self.treatment_name}[/bold green]\nTreatment improved {wins} metrics.",
+                    title="Verdict",
+                )
+            )
         elif losses > wins:
-            console.print(Panel(f"[bold yellow]WINNER: {self.control_name}[/bold yellow]\nControl was better on {losses} metrics.", title="Verdict"))
+            console.print(
+                Panel(
+                    f"[bold yellow]WINNER: {self.control_name}[/bold yellow]\nControl was better on {losses} metrics.",
+                    title="Verdict",
+                )
+            )
         else:
             console.print(Panel("[bold blue]TIE[/bold blue]\nNo clear winner.", title="Verdict"))
 
@@ -116,7 +126,12 @@ class ExperimentRunner:
         self.control_config = control_config
         self.treatment_config = treatment_config
 
-    async def run(self, data: list[dict[str, Any]], control_name: str = "Control", treatment_name: str = "Treatment") -> ComparisonResult:
+    async def run(
+        self,
+        data: list[dict[str, Any]],
+        control_name: str = "Control",
+        treatment_name: str = "Treatment",
+    ) -> ComparisonResult:
         """
         Run experiment on dataset.
 
@@ -130,15 +145,14 @@ class ExperimentRunner:
         """
         print(f"Running analysis for {control_name}...")
         control_analyzer = RAGPipelineAnalyzer(
-            use_smart_metrics=True, # Assuming we want smart metrics for comparison
-            config=self._config_to_dict(self.control_config)
+            use_smart_metrics=True,  # Assuming we want smart metrics for comparison
+            config=self._config_to_dict(self.control_config),
         )
         control_result = await control_analyzer.analyze_async(data)
 
         print(f"Running analysis for {treatment_name}...")
         treatment_analyzer = RAGPipelineAnalyzer(
-            use_smart_metrics=True,
-            config=self._config_to_dict(self.treatment_config)
+            use_smart_metrics=True, config=self._config_to_dict(self.treatment_config)
         )
         treatment_result = await treatment_analyzer.analyze_async(data)
 
@@ -146,7 +160,7 @@ class ExperimentRunner:
             control_result=control_result,
             treatment_result=treatment_result,
             control_name=control_name,
-            treatment_name=treatment_name
+            treatment_name=treatment_name,
         )
 
     def _config_to_dict(self, config: Config) -> dict:

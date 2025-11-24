@@ -34,15 +34,22 @@ def cli(ctx, verbose, log_file):
 @click.argument("data_file", type=click.Path(exists=True))
 @click.option("--output", "-o", type=click.Path(), default="raglint_report.html")
 @click.option("--smart", is_flag=True, help="Enable smart metrics (LLM-based).")
-@click.option(
-    "--config", type=click.Path(exists=True), help="Path to raglint.yml config file."
-)
+@click.option("--config", type=click.Path(exists=True), help="Path to raglint.yml config file.")
 @click.option("--api-key", help="OpenAI API key (overrides config).")
-@click.option("--provider", type=click.Choice(["openai", "ollama", "mock"]), help="LLM provider to use.")
+@click.option(
+    "--provider", type=click.Choice(["openai", "ollama", "mock"]), help="LLM provider to use."
+)
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging.")
 @click.option("--log-file", type=click.Path(), help="Path to log file.")
 def analyze(
-    data_file, output, smart, config: str | None, api_key: str | None, provider: str | None, verbose, log_file
+    data_file,
+    output,
+    smart,
+    config: str | None,
+    api_key: str | None,
+    provider: str | None,
+    verbose,
+    log_file,
 ):
     """Analyze a RAG pipeline from DATA_FILE."""
     # Setup logging
@@ -95,15 +102,11 @@ def analyze(
         # Check if mock mode and warn user
         if use_smart and cfg.provider == "mock":
             click.echo()
-            click.echo(
-                "⚠️  WARNING: Running in MOCK MODE. Smart metrics will be fake (1.0)."
-            )
+            click.echo("⚠️  WARNING: Running in MOCK MODE. Smart metrics will be fake (1.0).")
             click.echo(
                 "   Configure 'provider: openai' or 'provider: ollama' in raglint.yml to use real metrics."
             )
-            click.echo(
-                "   Or use --provider ollama via CLI."
-            )
+            click.echo("   Or use --provider ollama via CLI.")
             click.echo()
 
         results = analyzer.analyze(data)
@@ -244,6 +247,7 @@ def config():
     """Manage RAGLint configuration."""
     pass
 
+
 @config.command()
 @click.option("-m", "--message", help="Description of this configuration version")
 @click.option("--config", "config_path", default="raglint.yaml", help="Path to configuration file")
@@ -261,6 +265,7 @@ def snapshot(message, config_path):
     try:
         cfg = Config.load(config_path)
         from dataclasses import asdict
+
         config_dict = asdict(cfg)
         # Canonical JSON for hashing
         config_json = json.dumps(config_dict, sort_keys=True)
@@ -274,7 +279,10 @@ def snapshot(message, config_path):
         async with SessionLocal() as session:
             # Check if exists
             from sqlalchemy import select
-            result = await session.execute(select(PipelineVersion).where(PipelineVersion.hash == config_hash))
+
+            result = await session.execute(
+                select(PipelineVersion).where(PipelineVersion.hash == config_hash)
+            )
             existing = result.scalar_one_or_none()
 
             if existing:
@@ -287,18 +295,17 @@ def snapshot(message, config_path):
 
             # Create new
             import uuid
+
             new_id = str(uuid.uuid4())
             version = PipelineVersion(
-                id=new_id,
-                hash=config_hash,
-                config=config_dict,
-                description=message
+                id=new_id, hash=config_hash, config=config_dict, description=message
             )
             session.add(version)
             await session.commit()
             click.echo(f"Created new configuration version: {new_id[:8]}")
 
     asyncio.run(_save_snapshot())
+
 
 @cli.command()
 @click.option("--host", default="127.0.0.1", help="Host to bind to")
@@ -313,10 +320,24 @@ def dashboard(host, port, reload):
 
 
 @cli.command("benchmark")
-@click.option("--dataset", "-d", type=click.Choice(["squad", "coqa", "hotpotqa"]), default="squad", help="Benchmark dataset to use")
+@click.option(
+    "--dataset",
+    "-d",
+    type=click.Choice(["squad", "coqa", "hotpotqa"]),
+    default="squad",
+    help="Benchmark dataset to use",
+)
 @click.option("--subset-size", "-n", type=int, default=50, help="Number of examples to evaluate")
-@click.option("--output", "-o", type=click.Path(dir_okay=False, writable=True), default=None, help="Output file for results")
-@click.option("--config-path", "--config", "-c", type=click.Path(exists=True, dir_okay=False), default=None)
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(dir_okay=False, writable=True),
+    default=None,
+    help="Output file for results",
+)
+@click.option(
+    "--config-path", "--config", "-c", type=click.Path(exists=True, dir_okay=False), default=None
+)
 @click.option("--show-progress/--no-progress", default=True)
 def benchmark(dataset, subset_size, output, config_path, show_progress):
     """Run RAGLint on a standard benchmark dataset."""
@@ -340,9 +361,9 @@ def benchmark(dataset, subset_size, output, config_path, show_progress):
             save_result(result, summary, output)
             click.echo(f"Results saved to: {output}")
         else:
-            click.echo("\n" + "="*60)
+            click.echo("\n" + "=" * 60)
             click.echo("BENCHMARK RESULTS")
-            click.echo("="*60)
+            click.echo("=" * 60)
             display_result(result, summary)
 
     except Exception as e:
@@ -374,7 +395,10 @@ def generate(input_file, count, output, api_key):
         cfg.provider = "openai"
 
     if not cfg.openai_api_key and cfg.provider == "openai":
-        click.echo("Error: OpenAI API key is required for generation. Set OPENAI_API_KEY env var or use --api-key.", err=True)
+        click.echo(
+            "Error: OpenAI API key is required for generation. Set OPENAI_API_KEY env var or use --api-key.",
+            err=True,
+        )
         sys.exit(1)
 
     click.echo(f"Generating {count} QA pairs from {input_file}...")
@@ -388,7 +412,7 @@ def generate(input_file, count, output, api_key):
             click.echo("Failed to generate any valid QA pairs.", err=True)
             sys.exit(1)
 
-        with open(output, 'w') as f:
+        with open(output, "w") as f:
             json.dump(results, f, indent=2)
 
         click.echo(f"✅ Successfully generated {len(results)} pairs.")
@@ -408,6 +432,7 @@ def cost():
     """Manage and estimate costs."""
     pass
 
+
 @cost.command(name="estimate")
 @click.argument("input_file", type=click.Path(exists=True))
 @click.option("--model", default="gpt-4o", help="Model to estimate cost for")
@@ -422,7 +447,9 @@ def estimate_cost(input_file, model):
     from raglint.tracking import LLM_PRICING
 
     if model not in LLM_PRICING:
-        click.echo(f"Error: Unknown model '{model}'. Available: {', '.join(LLM_PRICING.keys())}", err=True)
+        click.echo(
+            f"Error: Unknown model '{model}'. Available: {', '.join(LLM_PRICING.keys())}", err=True
+        )
         sys.exit(1)
 
     try:
@@ -444,7 +471,7 @@ def estimate_cost(input_file, model):
         # Semantic is embedding based (cheap), others are LLM based.
         metrics_count = 3
 
-        avg_input_tokens = 1000 # Conservative estimate
+        avg_input_tokens = 1000  # Conservative estimate
         avg_output_tokens = 200
 
         total_input = num_items * metrics_count * avg_input_tokens
@@ -465,6 +492,7 @@ def estimate_cost(input_file, model):
     except Exception as e:
         click.echo(f"Error: {e}", err=True)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     cli()

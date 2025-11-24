@@ -87,9 +87,7 @@ class ConsensusScorer:
     """Calculate consensus between multiple models or evaluations."""
 
     def calculate_consensus(
-        self,
-        scores: list[tuple[str, float]],
-        agreement_threshold: float = 0.1
+        self, scores: list[tuple[str, float]], agreement_threshold: float = 0.1
     ) -> dict:
         """
         Calculate consensus from multiple model scores.
@@ -106,7 +104,7 @@ class ConsensusScorer:
                 "consensus_score": scores[0][1] if scores else 0.0,
                 "agreement": True,
                 "confidence": "SINGLE_MODEL",
-                "models": [s[0] for s in scores]
+                "models": [s[0] for s in scores],
             }
 
         # Extract scores
@@ -135,5 +133,5 @@ class ConsensusScorer:
             "confidence": confidence,
             "score_range": score_range,
             "models": [s[0] for s in scores],
-            "individual_scores": {s[0]: s[1] for s in scores}
+            "individual_scores": {s[0]: s[1] for s in scores},
         }

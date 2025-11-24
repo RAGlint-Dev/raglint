@@ -12,12 +12,16 @@ from raglint.precision_mode import PrecisionMode
 
 
 @click.command()
-@click.argument('data_file', type=click.Path(exists=True))
-@click.option('--precision', is_flag=True, help='Enable 99%+ precision mode')
-@click.option('--confidence-threshold', default=0.90, type=float,
-              help='Minimum confidence threshold (0.0-1.0)')
-@click.option('--output', '-o', type=click.Path(), help='Output JSON file')
-@click.option('--provider', default='mock', help='LLM provider (mock/openai/ollama)')
+@click.argument("data_file", type=click.Path(exists=True))
+@click.option("--precision", is_flag=True, help="Enable 99%+ precision mode")
+@click.option(
+    "--confidence-threshold",
+    default=0.90,
+    type=float,
+    help="Minimum confidence threshold (0.0-1.0)",
+)
+@click.option("--output", "-o", type=click.Path(), help="Output JSON file")
+@click.option("--provider", default="mock", help="LLM provider (mock/openai/ollama)")
 def analyze_precision(data_file, precision, confidence_threshold, output, provider):
     """
     Analyze RAG pipeline with optional precision mode.
@@ -36,13 +40,11 @@ def analyze_precision(data_file, precision, confidence_threshold, output, provid
         data = [data]
 
     # Run analysis
-    results = asyncio.run(
-        run_precision_analysis(data, config, precision, confidence_threshold)
-    )
+    results = asyncio.run(run_precision_analysis(data, config, precision, confidence_threshold))
 
     # Output results
     if output:
-        with open(output, 'w') as f:
+        with open(output, "w") as f:
             json.dump(results, f, indent=2)
         click.echo(f"✅ Results saved to {output}")
     else:
@@ -59,9 +61,7 @@ async def run_precision_analysis(data, config, use_precision, confidence_thresho
         return await analyzer.evaluate_batch_async(data)
 
     # Precision mode analysis
-    PrecisionMode(
-        confidence_threshold=confidence_threshold
-    )
+    PrecisionMode(confidence_threshold=confidence_threshold)
 
     results = []
     for item in data:
@@ -78,25 +78,27 @@ async def run_precision_analysis(data, config, use_precision, confidence_thresho
             query=query,
             response=response,
             retrieved_contexts=contexts,
-            confidence_threshold=confidence_threshold
+            confidence_threshold=confidence_threshold,
         )
 
-        results.append({
-            "query": query,
-            "response": response,
-            "precision_results": faith_result,
-            "approved": faith_result.get("approved", False),
-            "needs_review": faith_result.get("needs_review", True)
-        })
+        results.append(
+            {
+                "query": query,
+                "response": response,
+                "precision_results": faith_result,
+                "approved": faith_result.get("approved", False),
+                "needs_review": faith_result.get("needs_review", True),
+            }
+        )
 
     return results
 
 
 def print_precision_summary(results, precision_mode):
     """Print summary of precision analysis."""
-    click.echo("\n" + "="*60)
+    click.echo("\n" + "=" * 60)
     click.echo("RAGLint Precision Analysis Results")
-    click.echo("="*60 + "\n")
+    click.echo("=" * 60 + "\n")
 
     if not precision_mode:
         click.echo(f"Total items analyzed: {len(results)}")
@@ -121,5 +123,5 @@ def print_precision_summary(results, precision_mode):
                 click.echo(f"  {idx+1}. {reason}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     analyze_precision()

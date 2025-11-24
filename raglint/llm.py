@@ -52,9 +52,7 @@ class OpenAI_LLM(BaseLLM):
         """Synchronous generation using OpenAI."""
         try:
             response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0
+                model=self.model, messages=[{"role": "user", "content": prompt}], temperature=0
             )
             return response.choices[0].message.content.strip()
         except Exception as e:
@@ -86,14 +84,14 @@ class OpenAI_LLM(BaseLLM):
             latency = time.time() - start_time
 
             # Track cost and latency
-            if hasattr(response, 'usage') and response.usage:
+            if hasattr(response, "usage") and response.usage:
                 tracker = get_tracker()
                 tracker.record_llm_call(
                     input_tokens=response.usage.prompt_tokens,
                     output_tokens=response.usage.completion_tokens,
                     model=self.model,
                     latency=latency,
-                    operation="text_generation"
+                    operation="text_generation",
                 )
 
             result = response.choices[0].message.content.strip()
@@ -126,14 +124,14 @@ class OpenAI_LLM(BaseLLM):
             latency = time.time() - start_time
 
             # Track cost and latency
-            if hasattr(response, 'usage') and response.usage:
+            if hasattr(response, "usage") and response.usage:
                 tracker = get_tracker()
                 tracker.record_llm_call(
                     input_tokens=response.usage.prompt_tokens,
                     output_tokens=response.usage.completion_tokens,
                     model=self.model,
                     latency=latency,
-                    operation="json_generation"
+                    operation="json_generation",
                 )
 
             content = response.choices[0].message.content.strip()
@@ -155,7 +153,7 @@ class OllamaLLM(BaseLLM):
             response = requests.post(
                 f"{self.base_url}/api/generate",
                 json={"model": self.model, "prompt": prompt, "stream": False},
-                timeout=30  # Security: Add timeout to prevent hanging indefinitely
+                timeout=30,  # Security: Add timeout to prevent hanging indefinitely
             )
             response.raise_for_status()
             return response.json().get("response", "").strip()
@@ -195,9 +193,9 @@ class OllamaLLM(BaseLLM):
                         "prompt": prompt,
                         "stream": False,
                         "format": "json",
-                        "options": {"temperature": 0}
+                        "options": {"temperature": 0},
                     },
-                    timeout=60 # Increased timeout for local inference
+                    timeout=60,  # Increased timeout for local inference
                 ) as resp:
                     resp.raise_for_status()
                     data = await resp.json()
@@ -218,7 +216,6 @@ class OllamaLLM(BaseLLM):
             return {"score": 0.0, "reasoning": f"Error: {str(e)}"}
 
 
-
 class LLMFactory:
     """Factory for creating LLM providers."""
 
@@ -230,14 +227,16 @@ class LLMFactory:
         if provider == "openai":
             api_key = config_dict.get("openai_api_key") or os.getenv("OPENAI_API_KEY")
             if not api_key:
-                print("Warning: OpenAI provider selected but no API key found. Falling back to Mock.")
+                print(
+                    "Warning: OpenAI provider selected but no API key found. Falling back to Mock."
+                )
                 return MockLLM()
             return OpenAI_LLM(api_key=api_key, model=config_dict.get("model_name", "gpt-3.5-turbo"))
 
         elif provider == "ollama":
             return OllamaLLM(
                 model=config_dict.get("model_name", "llama3"),
-                base_url=config_dict.get("base_url", "http://localhost:11434")
+                base_url=config_dict.get("base_url", "http://localhost:11434"),
             )
 
         elif provider == "mock":
@@ -245,24 +244,30 @@ class LLMFactory:
 
         elif provider == "azure":
             from raglint.integrations.azure import AzureOpenAI_LLM
+
             return AzureOpenAI_LLM(
                 api_key=config_dict.get("azure_api_key") or os.getenv("AZURE_OPENAI_API_KEY"),
-                azure_endpoint=config_dict.get("azure_endpoint") or os.getenv("AZURE_OPENAI_ENDPOINT"),
+                azure_endpoint=config_dict.get("azure_endpoint")
+                or os.getenv("AZURE_OPENAI_ENDPOINT"),
                 api_version=config_dict.get("azure_api_version", "2023-05-15"),
-                deployment_name=config_dict.get("model_name", "gpt-35-turbo")
+                deployment_name=config_dict.get("model_name", "gpt-35-turbo"),
             )
 
         elif provider == "bedrock":
             from raglint.integrations.bedrock import BedrockLLM
+
             return BedrockLLM(
                 model_id=config_dict.get("model_name", "anthropic.claude-3-sonnet-20240229-v1:0"),
                 region_name=config_dict.get("aws_region", "us-east-1"),
-                aws_access_key_id=config_dict.get("aws_access_key_id") or os.getenv("AWS_ACCESS_KEY_ID"),
-                aws_secret_access_key=config_dict.get("aws_secret_access_key") or os.getenv("AWS_SECRET_ACCESS_KEY"),
+                aws_access_key_id=config_dict.get("aws_access_key_id")
+                or os.getenv("AWS_ACCESS_KEY_ID"),
+                aws_secret_access_key=config_dict.get("aws_secret_access_key")
+                or os.getenv("AWS_SECRET_ACCESS_KEY"),
             )
 
         # 2. Check for plugin providers
         from raglint.plugins.loader import PluginLoader
+
         loader = PluginLoader.get_instance()
         # Ensure plugins are loaded (lazy load if not already)
         loader.load_plugins()

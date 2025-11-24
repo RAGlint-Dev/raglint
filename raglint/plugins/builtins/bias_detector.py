@@ -3,6 +3,7 @@ Bias Detection Plugin - Identifies potential bias in generated responses.
 
 Helps ensure fair, inclusive responses in customer-facing applications.
 """
+
 import re
 from typing import Any
 
@@ -27,33 +28,38 @@ class BiasDetectorPlugin(PluginInterface):
 
     # Gendered terms that might indicate bias
     GENDERED_TERMS = {
-        'male': ['he', 'him', 'his', 'businessman', 'chairman', 'policeman', 'fireman', 'mankind'],
-        'female': ['she', 'her', 'hers', 'businesswoman', 'chairwoman', 'policewoman', 'lady', 'girl'],
+        "male": ["he", "him", "his", "businessman", "chairman", "policeman", "fireman", "mankind"],
+        "female": [
+            "she",
+            "her",
+            "hers",
+            "businesswoman",
+            "chairwoman",
+            "policewoman",
+            "lady",
+            "girl",
+        ],
     }
 
     # Potentially biased phrases
     BIAS_PATTERNS = [
-        r'\b(old|elderly|senior)\s+(person|people)\s+(can\'t|cannot|struggle|have trouble)\b',
-        r'\b(young|millennial|gen-?z)\s+(are|is)\s+(lazy|entitled|immature)\b',
-        r'\b(women|girls)\s+(are|tend to be)\s+(emotional|sensitive|nurturing)\b',
-        r'\b(men|boys)\s+(are|tend to be)\s+(strong|aggressive|logical)\b',
+        r"\b(old|elderly|senior)\s+(person|people)\s+(can\'t|cannot|struggle|have trouble)\b",
+        r"\b(young|millennial|gen-?z)\s+(are|is)\s+(lazy|entitled|immature)\b",
+        r"\b(women|girls)\s+(are|tend to be)\s+(emotional|sensitive|nurturing)\b",
+        r"\b(men|boys)\s+(are|tend to be)\s+(strong|aggressive|logical)\b",
     ]
 
     # Neutral alternatives
     NEUTRAL_ALTERNATIVES = {
-        'chairman': 'chairperson',
-        'policeman': 'police officer',
-        'businessman': 'businessperson',
-        'mankind': 'humanity',
-        'he/she': 'they',
+        "chairman": "chairperson",
+        "policeman": "police officer",
+        "businessman": "businessperson",
+        "mankind": "humanity",
+        "he/she": "they",
     }
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs: Any
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
     ) -> dict[str, Any]:
         """Detect bias in response."""
 
@@ -67,8 +73,11 @@ class BiasDetectorPlugin(PluginInterface):
         inclusivity_score = self._check_inclusivity(response)
 
         # Combined bias score (0.0 = very biased, 1.0 = unbiased)
-        bias_score = (gender_score * 0.4) + (inclusivity_score * 0.4) + \
-                     (max(0, 1.0 - stereotype_count * 0.2) * 0.2)
+        bias_score = (
+            (gender_score * 0.4)
+            + (inclusivity_score * 0.4)
+            + (max(0, 1.0 - stereotype_count * 0.2) * 0.2)
+        )
 
         return {
             "score": round(bias_score, 3),
@@ -78,15 +87,15 @@ class BiasDetectorPlugin(PluginInterface):
             "stereotype_count": stereotype_count,
             "issues_found": gender_issues + stereotype_examples,
             "recommendation": self._get_recommendation(bias_score),
-            "suggestions": self._get_suggestions(response, gender_issues, stereotype_examples)
+            "suggestions": self._get_suggestions(response, gender_issues, stereotype_examples),
         }
 
     def _detect_gendered_language(self, text: str) -> tuple[float, list[str]]:
         """Detect gendered language imbalance."""
         text_lower = text.lower()
 
-        male_count = sum(text_lower.count(term) for term in self.GENDERED_TERMS['male'])
-        female_count = sum(text_lower.count(term) for term in self.GENDERED_TERMS['female'])
+        male_count = sum(text_lower.count(term) for term in self.GENDERED_TERMS["male"])
+        female_count = sum(text_lower.count(term) for term in self.GENDERED_TERMS["female"])
 
         issues = []
 
@@ -99,8 +108,8 @@ class BiasDetectorPlugin(PluginInterface):
                 issues.append(f"Heavily {dominant}-gendered language ({ratio*100:.0f}%)")
 
         # Check for gendered job titles
-        for term in self.GENDERED_TERMS['male'] + self.GENDERED_TERMS['female']:
-            if term in ['businessman', 'chairman', 'policeman', 'businesswoman']:
+        for term in self.GENDERED_TERMS["male"] + self.GENDERED_TERMS["female"]:
+            if term in ["businessman", "chairman", "policeman", "businesswoman"]:
                 if term in text_lower:
                     issues.append(f"Gendered term: '{term}'")
 
@@ -135,13 +144,13 @@ class BiasDetectorPlugin(PluginInterface):
         text_lower = text.lower()
 
         # Penalize exclusive terms
-        exclusive_terms = ['normal', 'crazy', 'insane', 'lame', 'dumb', 'stupid']
+        exclusive_terms = ["normal", "crazy", "insane", "lame", "dumb", "stupid"]
         for term in exclusive_terms:
-            if f' {term} ' in f' {text_lower} ':
+            if f" {term} " in f" {text_lower} ":
                 score -= 0.1
 
         # Reward inclusive terms
-        inclusive_terms = ['people with', 'individuals who', 'everyone', 'all people']
+        inclusive_terms = ["people with", "individuals who", "everyone", "all people"]
         for term in inclusive_terms:
             if term in text_lower:
                 score += 0.05
@@ -170,7 +179,9 @@ class BiasDetectorPlugin(PluginInterface):
         else:
             return "❌ High bias detected - significant revision needed"
 
-    def _get_suggestions(self, text: str, gender_issues: list[str], stereotypes: list[str]) -> list[str]:
+    def _get_suggestions(
+        self, text: str, gender_issues: list[str], stereotypes: list[str]
+    ) -> list[str]:
         """Generate specific suggestions."""
         suggestions = []
 
@@ -181,7 +192,7 @@ class BiasDetectorPlugin(PluginInterface):
                 suggestions.append(f"Replace '{biased}' with '{neutral}'")
 
         # Suggest using 'they' instead of 'he/she'
-        if 'he ' in text_lower or 'she ' in text_lower:
+        if "he " in text_lower or "she " in text_lower:
             suggestions.append("Consider using 'they' for gender-neutral language")
 
         if stereotypes:
@@ -204,7 +215,7 @@ if __name__ == "__main__":
         result1 = await plugin.calculate_async(
             query="",
             response="The chairman will meet with the businessmen tomorrow. He thinks the proposal is good, but she might disagree.",
-            contexts=[]
+            contexts=[],
         )
         print("\nBiased text:")
         print(f"  Score: {result1['score']}")
@@ -216,7 +227,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="",
             response="The chairperson will meet with the business leaders tomorrow. They think the proposal is good.",
-            contexts=[]
+            contexts=[],
         )
         print("\nNeutral text:")
         print(f"  Score: {result2['score']}")

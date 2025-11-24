@@ -24,9 +24,10 @@ LLM_PRICING = {
 @dataclass
 class LatencyStats:
     """Statistics for latency tracking."""
+
     total_time: float = 0.0
     num_calls: int = 0
-    min_latency: float = float('inf')
+    min_latency: float = float("inf")
     max_latency: float = 0.0
     p50_latency: float = 0.0
     p95_latency: float = 0.0
@@ -62,13 +63,16 @@ class LatencyStats:
 @dataclass
 class CostStats:
     """Statistics for cost tracking."""
+
     total_input_tokens: int = 0
     total_output_tokens: int = 0
     total_cost: float = 0.0
     num_calls: int = 0
     costs_by_operation: dict[str, float] = field(default_factory=dict)
 
-    def add_usage(self, input_tokens: int, output_tokens: int, model: str, operation: str = "default"):
+    def add_usage(
+        self, input_tokens: int, output_tokens: int, model: str, operation: str = "default"
+    ):
         """Add token usage and calculate cost."""
         self.total_input_tokens += input_tokens
         self.total_output_tokens += output_tokens
@@ -77,7 +81,9 @@ class CostStats:
         # Calculate cost
         if model in LLM_PRICING:
             pricing = LLM_PRICING[model]
-            cost = (input_tokens / 1000 * pricing["input"]) + (output_tokens / 1000 * pricing["output"])
+            cost = (input_tokens / 1000 * pricing["input"]) + (
+                output_tokens / 1000 * pricing["output"]
+            )
             self.total_cost += cost
 
             # Track by operation
@@ -120,8 +126,14 @@ class PerformanceTracker:
             self.operation_latencies[operation_type] = LatencyStats()
         self.operation_latencies[operation_type].add_latency(latency)
 
-    def record_llm_call(self, input_tokens: int, output_tokens: int, model: str,
-                        latency: float, operation: str = "llm_call"):
+    def record_llm_call(
+        self,
+        input_tokens: int,
+        output_tokens: int,
+        model: str,
+        latency: float,
+        operation: str = "llm_call",
+    ):
         """Record an LLM call with cost and latency."""
         # Record cost
         self.cost_stats.add_usage(input_tokens, output_tokens, model, operation)
@@ -146,18 +158,23 @@ class PerformanceTracker:
                 "total_cost_usd": round(self.cost_stats.total_cost, 4),
                 "total_input_tokens": self.cost_stats.total_input_tokens,
                 "total_output_tokens": self.cost_stats.total_output_tokens,
-                "total_tokens": self.cost_stats.total_input_tokens + self.cost_stats.total_output_tokens,
+                "total_tokens": self.cost_stats.total_input_tokens
+                + self.cost_stats.total_output_tokens,
                 "avg_cost_per_call": round(self.cost_stats.avg_cost_per_call, 4),
                 "num_llm_calls": self.cost_stats.num_calls,
                 "costs_by_operation": {
                     k: round(v, 4) for k, v in self.cost_stats.costs_by_operation.items()
-                }
+                },
             },
             "latency": {
                 "total_time_seconds": round(self.latency_stats.total_time, 2),
                 "num_operations": self.latency_stats.num_calls,
                 "avg_latency_ms": round(self.latency_stats.avg_latency * 1000, 2),
-                "min_latency_ms": round(self.latency_stats.min_latency * 1000, 2) if self.latency_stats.min_latency != float('inf') else 0,
+                "min_latency_ms": (
+                    round(self.latency_stats.min_latency * 1000, 2)
+                    if self.latency_stats.min_latency != float("inf")
+                    else 0
+                ),
                 "max_latency_ms": round(self.latency_stats.max_latency * 1000, 2),
                 "p50_latency_ms": round(self.latency_stats.p50_latency * 1000, 2),
                 "p95_latency_ms": round(self.latency_stats.p95_latency * 1000, 2),
@@ -170,7 +187,7 @@ class PerformanceTracker:
                     "num_calls": stats.num_calls,
                 }
                 for op_name, stats in self.operation_latencies.items()
-            }
+            },
         }
 
     def estimate_cost(self, num_queries: int, model: str = "gpt-3.5-turbo") -> dict:
@@ -183,7 +200,9 @@ class PerformanceTracker:
 
         if model in LLM_PRICING:
             pricing = LLM_PRICING[model]
-            cost_per_query = (avg_input / 1000 * pricing["input"]) + (avg_output / 1000 * pricing["output"])
+            cost_per_query = (avg_input / 1000 * pricing["input"]) + (
+                avg_output / 1000 * pricing["output"]
+            )
             total_cost = cost_per_query * num_queries
 
             return {

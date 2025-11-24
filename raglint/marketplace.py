@@ -12,6 +12,7 @@ import requests
 MARKETPLACE_URL = "https://raglint.io/api/marketplace"
 LOCAL_PLUGIN_DIR = Path.home() / ".raglint" / "plugins"
 
+
 class PluginMarketplace:
     """
     Handles plugin discovery, installation, and sharing
@@ -107,14 +108,14 @@ class PluginMarketplace:
                 "version": metadata.get("version", "1.0.0"),
                 "code": plugin_code,
                 "checksum": checksum,
-                "tags": metadata.get("tags", [])
+                "tags": metadata.get("tags", []),
             }
 
             # Upload to marketplace
             resp = requests.post(
                 f"{MARKETPLACE_URL}/plugins/publish",
                 json=payload,
-                headers={"Authorization": f"Bearer {metadata.get('api_key')}"}
+                headers={"Authorization": f"Bearer {metadata.get('api_key')}"},
             )
 
             if resp.status_code == 201:
@@ -128,8 +129,10 @@ class PluginMarketplace:
             print(f"Publish error: {e}")
             return False
 
+
 # Global instance
 marketplace = PluginMarketplace()
+
 
 # CLI helper functions
 def cli_search_plugins(query: str = ""):
@@ -146,11 +149,13 @@ def cli_search_plugins(query: str = ""):
         print(f"  Author: {plugin.get('author', 'Unknown')}")
         print(f"  Downloads: {plugin.get('downloads', 0)}")
 
+
 def cli_install_plugin(name: str):
     """Install plugin (CLI wrapper)"""
     success = marketplace.install(name)
     if success:
         print(f"\n✓ To use: raglint eval --plugins {name}")
+
 
 def cli_list_installed():
     """List installed plugins (CLI wrapper)"""

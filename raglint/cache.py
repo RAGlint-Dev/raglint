@@ -1,4 +1,5 @@
 """Simple LRU cache for LLM responses to avoid duplicate API calls."""
+
 import hashlib
 from typing import Any, Optional
 

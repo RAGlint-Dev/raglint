@@ -42,7 +42,9 @@ class HallucinationPlugin(MetricPlugin):
 
     @property
     def description(self) -> str:
-        return "Score representing probability of hallucination (0.0 = Supported, 1.0 = Hallucinated)."
+        return (
+            "Score representing probability of hallucination (0.0 = Supported, 1.0 = Hallucinated)."
+        )
 
     @property
     def metric_type(self) -> str:
@@ -59,6 +61,7 @@ class HallucinationPlugin(MetricPlugin):
         Sync calculation of hallucination score.
         """
         import asyncio
+
         return asyncio.run(self._calculate_score(**kwargs))
 
     async def _calculate_score(self, **kwargs) -> float:
@@ -77,4 +80,3 @@ class HallucinationPlugin(MetricPlugin):
         except Exception as e:
             print(f"Error in Hallucination Plugin: {e}")
             return 0.0
-

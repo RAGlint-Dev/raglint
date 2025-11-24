@@ -63,7 +63,7 @@ class SQUADBenchmark:
         data = self._generate_sample_squad()
 
         # Cache it
-        with open(cache_file, 'w') as f:
+        with open(cache_file, "w") as f:
             json.dump(data, f, indent=2)
 
         return data
@@ -81,31 +81,31 @@ class SQUADBenchmark:
                 "context": "Python is a high-level, interpreted programming language. It was created by Guido van Rossum and first released in 1991. Python's design philosophy emphasizes code readability with significant use of whitespace.",
                 "question": "Who created Python?",
                 "answer": "Guido van Rossum",
-                "ground_truth": "Guido van Rossum"
+                "ground_truth": "Guido van Rossum",
             },
             {
                 "context": "Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
                 "question": "What is machine learning?",
                 "answer": "Machine learning is a subset of artificial intelligence that enables systems to learn from experience",
-                "ground_truth": "a subset of artificial intelligence"
+                "ground_truth": "a subset of artificial intelligence",
             },
             {
                 "context": "The Transformer architecture, introduced in the paper 'Attention is All You Need' in 2017, revolutionized natural language processing. It uses self-attention mechanisms to process sequences in parallel rather than sequentially.",
                 "question": "When was the Transformer architecture introduced?",
                 "answer": "The Transformer architecture was introduced in 2017",
-                "ground_truth": "2017"
+                "ground_truth": "2017",
             },
             {
                 "context": "RAG (Retrieval-Augmented Generation) combines neural retrieval with language generation. It first retrieves relevant documents from a knowledge base, then uses these documents to generate more accurate and grounded responses.",
                 "question": "What does RAG stand for?",
                 "answer": "Retrieval-Augmented Generation (RAG)",
-                "ground_truth": "Retrieval-Augmented Generation"
+                "ground_truth": "Retrieval-Augmented Generation",
             },
             {
                 "context": "Vector databases store data as high-dimensional vectors, enabling similarity search. They are commonly used in RAG systems to efficiently retrieve semantically similar documents based on embedding similarity.",
                 "question": "What are vector databases used for in RAG?",
                 "answer": "Vector databases are used to efficiently retrieve semantically similar documents",
-                "ground_truth": "efficiently retrieve semantically similar documents"
+                "ground_truth": "efficiently retrieve semantically similar documents",
             },
         ]
 
@@ -116,16 +116,16 @@ class SQUADBenchmark:
 
             raglint_item = {
                 "query": sample["question"],
-                "retrieved_contexts": [sample["context"]],  # In real RAG, there would be multiple chunks
+                "retrieved_contexts": [
+                    sample["context"]
+                ],  # In real RAG, there would be multiple chunks
                 "ground_truth_contexts": [sample["ground_truth"]],
                 "ground_truth": sample["ground_truth"],
-                "response": sample["answer"]
+                "response": sample["answer"],
             }
             raglint_data.append(raglint_item)
 
         return raglint_data
-
-
 
 
 def download_squad(split: str = "dev", version: str = "v2.0") -> str:

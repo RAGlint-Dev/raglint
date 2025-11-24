@@ -31,18 +31,23 @@ class BenchmarkRegistry:
 
         if name == "squad":
             from .squad import SQUADBenchmark
+
             benchmark = SQUADBenchmark(**kwargs)
             return benchmark.load()
 
         elif name == "coqa":
             from .coqa import CoQABenchmark
+
             benchmark = CoQABenchmark(**kwargs)
             return benchmark.load()
 
         elif name == "hotpotqa":
             from .hotpotqa import HotpotQABenchmark
+
             benchmark = HotpotQABenchmark(**kwargs)
             return benchmark.load()
 
         else:
-            raise ValueError(f"Unknown benchmark: {name}. Available: {BenchmarkRegistry.list_benchmarks()}")
+            raise ValueError(
+                f"Unknown benchmark: {name}. Available: {BenchmarkRegistry.list_benchmarks()}"
+            )

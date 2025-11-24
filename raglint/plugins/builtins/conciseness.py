@@ -4,6 +4,7 @@ Response Conciseness Plugin - Detects verbose or redundant answers.
 Helps ensure responses are efficient and to-the-point, especially important
 for mobile and chat interfaces.
 """
+
 import re
 from typing import Any
 
@@ -26,33 +27,29 @@ class ConcisenessPlugin(PluginInterface):
 
     # Common filler phrases
     FILLER_PHRASES = [
-        r'\bto be honest\b',
-        r'\bbasically\b',
-        r'\bactually\b',
-        r'\byou know\b',
-        r'\bI mean\b',
-        r'\bkind of\b',
-        r'\bsort of\b',
-        r'\bin my opinion\b',
-        r'\bI think that\b',
-        r'\bit goes without saying\b',
-        r'\bneedless to say\b',
-        r'\bat the end of the day\b',
+        r"\bto be honest\b",
+        r"\bbasically\b",
+        r"\bactually\b",
+        r"\byou know\b",
+        r"\bI mean\b",
+        r"\bkind of\b",
+        r"\bsort of\b",
+        r"\bin my opinion\b",
+        r"\bI think that\b",
+        r"\bit goes without saying\b",
+        r"\bneedless to say\b",
+        r"\bat the end of the day\b",
     ]
 
     # Redundant patterns
     REDUNDANT_PATTERNS = [
-        r'\b(very|really|extremely|incredibly) (very|really|extremely)\b',  # Double intensifiers
-        r'\b(\w+) and \1\b',  # Repeated words
-        r'\b(absolutely|completely|totally) (essential|necessary)\b',  # Redundant modifiers
+        r"\b(very|really|extremely|incredibly) (very|really|extremely)\b",  # Double intensifiers
+        r"\b(\w+) and \1\b",  # Repeated words
+        r"\b(absolutely|completely|totally) (essential|necessary)\b",  # Redundant modifiers
     ]
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs: Any
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
     ) -> dict[str, Any]:
         """Calculate conciseness score."""
 
@@ -85,7 +82,7 @@ class ConcisenessPlugin(PluginInterface):
             "redundancy_ratio": round(redundancy_ratio * 100, 1),
             "verbosity_level": self._get_verbosity_level(word_count, efficiency),
             "recommendation": self._get_recommendation(efficiency, word_count),
-            "improvements": self._suggest_improvements(response, filler_count, redundancy_count)
+            "improvements": self._suggest_improvements(response, filler_count, redundancy_count),
         }
 
     def _count_filler_words(self, text: str) -> int:
@@ -143,7 +140,9 @@ class ConcisenessPlugin(PluginInterface):
         else:
             return f"❌ Very verbose - needs significant editing ({word_count} words)"
 
-    def _suggest_improvements(self, response: str, filler_count: int, redundancy_count: int) -> list[str]:
+    def _suggest_improvements(
+        self, response: str, filler_count: int, redundancy_count: int
+    ) -> list[str]:
         """Suggest specific improvements."""
         improvements = []
 
@@ -158,7 +157,7 @@ class ConcisenessPlugin(PluginInterface):
             improvements.append(f"Reduce length from {word_count} to ~50-80 words")
 
         # Check for passive voice (simple heuristic)
-        passive_count = len(re.findall(r'\b(is|are|was|were|been|being) \w+ed\b', response))
+        passive_count = len(re.findall(r"\b(is|are|was|were|been|being) \w+ed\b", response))
         if passive_count > 2:
             improvements.append("Use active voice instead of passive")
 
@@ -179,7 +178,7 @@ if __name__ == "__main__":
         result1 = await plugin.calculate_async(
             query="What's the return policy?",
             response="30-day money-back guarantee. Items must be in original condition.",
-            contexts=[]
+            contexts=[],
         )
         print("\nConcise response:")
         print(f"  Score: {result1['score']}")
@@ -190,7 +189,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="What's the return policy?",
             response="Well, basically, to be honest, I think that we have what you could call a very comprehensive and, you know, customer-friendly return policy. Basically, you can return items within a period of 30 days, which is to say, one month from purchase. The items, needless to say, should be in their original condition.",
-            contexts=[]
+            contexts=[],
         )
         print("\nVerbose response:")
         print(f"  Score: {result2['score']}")

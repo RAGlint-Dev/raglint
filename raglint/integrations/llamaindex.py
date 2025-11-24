@@ -34,10 +34,12 @@ except ImportError:
         EXCEPTION = "exception"
         TOOL = "tool"
 
+
 from raglint.instrumentation import Monitor
 from raglint.logging import get_logger
 
 logger = get_logger(__name__)
+
 
 class RAGLintLlamaIndexCallback(BaseCallbackHandler):
     """
@@ -54,14 +56,17 @@ class RAGLintLlamaIndexCallback(BaseCallbackHandler):
         service_context = ServiceContext.from_defaults(callback_manager=callback_manager)
     """
 
-    def __init__(self, event_starts_to_ignore: Optional[list[CBEventType]] = None,
-                 event_ends_to_ignore: Optional[list[CBEventType]] = None):
+    def __init__(
+        self,
+        event_starts_to_ignore: Optional[list[CBEventType]] = None,
+        event_ends_to_ignore: Optional[list[CBEventType]] = None,
+    ):
         super().__init__(
             event_starts_to_ignore=event_starts_to_ignore or [],
-            event_ends_to_ignore=event_ends_to_ignore or []
+            event_ends_to_ignore=event_ends_to_ignore or [],
         )
         self.monitor = Monitor()
-        self._event_pairs = {} # Track start/end pairs if needed
+        self._event_pairs = {}  # Track start/end pairs if needed
 
     def on_event_start(
         self,
@@ -78,7 +83,9 @@ class RAGLintLlamaIndexCallback(BaseCallbackHandler):
             self._handle_llm_start(payload, event_id, parent_id)
         elif event_type == CBEventType.RETRIEVE:
             self._handle_retrieve_start(payload, event_id, parent_id)
-        elif event_type == CBEventType.QUERY: # Note: QUERY might not be in standard schema but often used
+        elif (
+            event_type == CBEventType.QUERY
+        ):  # Note: QUERY might not be in standard schema but often used
             self._handle_query_start(payload, event_id, parent_id)
 
         return event_id
@@ -124,13 +131,16 @@ class RAGLintLlamaIndexCallback(BaseCallbackHandler):
             # Convert chat messages to string representation
             prompts.extend([str(m) for m in payload[EventPayload.MESSAGES]])
 
-        self.monitor.log_event("llm_start", {
-            "trace_id": event_id,
-            "parent_id": parent_id if parent_id else None,
-            "prompts": prompts,
-            # Model info isn't always directly in payload start, might need to extract from context if available
-            "framework": "llamaindex"
-        })
+        self.monitor.log_event(
+            "llm_start",
+            {
+                "trace_id": event_id,
+                "parent_id": parent_id if parent_id else None,
+                "prompts": prompts,
+                # Model info isn't always directly in payload start, might need to extract from context if available
+                "framework": "llamaindex",
+            },
+        )
 
     def _handle_llm_end(self, payload: dict[str, Any], event_id: str):
         response = payload.get(EventPayload.RESPONSE)
@@ -145,18 +155,18 @@ class RAGLintLlamaIndexCallback(BaseCallbackHandler):
                 text = response.text
             generations.append([text])
 
-        self.monitor.log_event("llm_end", {
-            "trace_id": event_id,
-            "generations": generations
-        })
+        self.monitor.log_event("llm_end", {"trace_id": event_id, "generations": generations})
 
     def _handle_retrieve_start(self, payload: dict[str, Any], event_id: str, parent_id: str):
         query_str = payload.get(EventPayload.QUERY_STR, "")
-        self.monitor.log_event("retriever_start", {
-            "trace_id": event_id,
-            "parent_id": parent_id if parent_id else None,
-            "query": query_str
-        })
+        self.monitor.log_event(
+            "retriever_start",
+            {
+                "trace_id": event_id,
+                "parent_id": parent_id if parent_id else None,
+                "query": query_str,
+            },
+        )
 
     def _handle_retrieve_end(self, payload: dict[str, Any], event_id: str):
         nodes = payload.get(EventPayload.NODES, [])
@@ -170,31 +180,26 @@ class RAGLintLlamaIndexCallback(BaseCallbackHandler):
                 score = node_with_score.score
                 metadata = node.metadata
 
-                docs_info.append({
-                    "content": content[:200] + "...", # Truncate for logging
-                    "score": score,
-                    "metadata": metadata
-                })
+                docs_info.append(
+                    {
+                        "content": content[:200] + "...",  # Truncate for logging
+                        "score": score,
+                        "metadata": metadata,
+                    }
+                )
             except Exception:
                 continue
 
-        self.monitor.log_event("retriever_end", {
-            "trace_id": event_id,
-            "documents": docs_info
-        })
+        self.monitor.log_event("retriever_end", {"trace_id": event_id, "documents": docs_info})
 
     def _handle_query_start(self, payload: dict[str, Any], event_id: str, parent_id: str):
         # Sometimes high-level query start
         query_str = payload.get(EventPayload.QUERY_STR, "")
-        self.monitor.log_event("chain_start", {
-            "trace_id": event_id,
-            "name": "LlamaIndexQuery",
-            "inputs": {"query": query_str}
-        })
+        self.monitor.log_event(
+            "chain_start",
+            {"trace_id": event_id, "name": "LlamaIndexQuery", "inputs": {"query": query_str}},
+        )
 
     def _handle_exception(self, payload: dict[str, Any], event_id: str):
         exception = payload.get(EventPayload.EXCEPTION)
-        self.monitor.log_event("chain_error", {
-            "trace_id": event_id,
-            "error": str(exception)
-        })
+        self.monitor.log_event("chain_error", {"trace_id": event_id, "error": str(exception)})

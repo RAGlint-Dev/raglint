@@ -4,7 +4,9 @@ from ..llm import BaseLLM, MockLLM
 
 
 class ToneScorer:
-    def __init__(self, llm: Optional[BaseLLM] = None, desired_tone: str = "professional and helpful"):
+    def __init__(
+        self, llm: Optional[BaseLLM] = None, desired_tone: str = "professional and helpful"
+    ):
         self.llm = llm if llm else MockLLM()
         self.desired_tone = desired_tone
 

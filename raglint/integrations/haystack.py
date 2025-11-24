@@ -8,6 +8,7 @@ class RAGLintTracer:
     RAGLint Tracer for Haystack pipelines.
     Hooks into Haystack's tracing mechanism to log events.
     """
+
     def __init__(self, monitor: Optional[Monitor] = None):
         self.monitor = monitor or Monitor.get_instance()
 
@@ -16,6 +17,7 @@ class RAGLintTracer:
         Context manager to trace an operation.
         """
         return RAGLintSpan(self.monitor, operation_name, tags)
+
 
 class RAGLintSpan:
     def __init__(self, monitor: Monitor, operation_name: str, tags: dict[str, Any]):
@@ -26,11 +28,13 @@ class RAGLintSpan:
 
     def __enter__(self):
         import time
+
         self.start_time = time.time()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         import time
+
         latency = time.time() - self.start_time
 
         status = "error" if exc_type else "success"
@@ -51,5 +55,5 @@ class RAGLintSpan:
             latency_seconds=latency,
             status=status,
             error=error_msg,
-            metadata=self.tags
+            metadata=self.tags,
         )

@@ -16,9 +16,9 @@ logger = logging.getLogger(__name__)
 class DriftDetector:
     """Detect metric drift over time."""
 
-    def detect_drift(self, historical_data: list[dict[str, Any]],
-                    metric_name: str,
-                    threshold: float = 0.15) -> dict[str, Any]:
+    def detect_drift(
+        self, historical_data: list[dict[str, Any]], metric_name: str, threshold: float = 0.15
+    ) -> dict[str, Any]:
         """
         Detect if a metric has drifted significantly from baseline.
 
@@ -34,15 +34,15 @@ class DriftDetector:
             return {"drift_detected": False, "reason": "Insufficient data"}
 
         # Sort by timestamp
-        sorted_data = sorted(historical_data, key=lambda x: x.get('timestamp', datetime.now()))
+        sorted_data = sorted(historical_data, key=lambda x: x.get("timestamp", datetime.now()))
 
         # Extract metric values
         values = []
         timestamps = []
         for run in sorted_data:
-            if metric_name in run.get('metrics', {}):
-                values.append(run['metrics'][metric_name])
-                timestamps.append(run.get('timestamp', datetime.now()))
+            if metric_name in run.get("metrics", {}):
+                values.append(run["metrics"][metric_name])
+                timestamps.append(run.get("timestamp", datetime.now()))
 
         if len(values) < 2:
             return {"drift_detected": False, "reason": "Insufficient metric data"}
@@ -70,8 +70,10 @@ class DriftDetector:
             "drift_percentage": float(drift_percentage),
             "threshold": threshold,
             "direction": "increase" if recent_mean > baseline_mean else "decrease",
-            "timestamps": [ts.isoformat() if isinstance(ts, datetime) else str(ts) for ts in timestamps],
-            "values": [float(v) for v in values]
+            "timestamps": [
+                ts.isoformat() if isinstance(ts, datetime) else str(ts) for ts in timestamps
+            ],
+            "values": [float(v) for v in values],
         }
 
 
@@ -81,14 +83,16 @@ class EmbeddingVisualizer:
     def __init__(self):
         try:
             import umap
+
             self.umap_reducer = umap.UMAP(n_components=2, random_state=42)
             self.available = True
         except ImportError:
             logger.warning("UMAP not available. Install umap-learn for embedding visualization.")
             self.available = False
 
-    def reduce_dimensions(self, embeddings: list[list[float]],
-                         labels: Optional[list[str]] = None) -> dict[str, Any]:
+    def reduce_dimensions(
+        self, embeddings: list[list[float]], labels: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Reduce embedding dimensions to 2D for visualization.
 
@@ -114,15 +118,16 @@ class EmbeddingVisualizer:
         return {
             "x": X_2d[:, 0].tolist(),
             "y": X_2d[:, 1].tolist(),
-            "labels": labels if labels else [f"Point {i}" for i in range(len(embeddings))]
+            "labels": labels if labels else [f"Point {i}" for i in range(len(embeddings))],
         }
 
 
 class CohortAnalyzer:
     """Analyze and compare cohorts of runs."""
 
-    def analyze_cohorts(self, runs: list[dict[str, Any]],
-                       group_by: str = "config_hash") -> dict[str, Any]:
+    def analyze_cohorts(
+        self, runs: list[dict[str, Any]], group_by: str = "config_hash"
+    ) -> dict[str, Any]:
         """
         Group runs into cohorts and compare metrics.
 
@@ -138,7 +143,7 @@ class CohortAnalyzer:
         for run in runs:
             # Get grouping key
             if group_by == "tags":
-                key = ",".join(sorted(run.get('tags', [])))
+                key = ",".join(sorted(run.get("tags", [])))
             else:
                 key = run.get(group_by, "default")
 
@@ -153,29 +158,22 @@ class CohortAnalyzer:
 
             # Aggregate metrics across runs
             for run in cohort_runs:
-                for metric_name, value in run.get('metrics', {}).items():
+                for metric_name, value in run.get("metrics", {}).items():
                     if metric_name not in metrics_summary:
                         metrics_summary[metric_name] = []
                     metrics_summary[metric_name].append(value)
 
             # Calculate statistics
-            stats = {
-                "count": len(cohort_runs),
-                "metrics": {}
-            }
+            stats = {"count": len(cohort_runs), "metrics": {}}
 
             for metric_name, values in metrics_summary.items():
                 stats["metrics"][metric_name] = {
                     "mean": float(np.mean(values)),
                     "std": float(np.std(values)),
                     "min": float(np.min(values)),
-                    "max": float(np.max(values))
+                    "max": float(np.max(values)),
                 }
 
             cohort_stats[cohort_name] = stats
 
-        return {
-            "cohorts": cohort_stats,
-            "total_runs": len(runs),
-            "num_cohorts": len(cohorts)
-        }
+        return {"cohorts": cohort_stats, "total_runs": len(runs), "num_cohorts": len(cohorts)}

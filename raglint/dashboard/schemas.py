@@ -12,8 +12,10 @@ class AnalysisRunBase(BaseModel):
     config: Optional[dict[str, Any]] = None
     metrics_summary: Optional[dict[str, Any]] = None
 
+
 class AnalysisRunCreate(AnalysisRunBase):
     pass
+
 
 class AnalysisRun(AnalysisRunBase):
     id: str
@@ -23,6 +25,7 @@ class AnalysisRun(AnalysisRunBase):
 
     model_config = {"from_attributes": True}
 
+
 class ResultItemBase(BaseModel):
     query: str
     response: str
@@ -30,14 +33,17 @@ class ResultItemBase(BaseModel):
     ground_truth_contexts: Optional[list[str]] = None
     metrics: dict[str, float]
 
+
 class ResultItemCreate(ResultItemBase):
     pass
+
 
 class ResultItem(ResultItemBase):
     id: int
     run_id: str
 
     model_config = {"from_attributes": True}
+
 
 class AnalyzeRequest(BaseModel):
     data: list[dict[str, Any]]

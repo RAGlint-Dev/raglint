@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class PluginExecutionTimeout(Exception):
     """Raised when plugin execution exceeds time limit."""
+
     pass
 
 
@@ -41,11 +42,7 @@ class RestrictedPluginExecutor:
         """
         try:
             # Compile with RestrictedPython
-            byte_code = compile_restricted(
-                code,
-                filename=f'<plugin:{plugin_name}>',
-                mode='exec'
-            )
+            byte_code = compile_restricted(code, filename=f"<plugin:{plugin_name}>", mode="exec")
 
             if byte_code.errors:
                 logger.error(f"Compilation errors in plugin {plugin_name}: {byte_code.errors}")
@@ -60,9 +57,11 @@ class RestrictedPluginExecutor:
             # Find the plugin class
             plugin_class = None
             for item in restricted_globals.values():
-                if (isinstance(item, type) and
-                    hasattr(item, 'evaluate') and
-                    item.__name__ != 'MetricPlugin'):
+                if (
+                    isinstance(item, type)
+                    and hasattr(item, "evaluate")
+                    and item.__name__ != "MetricPlugin"
+                ):
                     plugin_class = item
                     break
 
@@ -76,7 +75,7 @@ class RestrictedPluginExecutor:
             result_queue = multiprocessing.Queue()
             process = multiprocessing.Process(
                 target=self._execute_with_timeout,
-                args=(plugin_instance, method, kwargs, result_queue)
+                args=(plugin_instance, method, kwargs, result_queue),
             )
 
             process.start()
@@ -85,7 +84,9 @@ class RestrictedPluginExecutor:
             if process.is_alive():
                 process.terminate()
                 process.join()
-                raise PluginExecutionTimeout(f"Plugin {plugin_name} exceeded {self.timeout}s timeout")
+                raise PluginExecutionTimeout(
+                    f"Plugin {plugin_name} exceeded {self.timeout}s timeout"
+                )
 
             if not result_queue.empty():
                 return result_queue.get()
@@ -111,10 +112,10 @@ class RestrictedPluginExecutor:
 
         # Start with safe globals
         restricted_globals = {
-            '__builtins__': {
+            "__builtins__": {
                 **limited_builtins,
-                '_getiter_': guarded_iter_unpack_sequence,
-                '_iter_unpack_sequence_': guarded_iter_unpack_sequence,
+                "_getiter_": guarded_iter_unpack_sequence,
+                "_iter_unpack_sequence_": guarded_iter_unpack_sequence,
             }
         }
 
@@ -122,17 +123,20 @@ class RestrictedPluginExecutor:
         import math
         import random
 
-        restricted_globals.update({
-            'random': random,
-            'math': math,
-            # Allow plugin interface
-            'MetricPlugin': self._get_metric_plugin_stub(),
-        })
+        restricted_globals.update(
+            {
+                "random": random,
+                "math": math,
+                # Allow plugin interface
+                "MetricPlugin": self._get_metric_plugin_stub(),
+            }
+        )
 
         return restricted_globals
 
     def _get_metric_plugin_stub(self):
         """Return a stub MetricPlugin class for the restricted environment."""
+
         class MetricPlugin:
             name = ""
             version = ""

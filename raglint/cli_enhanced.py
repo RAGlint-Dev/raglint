@@ -11,18 +11,26 @@ from rich.table import Table
 
 console = Console()
 
+
 @click.group()
 @click.version_option(version="0.1.0")
 def cli():
     """RAGLint - Production-ready RAG evaluation & observability"""
     pass
 
+
 # === EVAL COMMAND ===
 @cli.command()
-@click.argument('pipeline_file', type=click.Path(exists=True))
-@click.option('--config', '-c', type=click.Path(exists=True), help='Config file (raglint.yml)')
-@click.option('--output', '-o', type=click.Path(), help='Output report path')
-@click.option('--format', '-f', type=click.Choice(['html', 'json', 'pdf']), default='html', help='Report format')
+@click.argument("pipeline_file", type=click.Path(exists=True))
+@click.option("--config", "-c", type=click.Path(exists=True), help="Config file (raglint.yml)")
+@click.option("--output", "-o", type=click.Path(), help="Output report path")
+@click.option(
+    "--format",
+    "-f",
+    type=click.Choice(["html", "json", "pdf"]),
+    default="html",
+    help="Report format",
+)
 def eval(pipeline_file, config, output, format):
     """Evaluate a RAG pipeline (shorthand for 'analyze')"""
     console.print(f"[bold blue]Evaluating pipeline:[/] {pipeline_file}")
@@ -42,19 +50,20 @@ def eval(pipeline_file, config, output, format):
     results = analyzer.analyze(data)
 
     # Generate report
-    if format == 'html':
+    if format == "html":
         from raglint.reporting.html import generate_report
-        output_path = output or 'raglint_report.html'
+
+        output_path = output or "raglint_report.html"
         generate_report(results, str(output_path))
         console.print(f"[green]✓[/] Report saved to: {output_path}")
 
-    elif format == 'json':
-        output_path = output or 'raglint_report.json'
-        with open(output_path, 'w') as f:
+    elif format == "json":
+        output_path = output or "raglint_report.json"
+        with open(output_path, "w") as f:
             json.dump(results, f, indent=2)
         console.print(f"[green]✓[/] Report saved to: {output_path}")
 
-    elif format == 'pdf':
+    elif format == "pdf":
         console.print("[yellow]PDF export requires dashboard. Use: /runs/{id}/export/pdf[/]")
 
 
@@ -64,8 +73,9 @@ def watch():
     """Manage auto-instrumentation monitoring"""
     pass
 
-@watch.command('start')
-@click.option('--file', '-f', default='raglint_events.jsonl', help='Output file for events')
+
+@watch.command("start")
+@click.option("--file", "-f", default="raglint_events.jsonl", help="Output file for events")
 def watch_start(file):
     """Start monitoring (creates trace file)"""
     from raglint.instrumentation import Monitor
@@ -77,7 +87,8 @@ def watch_start(file):
     console.print(f"[green]✓[/] Monitoring started. Events → {file}")
     console.print("[dim]Use @raglint.watch decorator in your code[/]")
 
-@watch.command('stop')
+
+@watch.command("stop")
 def watch_stop():
     """Stop monitoring"""
     from raglint.instrumentation import Monitor
@@ -87,7 +98,8 @@ def watch_stop():
 
     console.print("[green]✓[/] Monitoring stopped")
 
-@watch.command('status')
+
+@watch.command("status")
 def watch_status():
     """Check monitoring status"""
     from raglint.instrumentation import Monitor
@@ -107,9 +119,9 @@ def watch_status():
 
 # === REPORT COMMAND ===
 @cli.command()
-@click.argument('run_id', required=False)
-@click.option('--format', '-f', type=click.Choice(['html', 'json', 'pdf']), default='html')
-@click.option('--output', '-o', type=click.Path())
+@click.argument("run_id", required=False)
+@click.option("--format", "-f", type=click.Choice(["html", "json", "pdf"]), default="html")
+@click.option("--output", "-o", type=click.Path())
 def report(run_id, format, output):
     """Generate report from a run (default: latest)"""
 
@@ -124,20 +136,16 @@ def report(run_id, format, output):
 
 # === DASHBOARD COMMAND ===
 @cli.command()
-@click.option('--port', '-p', default=8000, help='Port to run on')
-@click.option('--host', '-h', default='0.0.0.0', help='Host to bind to')
+@click.option("--port", "-p", default=8000, help="Port to run on")
+@click.option("--host", "-h", default="0.0.0.0", help="Host to bind to")
 def dashboard(port, host):
     """Launch the web dashboard"""
     console.print("[bold blue]Starting RAGLint Dashboard...[/]")
     console.print(f"[dim]URL: http://localhost:{port}[/]")
 
     import uvicorn
-    uvicorn.run(
-        "raglint.dashboard.app:app",
-        host=host,
-        port=port,
-        reload=True
-    )
+
+    uvicorn.run("raglint.dashboard.app:app", host=host, port=port, reload=True)
 
 
 # === PLUGIN COMMAND ===
@@ -146,7 +154,8 @@ def plugin():
     """Manage evaluation plugins"""
     pass
 
-@plugin.command('list')
+
+@plugin.command("list")
 def plugin_list():
     """List installed plugins"""
     from raglint.plugins.loader import PluginLoader
@@ -160,18 +169,20 @@ def plugin_list():
     table.add_column("Description", style="dim")
 
     for p in plugins:
-        table.add_row(p['name'], p['type'], p.get('description', ''))
+        table.add_row(p["name"], p["type"], p.get("description", ""))
 
     console.print(table)
 
-@plugin.command('install')
-@click.argument('plugin_name')
+
+@plugin.command("install")
+@click.argument("plugin_name")
 def plugin_install(plugin_name):
     """Install a plugin from marketplace"""
     console.print(f"[yellow]Installing plugin: {plugin_name}[/]")
 
     # Download from registry
     import requests
+
     registry_url = f"https://raglint.io/api/plugins/{plugin_name}"
 
     try:
@@ -180,7 +191,7 @@ def plugin_install(plugin_name):
             plugin_code = resp.text
 
             # Save to plugins dir
-            plugin_dir = Path.home() / '.raglint' / 'plugins'
+            plugin_dir = Path.home() / ".raglint" / "plugins"
             plugin_dir.mkdir(parents=True, exist_ok=True)
 
             plugin_file = plugin_dir / f"{plugin_name}.py"

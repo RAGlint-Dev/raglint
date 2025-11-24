@@ -16,7 +16,7 @@ class AzureOpenAI_LLM(OpenAI_LLM):
         api_key: str,
         azure_endpoint: str,
         api_version: str = "2023-05-15",
-        deployment_name: str = "gpt-35-turbo"
+        deployment_name: str = "gpt-35-turbo",
     ):
         try:
             from openai import AsyncAzureOpenAI, AzureOpenAI

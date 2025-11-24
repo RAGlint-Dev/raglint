@@ -39,7 +39,7 @@ class EnhancedFaithfulnessScorer(FaithfulnessScorer):
         query: str,
         response: str,
         retrieved_contexts: list[str],
-        ground_truth: Optional[str] = None
+        ground_truth: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Score faithfulness with confidence metrics.
@@ -52,19 +52,12 @@ class EnhancedFaithfulnessScorer(FaithfulnessScorer):
         for _ in range(self.num_samples):
             try:
                 score = await self.ascore(
-                    query=query,
-                    response=response,
-                    retrieved_contexts=retrieved_contexts
+                    query=query, response=response, retrieved_contexts=retrieved_contexts
                 )
                 scores.append(score)
             except Exception as e:
                 # If sampling fails, flag it
-                return {
-                    "score": 0.0,
-                    "confidence": 0.0,
-                    "needs_review": True,
-                    "error": str(e)
-                }
+                return {"score": 0.0, "confidence": 0.0, "needs_review": True, "error": str(e)}
 
         # Calculate confidence
         avg_score, confidence = self.confidence_scorer.calculate_confidence(scores)
@@ -72,8 +65,7 @@ class EnhancedFaithfulnessScorer(FaithfulnessScorer):
 
         # Fact extraction verification
         fact_match = self.fact_extractor.extract_exact_answer(
-            query=query,
-            contexts=retrieved_contexts
+            query=query, contexts=retrieved_contexts
         )
 
         # Check if response contains exact quote from source
@@ -90,7 +82,7 @@ class EnhancedFaithfulnessScorer(FaithfulnessScorer):
             "exact_match": exact_match,
             "sample_scores": scores,
             "needs_review": confidence < 0.85 or avg_score < 0.7,
-            "metric": "enhanced_faithfulness"
+            "metric": "enhanced_faithfulness",
         }
 
         # Add fact match info if found
@@ -105,7 +97,7 @@ class EnhancedFaithfulnessScorer(FaithfulnessScorer):
         query: str,
         response: str,
         retrieved_contexts: list[str],
-        confidence_threshold: float = 0.90
+        confidence_threshold: float = 0.90,
     ) -> dict[str, Any]:
         """
         Precision mode scoring - only return high-confidence results.
@@ -119,9 +111,7 @@ class EnhancedFaithfulnessScorer(FaithfulnessScorer):
         Returns:
             High-precision result or flagged for review
         """
-        result = await self.score_with_confidence(
-            query, response, retrieved_contexts
-        )
+        result = await self.score_with_confidence(query, response, retrieved_contexts)
 
         # Check if meets precision threshold
         if result["confidence"] >= confidence_threshold and result["score"] >= 0.85:

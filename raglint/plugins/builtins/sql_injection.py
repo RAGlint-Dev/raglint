@@ -3,6 +3,7 @@ SQL Injection Detector Plugin - Identifies potential SQL injection patterns.
 
 Important for applications that might use RAG responses in database queries.
 """
+
 import re
 
 from raglint.plugins.interface import PluginInterface
@@ -31,17 +32,17 @@ class SQLInjectionDetectorPlugin(PluginInterface):
 
         # SQL injection patterns
         dangerous_patterns = [
-            r'\bSELECT\b.*\bFROM\b',  # SELECT ... FROM
-            r'\bINSERT\s+INTO\b',  # INSERT INTO
-            r'\bDELETE\s+FROM\b',  # DELETE FROM
-            r'\bDROP\s+TABLE\b',  # DROP TABLE
-            r'\bUNION\s+SELECT\b',  # UNION SELECT
-            r'\b--\s',  # SQL comments
-            r';\s*DROP',  # ; DROP (Bobby Tables)
+            r"\bSELECT\b.*\bFROM\b",  # SELECT ... FROM
+            r"\bINSERT\s+INTO\b",  # INSERT INTO
+            r"\bDELETE\s+FROM\b",  # DELETE FROM
+            r"\bDROP\s+TABLE\b",  # DROP TABLE
+            r"\bUNION\s+SELECT\b",  # UNION SELECT
+            r"\b--\s",  # SQL comments
+            r";\s*DROP",  # ; DROP (Bobby Tables)
             r"'\s*OR\s*'1'\s*=\s*'1",  # ' OR '1'='1
             r"'\s*OR\s*1\s*=\s*1",  # ' OR 1=1
-            r'\bEXEC\s*\(',  # EXEC(
-            r'\bxp_cmdshell\b',  # xp_cmdshell
+            r"\bEXEC\s*\(",  # EXEC(
+            r"\bxp_cmdshell\b",  # xp_cmdshell
         ]
 
         # Check response for SQL injection patterns
@@ -56,7 +57,7 @@ class SQLInjectionDetectorPlugin(PluginInterface):
             return 1.0  # No SQL injection patterns found
 
         # Calculate severity
-        critical_patterns = ['DROP TABLE', 'xp_cmdshell', 'DELETE FROM']
+        critical_patterns = ["DROP TABLE", "xp_cmdshell", "DELETE FROM"]
         has_critical = any(p in response_upper for p in critical_patterns)
 
         if has_critical:

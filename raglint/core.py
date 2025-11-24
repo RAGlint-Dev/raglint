@@ -63,6 +63,7 @@ class RAGPipelineAnalyzer:
 
             # Import context metrics
             from raglint.metrics.context_metrics import ContextPrecisionScorer, ContextRecallScorer
+
             self.context_precision_scorer = ContextPrecisionScorer(llm=self.llm)
             self.context_recall_scorer = ContextRecallScorer(llm=self.llm)
         else:
@@ -306,13 +307,11 @@ class RAGPipelineAnalyzer:
             # Toxicity
             if response:
                 try:
-                    tox_score, tox_reasoning = await self.toxicity_scorer.ascore(
-                        response
-                    )
+                    tox_score, tox_reasoning = await self.toxicity_scorer.ascore(response)
                     toxicity_score = tox_score
                 except Exception as e:
                     logger.error(f"Error calculating toxicity: {e}")
-                    toxicity_score = 1.0 # Default to safe
+                    toxicity_score = 1.0  # Default to safe
 
             # Context Precision (RAGAS-style)
             if retrieved and response:
@@ -337,8 +336,9 @@ class RAGPipelineAnalyzer:
             # Calculate Plugin Metrics
             plugin_metrics = {}
             from raglint.plugins.loader import PluginLoader
+
             loader = PluginLoader.get_instance()
-            loader.load_plugins() # Ensure loaded
+            loader.load_plugins()  # Ensure loaded
 
             for name, plugin in loader.metric_plugins.items():
                 try:
@@ -348,7 +348,7 @@ class RAGPipelineAnalyzer:
                             query=query,
                             response=response,
                             contexts=retrieved,
-                            ground_truth_contexts=ground_truth
+                            ground_truth_contexts=ground_truth,
                         )
                         # Extract score from result dict
                         if isinstance(result, dict):
@@ -361,13 +361,12 @@ class RAGPipelineAnalyzer:
                             query=query,
                             response=response,
                             retrieved_contexts=retrieved,
-                            ground_truth_contexts=ground_truth
+                            ground_truth_contexts=ground_truth,
                         )
                         plugin_metrics[name] = score
                 except Exception as e:
                     logger.error(f"Error running plugin {name}: {e}")
                     plugin_metrics[name] = 0.0
-
 
         return {
             "chunks": retrieved,
@@ -375,7 +374,7 @@ class RAGPipelineAnalyzer:
             "basic_metrics": basic_metrics,
             "semantic_score": semantic_score,
             "faithfulness_score": faithfulness_score,
-            "plugin_metrics": plugin_metrics, # Include plugin metrics
+            "plugin_metrics": plugin_metrics,  # Include plugin metrics
             "detailed": {
                 "query": query,
                 "metrics": basic_metrics,
@@ -386,7 +385,7 @@ class RAGPipelineAnalyzer:
                 ),
                 "context_precision": context_precision,
                 "context_recall": context_recall,
-                "plugin_metrics": plugin_metrics, # Include plugin metrics in detailed
+                "plugin_metrics": plugin_metrics,  # Include plugin metrics in detailed
                 "answer_relevance_score": answer_relevance_score,
                 "toxicity_score": toxicity_score,
             },

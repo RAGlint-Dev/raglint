@@ -4,6 +4,7 @@ Hallucination Confidence Scorer - Estimates confidence in response accuracy.
 Uses multiple signals to assess how confident we should be that the response
 is grounded and not hallucinated.
 """
+
 from typing import Any
 
 from raglint.plugins.interface import PluginInterface
@@ -26,17 +27,24 @@ class HallucinationConfidencePlugin(PluginInterface):
 
     # Hedging words (indicate uncertainty)
     HEDGING_WORDS = [
-        'maybe', 'might', 'could', 'possibly', 'perhaps',
-        'probably', 'likely', 'seems', 'appears', 'suggests',
-        'I think', 'I believe', 'I assume', 'uncertain'
+        "maybe",
+        "might",
+        "could",
+        "possibly",
+        "perhaps",
+        "probably",
+        "likely",
+        "seems",
+        "appears",
+        "suggests",
+        "I think",
+        "I believe",
+        "I assume",
+        "uncertain",
     ]
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs: Any
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
     ) -> dict[str, Any]:
         """Calculate hallucination confidence score."""
 
@@ -54,10 +62,10 @@ class HallucinationConfidencePlugin(PluginInterface):
 
         # Combined confidence (weighted average)
         confidence = (
-            overlap_score * 0.4 +
-            specificity_score * 0.2 +
-            hedging_score * 0.2 +
-            citation_score * 0.2
+            overlap_score * 0.4
+            + specificity_score * 0.2
+            + hedging_score * 0.2
+            + citation_score * 0.2
         )
 
         return {
@@ -67,10 +75,12 @@ class HallucinationConfidencePlugin(PluginInterface):
                 "context_overlap": round(overlap_score, 3),
                 "specificity": round(specificity_score, 3),
                 "low_hedging": round(hedging_score, 3),
-                "has_citations": round(citation_score, 3)
+                "has_citations": round(citation_score, 3),
             },
             "recommendation": self._get_recommendation(confidence),
-            "hallucination_risk": "low" if confidence >= 0.7 else "medium" if confidence >= 0.5 else "high"
+            "hallucination_risk": (
+                "low" if confidence >= 0.7 else "medium" if confidence >= 0.5 else "high"
+            ),
         }
 
     def _calculate_overlap(self, response: str, contexts: list[str]) -> float:
@@ -101,7 +111,8 @@ class HallucinationConfidencePlugin(PluginInterface):
 
         # Check for numbers, dates, names (specific info)
         import re
-        numbers = len(re.findall(r'\d+', response))
+
+        numbers = len(re.findall(r"\d+", response))
 
         # Simple heuristic
         specificity = min(1.0, 0.5 + (numbers * 0.1) + (word_count / 200))
@@ -125,9 +136,9 @@ class HallucinationConfidencePlugin(PluginInterface):
 
         # Check for various citation formats
         patterns = [
-            r'\[\d+\]',  # [1]
-            r'Section \d+',  # Section 5
-            r'\(.*?\d{4}.*?\)',  # (Author 2023)
+            r"\[\d+\]",  # [1]
+            r"Section \d+",  # Section 5
+            r"\(.*?\d{4}.*?\)",  # (Author 2023)
         ]
 
         has_citations = any(re.search(p, response) for p in patterns)
@@ -169,7 +180,9 @@ if __name__ == "__main__":
         result1 = await plugin.calculate_async(
             query="What is the return policy?",
             response="According to Section 5.2, the return policy is 30 days with full refund for items in original condition.",
-            contexts=["Section 5.2: Return policy is 30 days with full refund for items in original condition."]
+            contexts=[
+                "Section 5.2: Return policy is 30 days with full refund for items in original condition."
+            ],
         )
         print("\nHigh confidence:")
         print(f"  Score: {result1['score']}")
@@ -180,7 +193,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="What is the return policy?",
             response="Maybe you can return it. I think it might be possible, but I'm not sure.",
-            contexts=["Section 5.2: Return policy is 30 days."]
+            contexts=["Section 5.2: Return policy is 30 days."],
         )
         print("\nLow confidence:")
         print(f"  Score: {result2['score']}")

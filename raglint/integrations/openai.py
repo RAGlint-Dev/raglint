@@ -52,8 +52,8 @@ def wrap_openai(client: Any, monitor: Optional[Monitor] = None) -> Any:
                         latency_seconds=latency,
                         metadata={
                             "provider": "openai",
-                            "usage": response.usage.model_dump() if response.usage else {}
-                        }
+                            "usage": response.usage.model_dump() if response.usage else {},
+                        },
                     )
 
                 return response
@@ -65,7 +65,7 @@ def wrap_openai(client: Any, monitor: Optional[Monitor] = None) -> Any:
                     name="openai_chat_completion_error",
                     error=str(e),
                     latency_seconds=latency,
-                    status="error"
+                    status="error",
                 )
                 raise e
 

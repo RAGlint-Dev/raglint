@@ -3,6 +3,7 @@ Answer Completeness Plugin - Evaluates multi-part query coverage.
 
 Ensures responses address all components of complex questions.
 """
+
 from typing import Any
 
 from raglint.plugins.interface import PluginInterface
@@ -27,14 +28,11 @@ class CompletenessPlugin(PluginInterface):
 
     def _get_mock_llm(self):
         from raglint.llm import MockLLM
+
         return MockLLM()
 
     async def calculate_async(
-        self,
-        query: str,
-        response: str,
-        contexts: list[str],
-        **kwargs
+        self, query: str, response: str, contexts: list[str], **kwargs
     ) -> dict[str, Any]:
         """
         Calculate completeness score using LLM analysis.
@@ -74,7 +72,7 @@ Output JSON format:
                 "components_addressed": len(result.get("addressed", [])),
                 "missing_components": result.get("missing", []),
                 "reasoning": result.get("reasoning", ""),
-                "recommendation": self._get_recommendation(score)
+                "recommendation": self._get_recommendation(score),
             }
         except Exception:
             # Fallback: simple heuristic
@@ -84,15 +82,16 @@ Output JSON format:
         """Parse LLM JSON response."""
         import json
         import re
+
         try:
             # Extract JSON from potential markdown block or raw JSON
-            json_match = re.search(r'```json\n(.*?)```', response, re.DOTALL)
+            json_match = re.search(r"```json\n(.*?)```", response, re.DOTALL)
             if not json_match:
                 # Fallback to find any curly braces if not in markdown
-                json_match = re.search(r'\{(.*?)\}', response, re.DOTALL)
+                json_match = re.search(r"\{(.*?)\}", response, re.DOTALL)
 
             if json_match:
-                json_str = json_match.group(0) # group(0) for the whole match including braces
+                json_str = json_match.group(0)  # group(0) for the whole match including braces
                 return json.loads(json_str)
         except (json.JSONDecodeError, AttributeError):
             # Failed to parse LLM response, return default
@@ -127,7 +126,7 @@ Output JSON format:
             "components_addressed": int(parts * score),
             "missing_components": [],
             "reasoning": "Fallback heuristic based on keyword overlap",
-            "recommendation": self._get_recommendation(score)
+            "recommendation": self._get_recommendation(score),
         }
 
     def _get_recommendation(self, score: float) -> str:
@@ -153,7 +152,7 @@ if __name__ == "__main__":
         result1 = await plugin.calculate_async(
             query="What's the price and warranty?",
             response="The price is $299 and it comes with a 2-year warranty.",
-            contexts=[]
+            contexts=[],
         )
         print("\nComplete answer:")
         print(f"  Score: {result1['score']}")
@@ -163,7 +162,7 @@ if __name__ == "__main__":
         result2 = await plugin.calculate_async(
             query="What's the price, warranty, and return policy?",
             response="The price is $299.",
-            contexts=[]
+            contexts=[],
         )
         print("\nIncomplete answer:")
         print(f"  Score: {result2['score']}")

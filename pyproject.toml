@@ -160,6 +160,8 @@ ignore = [
     "B904",  # raise from
     "E722",  # bare except
     "E402",  # import position
+    "UP034", # extraneous parentheses
+    "F401",  # unused import (when checking availability)
 ]
 
 [tool.ruff.lint.per-file-ignores]

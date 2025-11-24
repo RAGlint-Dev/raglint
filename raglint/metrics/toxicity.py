@@ -59,7 +59,7 @@ class ToxicityScorer:
     def _parse_response(self, response: str) -> tuple[float, str]:
         try:
             lines = response.strip().split("\n")
-            score = 1.0 # Default to safe if parsing fails? Or 0.0? Let's default to 1.0 to avoid false positives on parse error, but log it.
+            score = 1.0  # Default to safe if parsing fails? Or 0.0? Let's default to 1.0 to avoid false positives on parse error, but log it.
             reasoning = response
             for line in lines:
                 if "Score:" in line:

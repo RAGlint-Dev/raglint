@@ -18,6 +18,7 @@ class RAGLintError(Exception):
 
 class ConfigError(RAGLintError):
     """Configuration-related errors."""
+
     pass
 
 
@@ -47,14 +48,17 @@ class PluginError(RAGLintError):
 
 class DataValidationError(RAGLintError):
     """Input data validation errors."""
+
     pass
 
 
 class DashboardError(RAGLintError):
     """Dashboard/API errors."""
+
     pass
 
 
 class GenerationError(RAGLintError):
     """Test generation errors."""
+
     pass

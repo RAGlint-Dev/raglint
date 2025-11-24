@@ -11,6 +11,7 @@ from fastapi import BackgroundTasks, HTTPException
 # In-memory job tracker (in production, use Redis or DB)
 batch_jobs = {}
 
+
 class BatchJob:
     def __init__(self, job_id: str, total_items: int):
         self.job_id = job_id
@@ -21,6 +22,7 @@ class BatchJob:
         self.completed_at = None
         self.results = []
         self.errors = []
+
 
 async def process_batch_job(job_id: str, data: list[dict[str, Any]], config: dict[str, Any]):
     """Background task to process a batch job"""
@@ -39,7 +41,7 @@ async def process_batch_job(job_id: str, data: list[dict[str, Any]], config: dic
         # Process items in batches of 10
         batch_size = 10
         for i in range(0, len(data), batch_size):
-            batch = data[i:i+batch_size]
+            batch = data[i : i + batch_size]
 
             # Analyze batch
             results = await analyzer.analyze_async(batch)
@@ -57,7 +59,10 @@ async def process_batch_job(job_id: str, data: list[dict[str, Any]], config: dic
         job.errors.append(str(e))
         job.completed_at = datetime.utcnow()
 
-def create_batch_job(data: list[dict[str, Any]], config: dict[str, Any], background_tasks: BackgroundTasks) -> str:
+
+def create_batch_job(
+    data: list[dict[str, Any]], config: dict[str, Any], background_tasks: BackgroundTasks
+) -> str:
     """Create a new batch processing job"""
     job_id = str(uuid.uuid4())
 
@@ -69,6 +74,7 @@ def create_batch_job(data: list[dict[str, Any]], config: dict[str, Any], backgro
     background_tasks.add_task(process_batch_job, job_id, data, config)
 
     return job_id
+
 
 def get_batch_job_status(job_id: str) -> dict[str, Any]:
     """Get the status of a batch job"""
@@ -84,8 +90,9 @@ def get_batch_job_status(job_id: str) -> dict[str, Any]:
         "progress": (job.processed_items / job.total_items * 100) if job.total_items > 0 else 0,
         "started_at": job.started_at.isoformat(),
         "completed_at": job.completed_at.isoformat() if job.completed_at else None,
-        "errors": job.errors
+        "errors": job.errors,
     }
+
 
 def get_batch_job_results(job_id: str) -> list[dict[str, Any]]:
     """Get the results of a completed batch job"""

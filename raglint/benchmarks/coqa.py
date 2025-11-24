@@ -45,7 +45,7 @@ class CoQABenchmark:
         # Generate sample data
         data = self._generate_sample_coqa()
 
-        with open(cache_file, 'w') as f:
+        with open(cache_file, "w") as f:
             json.dump(data, f, indent=2)
 
         return data
@@ -59,17 +59,17 @@ class CoQABenchmark:
                     {"q": "When was the race?", "a": "November 7, 2017"},
                     {"q": "Who won?", "a": "Ralph Northam"},
                     {"q": "Who did he defeat?", "a": "Ed Gillespie"},
-                    {"q": "What party is he from?", "a": "Democrat"}
-                ]
+                    {"q": "What party is he from?", "a": "Democrat"},
+                ],
             },
             {
                 "story": "Bill Gates founded Microsoft in 1975. He stepped down as CEO in 2000.",
                 "questions": [
                     {"q": "Who founded Microsoft?", "a": "Bill Gates"},
                     {"q": "When?", "a": "1975"},
-                    {"q": "When did he step down?", "a": "2000"}
-                ]
-            }
+                    {"q": "When did he step down?", "a": "2000"},
+                ],
+            },
         ]
 
         raglint_data = []
@@ -95,10 +95,7 @@ class CoQABenchmark:
                         "ground_truth_contexts": [sample["story"]],
                         "response": turn["a"],
                         "ground_truth": turn["a"],
-                        "metadata": {
-                            "history": history.copy(),
-                            "source": "coqa"
-                        }
+                        "metadata": {"history": history.copy(), "source": "coqa"},
                     }
                     raglint_data.append(raglint_item)
 
@@ -106,4 +103,4 @@ class CoQABenchmark:
                     history.append({"q": turn["q"], "a": turn["a"]})
                     count += 1
 
-        return raglint_data[:self.subset_size]
+        return raglint_data[: self.subset_size]
