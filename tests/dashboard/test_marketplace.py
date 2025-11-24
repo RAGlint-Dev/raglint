@@ -62,8 +62,8 @@ async def test_registry_install_logic():
         with patch("builtins.open", m):
             registry.install_plugin("test-plugin", target_dir="/tmp/test_plugins")
             
-            # Verify URL
-            mock_get.assert_called_with("https://registry.raglint.com/plugins/test-plugin.py", timeout=2.0)
+            # Verify URL - new format uses /latest/download
+            mock_get.assert_called_with("https://registry.raglint.com/plugins/test-plugin/latest/download", timeout=2.0)
             
             # Verify File Write
             # Check if write was called on the file handle

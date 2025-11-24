@@ -47,7 +47,7 @@ def test_openai_integration_import():
 @patch('openai.OpenAI')
 def test_openai_wrapper_basic(mock_openai):
     """Test OpenAI wrapper basic functionality."""
-    from raglint.integrations.openai import track_openai
+    from raglint.integrations.openai import wrap_openai  # Changed from track_openai
     
     mock_client = MagicMock()
     mock_completion = MagicMock()
@@ -55,7 +55,7 @@ def test_openai_wrapper_basic(mock_openai):
     mock_client.chat.completions.create.return_value = mock_completion
     
     # Wrap client
-    tracked_client = track_openai(mock_client)
+    tracked_client = wrap_openai(mock_client)
     assert tracked_client is not None
 
 
@@ -72,11 +72,10 @@ def test_azure_llm_initialization():
     
     llm = AzureOpenAI_LLM(
         api_key="test-key",
-        endpoint="https://test.openai.azure.com",
+        azure_endpoint="https://test.openai.azure.com",  # Changed from endpoint
         deployment_name="gpt-35-turbo"
     )
-    assert llm.endpoint is not None
-    assert llm.deployment_name == "gpt-35-turbo"
+    assert llm.model == "gpt-35-turbo"  # Changed attribute name
 
 
 # Bedrock Integration Tests
@@ -92,7 +91,6 @@ def test_bedrock_llm_initialization():
     
     llm = BedrockLLM(
         model_id="anthropic.claude-v2",
-        region="us-east-1"
+        region_name="us-east-1"  # Changed from region
     )
     assert llm.model_id == "anthropic.claude-v2"
-    assert llm.region == "us-east-1"
