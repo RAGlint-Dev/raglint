@@ -5,6 +5,7 @@ Warns if RAG responses contain sensitive personal information.
 """
 
 import re
+from typing import Any
 
 from raglint.plugins.interface import PluginInterface
 
@@ -18,14 +19,12 @@ class PIIDetectorPlugin(PluginInterface):
     version = "2.0.0"
     description = "Detects personally identifiable information in responses"
 
-    def evaluate(self, query: str, context: list, response: str) -> float:
+    async def calculate_async(
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
+    ) -> dict[str, Any]:
         """
-        Real implementation: Detect PII in the response using regex patterns.
-
-        Detects: emails, phone numbers, SSNs, credit cards, IP addresses.
-        Returns 1.0 if no PII found, 0.0 if PII detected.
+        Detect PII in the response using regex patterns.
         """
-
         # PII patterns
         patterns = {
             "email": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
@@ -37,18 +36,36 @@ class PIIDetectorPlugin(PluginInterface):
         }
 
         pii_found = {}
+        pii_types = []
+        total_matches = 0
+        
         for pii_type, pattern in patterns.items():
             matches = re.findall(pattern, response)
             if matches:
-                pii_found[pii_type] = len(matches)
+                count = len(matches)
+                pii_found[pii_type] = count
+                pii_types.append(pii_type)
+                total_matches += count
 
         if not pii_found:
-            return 1.0  # No PII found - good
+            return {
+                "score": 1.0,
+                "pii_found": False,
+                "pii_count": 0,
+                "pii_types": []
+            }
 
         # PII detected - score based on severity
         # Email/phone less severe than SSN/credit card
         severe_types = {"ssn", "credit_card"}
-        if any(pii_type in severe_types for pii_type in pii_found):
-            return 0.0  # Critical PII found
+        is_severe = any(pii_type in severe_types for pii_type in pii_found)
+        
+        score = 0.0 if is_severe else 0.3
 
-        return 0.3  # Less severe PII found
+        return {
+            "score": score,
+            "pii_found": True,
+            "pii_count": total_matches,
+            "pii_types": pii_types,
+            "details": pii_found
+        }

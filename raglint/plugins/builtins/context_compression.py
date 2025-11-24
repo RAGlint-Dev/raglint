@@ -55,13 +55,20 @@ class ContextCompressionPlugin(PluginInterface):
             "avg_context_length": sum(len(c.split()) for c in contexts) // len(contexts),
         }
 
+    def _normalize_tokens(self, text: str) -> set[str]:
+        """Normalize text and return unique tokens."""
+        import string
+        # Remove punctuation and convert to lowercase
+        text = text.translate(str.maketrans("", "", string.punctuation))
+        return set(text.lower().split())
+
     def _calculate_redundancy(self, contexts: list[str]) -> float:
         """Calculate word redundancy across contexts."""
         if len(contexts) < 2:
             return 0.0
 
-        # Create word sets for each context
-        context_sets = [set(c.lower().split()) for c in contexts]
+        # Create word sets for each context using normalization
+        context_sets = [self._normalize_tokens(c) for c in contexts]
 
         # Calculate pairwise overlap
         overlaps = []
@@ -76,14 +83,14 @@ class ContextCompressionPlugin(PluginInterface):
 
     def _calculate_utilization(self, response: str, contexts: list[str]) -> float:
         """Calculate how much of contexts was used in response."""
-        response_words = set(response.lower().split())
+        response_words = self._normalize_tokens(response)
 
         # Count unique context words that appear in response
         context_words = set()
         used_words = set()
 
         for context in contexts:
-            ctx_words = set(context.lower().split())
+            ctx_words = self._normalize_tokens(context)
             context_words.update(ctx_words)
             used_words.update(ctx_words & response_words)
 

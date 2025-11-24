@@ -5,6 +5,7 @@ Checks if responses properly cite sources and if cited information exists in con
 """
 
 import re
+from typing import Any
 
 from raglint.plugins.interface import PluginInterface
 
@@ -18,10 +19,32 @@ class CitationAccuracyPlugin(PluginInterface):
     version = "2.0.0"
     description = "Verifies citations and their accuracy in responses"
 
+    async def calculate_async(
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
+    ) -> dict[str, Any]:
+        """Calculate citation accuracy metrics."""
+        score = self.evaluate(query, contexts, response)
+        
+        # Count citations for reporting
+        citation_patterns = [
+            r"\[(\d+)\]",
+            r"\(([A-Z][a-z]+,?\s+\d{4})\)",
+            r"\(([A-Z][a-z]+\s+et\s+al\.,?\s+\d{4})\)",
+        ]
+        count = 0
+        for pattern in citation_patterns:
+            count += len(re.findall(pattern, response))
+            
+        return {
+            "score": score,
+            "citation_count": count,
+            "accuracy_level": "high" if score > 0.8 else "low"
+        }
+
     def evaluate(self, query: str, context: list, response: str) -> float:
         """
         Real implementation: Check if citations in response match source documents.
-
+        
         Looks for citation patterns like [1], [2], (Smith, 2020), etc.
         and verifies they correspond to information in the contexts.
         """

@@ -48,6 +48,7 @@ class ReadabilityPlugin(PluginInterface):
         smog = self._smog_index(sentences, self._count_complex_words(response))
 
         return {
+            "score": round(min(1.0, max(0.0, flesch / 100.0)), 2),  # Normalize 0-100 to 0.0-1.0
             "flesch_reading_ease": round(flesch, 1),
             "flesch_kincaid_grade": round(grade_level, 1),
             "smog_index": round(smog, 1),

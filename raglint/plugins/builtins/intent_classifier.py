@@ -37,7 +37,7 @@ class UserIntentPlugin(PluginInterface):
     # Expected response characteristics
     EXPECTED_FEATURES = {
         "factual": ["definitional", "numbers", "dates"],
-        "instructional": ["steps", "numbered list", "first", "then", "finally"],
+        "instructional": ["step", "guide", "follow", "click", "enter", "select", "press"],
         "comparison": ["whereas", "while", "but", "however", "better", "worse"],
         "troubleshooting": ["try", "check", "ensure", "verify", "solution"],
         "transactional": ["click", "go to", "button", "link", "form"],
@@ -106,7 +106,8 @@ class UserIntentPlugin(PluginInterface):
 
             has_numbers = bool(re.search(r"\d+\.|\d+\)", response))
             if has_numbers:
-                base_alignment = min(1.0, base_alignment + 0.2)
+                # Strong signal for instructions
+                base_alignment = min(1.0, base_alignment + 0.5)
 
         # Boost for comparison if contrasting words
         if intent == "comparison":

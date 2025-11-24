@@ -29,7 +29,11 @@ class ResponseDiversityPlugin(PluginInterface):
     ) -> dict[str, Any]:
         """Calculate diversity score."""
 
-        words = response.split()
+        # Normalize text for better analysis
+        import string
+        response_clean = response.translate(str.maketrans("", "", string.punctuation))
+        words = response_clean.lower().split()
+        
         if len(words) < 5:
             return {"score": 0.5, "message": "Response too short to analyze diversity"}
 

@@ -183,6 +183,10 @@ class PluginLoader:
         except Exception as e:
             logger.error(f"Failed to instantiate plugin {plugin_class}: {e}")
 
+    def get_plugin(self, name: str) -> Optional[BasePlugin]:
+        """Get a plugin by name."""
+        return self.plugins.get(name)
+
     def get_llm_plugin(self, name: str) -> Optional[LLMPlugin]:
         """Get an LLM plugin by name."""
         return self.llm_plugins.get(name)
