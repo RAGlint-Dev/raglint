@@ -227,7 +227,6 @@ async def test_versions_ui(test_db):
         assert "Initial commit" in response.text
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="Dashboard template doesn't display email yet")
 async def test_auth_flow(test_db):
     """Test registration, login, and protected route."""
     from raglint.dashboard import models
@@ -269,5 +268,4 @@ async def test_auth_flow(test_db):
         client.cookies = response.cookies # Set cookie for subsequent requests
         response = client.get("/")
         assert response.status_code == 200
-        # Email display in template not yet implemented
-        # assert "test@example.com" in response.text
+        assert "test@example.com" in response.text

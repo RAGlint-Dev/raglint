@@ -16,34 +16,32 @@ async def test_dashboard_database_init():
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="Run model not yet implemented")
 async def test_run_model_create():
-    """Test Run model creation."""
-    from raglint.dashboard.models import Run  # Changed from database to models
+    """Test AnalysisRun model creation."""
+    from raglint.dashboard.models import AnalysisRun
     
-    run = Run(
+    run = AnalysisRun(
         id="test-run-123",
         timestamp=datetime.now(),
         config={"provider": "mock"},
-        results={"score": 0.85}
+        metrics_summary={"score": 0.85}
     )
     assert run.id == "test-run-123"
-    assert run.results["score"] == 0.85
+    assert run.metrics_summary["score"] == 0.85
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="Dataset model not yet implemented")
 async def test_dataset_model():
     """Test Dataset model."""
-    from raglint.dashboard.models import Dataset  # Changed from database to models
+    from raglint.dashboard.models import Dataset, DatasetItem
     
     dataset = Dataset(
         name="test_dataset",
-        description="Test dataset",
-        data=[{"query": "test"}]
+        description="Test dataset"
     )
+    # Dataset stores items as related DatasetItem objects, not as 'data' field
     assert dataset.name == "test_dataset"
-    assert len(dataset.data) == 1
+    assert dataset.description == "Test dataset"
 
 
 def test_get_db_session():
