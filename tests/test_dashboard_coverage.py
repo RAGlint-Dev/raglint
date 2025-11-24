@@ -16,10 +16,10 @@ class TestDashboardCoverage:
         return User(id="test", email="test@example.com", hashed_password="hash")
 
     def test_read_root_redirect(self):
-        """Test root redirects to login."""
+        """Test root shows landing page."""
         response = client.get("/", follow_redirects=False)
-        assert response.status_code == 307
-        assert response.headers["location"] == "/login"
+        assert response.status_code == 200
+        assert b"RAGLint" in response.content
 
     def test_login_page(self):
         """Test login page rendering."""
@@ -29,9 +29,9 @@ class TestDashboardCoverage:
 
     def test_dashboard_unauthorized(self):
         """Test dashboard requires login."""
-        # The home page IS the dashboard
-        response = client.get("/", follow_redirects=False)
-        assert response.status_code == 307
+        # Now /dashboard is the protected route
+        response = client.get("/dashboard", follow_redirects=False)
+        assert response.status_code == 307  # Redirects to login
 
     def test_dashboard_authorized(self, mock_user):
         """Test dashboard with logged in user."""

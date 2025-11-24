@@ -32,9 +32,10 @@ def auth_headers(client):
     return {"Cookie": f"access_token={cookies.get('access_token')}"}
 
 def test_homepage_redirect(client):
-    """Test that homepage redirects to login"""
+    """Test that homepage shows landing page"""
     response = client.get("/", follow_redirects=False)
-    assert response.status_code == 307
+    assert response.status_code == 200
+    assert b"RAGLint" in response.content  # Landing page content
 
 def test_login_page(client):
     """Test login page loads"""

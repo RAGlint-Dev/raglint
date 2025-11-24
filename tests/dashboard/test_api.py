@@ -70,8 +70,8 @@ async def test_health_check(test_db):
 async def test_root_endpoint():
     with TestClient(app) as client:
         response = client.get("/", follow_redirects=False)
-        assert response.status_code == 307 or response.status_code == 303
-        assert "/login" in response.headers["location"]
+        assert response.status_code == 200
+        assert b"RAGLint" in response.content  # Landing page content
 
 @pytest.mark.asyncio
 async def test_trigger_analysis(test_db):
@@ -233,10 +233,9 @@ async def test_auth_flow(test_db):
     from raglint.dashboard.database import SessionLocal
     
     with TestClient(app) as client:
-        # 1. Access Home -> Redirect to Login
+        # 1. Access Home -> Shows Landing Page
         response = client.get("/", follow_redirects=False)
-        assert response.status_code == 307 or response.status_code == 303
-        assert "/login" in response.headers["location"]
+        assert response.status_code == 200  # Landing page
         
         # 2. Register
         response = client.post(
