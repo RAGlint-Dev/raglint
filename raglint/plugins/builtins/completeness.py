@@ -63,6 +63,10 @@ Output JSON format:
             llm_response = await self.llm.agenerate(prompt)
             result = self._parse_llm_response(llm_response)
 
+            # If we got an empty dict from parsing, trigger fallback
+            if not result or "coverage_percent" not in result:
+                return self._fallback_analysis(query, response)
+
             score = result.get("coverage_percent", 50.0) / 100.0
 
             return {
@@ -77,22 +81,6 @@ Output JSON format:
         except Exception:
             # Fallback: simple heuristic
             return self._fallback_analysis(query, response)
-
-        # If we got an empty dict from parsing, trigger fallback
-        if not result or "coverage_percent" not in result:
-            return self._fallback_analysis(query, response)
-
-        score = result.get("coverage_percent", 50.0) / 100.0
-
-        return {
-            "score": round(score, 3),
-            "coverage_percent": result.get("coverage_percent", 50.0),
-            "components_found": len(result.get("components", [])),
-            "components_addressed": len(result.get("addressed", [])),
-            "missing_components": result.get("missing", []),
-            "reasoning": result.get("reasoning", ""),
-            "recommendation": self._get_recommendation(score),
-        }
 
     def _parse_llm_response(self, response: str) -> dict:
         """Parse LLM JSON response."""
