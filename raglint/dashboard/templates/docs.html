@@ -12,6 +12,105 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/landing/css/style.css">
+    <style>
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .docs-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .docs-nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .docs-nav-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .docs-nav-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .docs-nav-link:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .docs-nav-link.active {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+
+        .docs-content {
+            min-width: 0;
+        }
+
+        .docs-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .docs-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .docs-card h3 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .docs-card p {
+            margin-bottom: 0;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 968px) {
+            .docs-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .docs-sidebar {
+                position: static;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -32,72 +131,154 @@
         </div>
     </nav>
 
-    <header class="hero" style="padding: 6rem 0 3rem;">
+    <div
+        style="padding: 4rem 0 2rem; text-align: center; background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%);">
         <div class="container">
-            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <div class="badge">Latest Version: v0.2.0</div>
-                <h1>Documentation</h1>
-                <p class="hero-subtitle">
-                    Everything you need to get started with RAGLint and build production-ready RAG applications.
-                </p>
-            </div>
+            <h1 style="margin-bottom: 1rem; font-size: 3rem;">RAGLint Documentation</h1>
+            <p style="font-size: 1.25rem; color: #9ca3af;">Comprehensive evaluation framework for Retrieval-Augmented
+                Generation systems</p>
         </div>
-    </header>
+    </div>
 
-    <section class="features">
-        <div class="container" style="max-width: 900px;">
+    <div class="docs-layout">
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <div class="docs-nav-section">
+                <div class="docs-nav-title">Getting Started</div>
+                <a href="#quick-start" class="docs-nav-link active">Quick Start</a>
+                <a href="#installation" class="docs-nav-link">Installation</a>
+                <a href="#basic-usage" class="docs-nav-link">Basic Usage</a>
+            </div>
+
+            <div class="docs-nav-section">
+                <div class="docs-nav-title">Core Concepts</div>
+                <a href="#metrics" class="docs-nav-link">Smart Metrics</a>
+                <a href="#plugins" class="docs-nav-link">Plugin System</a>
+                <a href="#dashboard" class="docs-nav-link">Dashboard</a>
+                <a href="#cicd" class="docs-nav-link">CI/CD Integration</a>
+            </div>
+
+            <div class="docs-nav-section">
+                <div class="docs-nav-title">API Reference</div>
+                <a href="#api-analyzer" class="docs-nav-link">RAGPipelineAnalyzer</a>
+                <a href="#api-config" class="docs-nav-link">Configuration</a>
+                <a href="#api-metrics" class="docs-nav-link">Metrics API</a>
+            </div>
+
+            <div class="docs-nav-section">
+                <div class="docs-nav-title">Resources</div>
+                <a href="https://github.com/RAGlint-Dev/raglint" class="docs-nav-link" target="_blank">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+                <a href="https://pypi.org/project/raglint/" class="docs-nav-link" target="_blank">
+                    <i class="fa-brands fa-python"></i> PyPI Package
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
             <!-- Quick Start -->
-            <div style="margin-bottom: 4rem;">
+            <section id="quick-start" style="margin-bottom: 4rem;">
                 <h2 style="margin-bottom: 2rem;">🚀 Quick Start</h2>
+                <div class="docs-grid">
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-download" style="color: #22c55e;"></i> Installation</h3>
+                        <p>Get started with RAGLint in 5 minutes. Install, configure, and run your first evaluation.</p>
+                        <div class="code-window" style="margin-top: 1rem;">
+                            <div class="window-header">
+                                <div class="dots"><span></span><span></span><span></span></div>
+                                <div class="lang">bash</div>
+                            </div>
+                            <pre><code>pip install raglint</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-book" style="color: #3b82f6;"></i> API Reference</h3>
+                        <p>Complete API documentation for all RAGLint modules, classes, and functions.</p>
+                        <a href="#api-reference" style="color: #8b5cf6; margin-top: 1rem; display: inline-block;">View
+                            API Docs →</a>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-graduation-cap" style="color: #f59e0b;"></i> Guides</h3>
+                        <p>In-depth tutorials and examples for advanced use cases and integrations.</p>
+                        <a href="#guides" style="color: #8b5cf6; margin-top: 1rem; display: inline-block;">Browse Guides
+                            →</a>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-brands fa-github" style="color: #8b5cf6;"></i> GitHub</h3>
+                        <p>View source code, report issues, and contribute to the project.</p>
+                        <a href="https://github.com/RAGlint-Dev/raglint" target="_blank"
+                            style="color: #8b5cf6; margin-top: 1rem; display: inline-block;">Visit Repository →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- What is RAGLint -->
+            <section id="what-is" style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">What is RAGLint?</h2>
+                <p style="font-size: 1.125rem; line-height: 1.75; color: #d1d5db; margin-bottom: 2rem;">
+                    RAGLint is a comprehensive evaluation framework for Retrieval-Augmented Generation (RAG) systems. It
+                    provides production-ready tools to measure, monitor, and improve your RAG pipelines.
+                </p>
+
+                <div class="docs-grid">
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-brain" style="color: #8b5cf6;"></i> Smart Metrics</h3>
+                        <p>Faithfulness, semantic similarity, context precision/recall, and more.</p>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-puzzle-piece" style="color: #f59e0b;"></i> Plugin System</h3>
+                        <p>Extensible architecture for custom metrics and evaluators.</p>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-gauge-high" style="color: #22c55e;"></i> Dashboard</h3>
+                        <p>Beautiful web UI for visualizing results and debugging queries.</p>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-dollar-sign" style="color: #3b82f6;"></i> Cost Tracking</h3>
+                        <p>Monitor LLM costs and latency across different providers.</p>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-code-branch" style="color: #ec4899;"></i> CLI & Python API</h3>
+                        <p>Use from command line or integrate directly into your code.</p>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-chart-bar" style="color: #06b6d4;"></i> Benchmarks</h3>
+                        <p>Test against SQUAD, CoQA, and other standard datasets.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation -->
+            <section id="installation" style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">💻 Installation</h2>
                 <div class="code-window">
                     <div class="window-header">
                         <div class="dots"><span></span><span></span><span></span></div>
                         <div class="lang">bash</div>
                     </div>
-                    <pre><code class="language-bash"><span class="comment"># Install RAGLint</span>
+                    <pre><code class="language-bash"><span class="comment"># Install from PyPI</span>
 pip install raglint
 
-<span class="comment"># Run an analysis</span>
-raglint analyze data.json --smart
-
-<span class="comment"># Launch the dashboard</span>
-raglint dashboard</code></pre>
+<span class="comment"># Or install from source</span>
+git clone https://github.com/RAGlint-Dev/raglint.git
+cd raglint
+pip install -e .</code></pre>
                 </div>
-            </div>
-
-            <!-- Core Concepts -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">📚 Core Concepts</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="icon-box bg-blue">
-                            <i class="fa-solid fa-microscope"></i>
-                        </div>
-                        <h3>Analysis Pipeline</h3>
-                        <p>RAGLint analyzes your RAG system across multiple dimensions: faithfulness, relevance, context
-                            quality, and more.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon-box bg-purple">
-                            <i class="fa-solid fa-puzzle-piece"></i>
-                        </div>
-                        <h3>Smart Metrics</h3>
-                        <p>Use LLM-powered metrics for deep analysis or fast heuristic metrics for quick iteration.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon-box bg-green">
-                            <i class="fa-solid fa-plug"></i>
-                        </div>
-                        <h3>Plugins</h3>
-                        <p>Extend RAGLint with custom metrics and integrations. Built-in support for LangChain,
-                            LlamaIndex, and Haystack.</p>
-                    </div>
-                </div>
-            </div>
+            </section>
 
             <!-- Basic Usage -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">💡 Basic Usage</h2>
+            <section id="basic-usage" style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">🎯 Basic Usage</h2>
                 <div class="code-window">
                     <div class="window-header">
                         <div class="dots"><span></span><span></span><span></span></div>
@@ -105,88 +286,89 @@ raglint dashboard</code></pre>
                     </div>
                     <pre><code class="language-python"><span class="keyword">from</span> raglint <span class="keyword">import</span> RAGPipelineAnalyzer
 
-<span class="comment"># Initialize analyzer</span>
+<span class="comment"># Initialize analyzer with smart metrics</span>
 analyzer = RAGPipelineAnalyzer(use_smart_metrics=<span class="keyword">True</span>)
 
-<span class="comment"># Prepare your data</span>
+<span class="comment"># Prepare your test data</span>
 data = [
     {
-        <span class="string">"query"</span>: <span class="string">"What is RAG?"</span>,
-        <span class="string">"retrieved_contexts"</span>: [<span class="string">"RAG combines retrieval and generation..."</span>],
-        <span class="string">"response"</span>: <span class="string">"RAG is a technique that..."</span>
+        <span class="string">"query"</span>: <span class="string">"What is retrieval-augmented generation?"</span>,
+        <span class="string">"retrieved_contexts"</span>: [
+            <span class="string">"RAG combines retrieval and generation..."</span>
+        ],
+        <span class="string">"response"</span>: <span class="string">"RAG is a technique that enhances LLMs..."</span>
     }
 ]
 
 <span class="comment"># Run analysis</span>
 results = analyzer.analyze(data)
 
-<span class="comment"># Get metrics</span>
-<span class="keyword">print</span>(results[<span class="number">0</span>][<span class="string">"metrics"</span>])</code></pre>
+<span class="comment"># View metrics</span>
+<span class="keyword">for</span> result <span class="keyword">in</span> results:
+    <span class="keyword">print</span>(result[<span class="string">"metrics"</span>])</code></pre>
                 </div>
-            </div>
+            </section>
 
-            <!-- Key Features -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">✨ Key Features</h2>
-                <div
-                    style="background: rgba(139, 92, 246, 0.1); border-left: 4px solid #8b5cf6; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
-                    <h4 style="margin-top: 0;"><i class="fa-solid fa-brain"
-                            style="color: #8b5cf6; margin-right: 0.5rem;"></i> Hallucination Detection</h4>
-                    <p style="margin-bottom: 0;">Automatically detect when your LLM generates information not supported
-                        by the retrieved context using our specialized faithfulness metrics.</p>
-                </div>
-                <div
-                    style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
-                    <h4 style="margin-top: 0;"><i class="fa-solid fa-code-branch"
-                            style="color: #22c55e; margin-right: 0.5rem;"></i> CI/CD Integration</h4>
-                    <p style="margin-bottom: 0;">Block bad deployments before they reach production. RAGLint integrates
-                        seamlessly with GitHub Actions to catch regressions in your test suite.</p>
-                </div>
-                <div
-                    style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 1.5rem; border-radius: 8px;">
-                    <h4 style="margin-top: 0;"><i class="fa-solid fa-chart-line"
-                            style="color: #3b82f6; margin-right: 0.5rem;"></i> Cost & Performance Tracking</h4>
-                    <p style="margin-bottom: 0;">Monitor token usage, API costs, and response times across different
-                        models and providers. Optimize for both quality and budget.</p>
-                </div>
-            </div>
+            <!-- CLI Usage -->
+            <section id="cli" style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">⚡ CLI Usage</h2>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <div class="lang">bash</div>
+                    </div>
+                    <pre><code class="language-bash"><span class="comment"># Analyze a dataset</span>
+raglint analyze data.json --smart --output report.html
 
-            <!-- Links -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">🔗 Resources</h2>
-                <div class="feature-grid">
-                    <a href="https://github.com/RAGlint-Dev/raglint" style="text-decoration: none;">
-                        <div class="feature-card" style="cursor: pointer; transition: transform 0.2s;">
-                            <div class="icon-box bg-orange">
-                                <i class="fa-brands fa-github"></i>
-                            </div>
-                            <h3>GitHub Repository</h3>
-                            <p>View the source code, report issues, and contribute to the project.</p>
-                        </div>
-                    </a>
-                    <a href="https://pypi.org/project/raglint/" style="text-decoration: none;">
-                        <div class="feature-card" style="cursor: pointer; transition: transform 0.2s;">
-                            <div class="icon-box bg-blue">
-                                <i class="fa-brands fa-python"></i>
-                            </div>
-                            <h3>PyPI Package</h3>
-                            <p>Install via pip and view package details on the Python Package Index.</p>
-                        </div>
-                    </a>
-                    <a href="/dashboard" style="text-decoration: none;">
-                        <div class="feature-card" style="cursor: pointer; transition: transform 0.2s;">
-                            <div class="icon-box bg-purple">
-                                <i class="fa-solid fa-gauge-high"></i>
-                            </div>
-                            <h3>Live Dashboard</h3>
-                            <p>Explore your RAG metrics with our interactive web dashboard.</p>
-                        </div>
-                    </a>
+<span class="comment"># Launch the dashboard</span>
+raglint dashboard
+
+<span class="comment"># Run benchmarks</span>
+raglint benchmark squad --sample 100</code></pre>
                 </div>
-            </div>
+            </section>
+
+            <!-- Integrations -->
+            <section id="integrations" style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">🔗 Integrations</h2>
+                <div class="docs-grid">
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-link" style="color: #22c55e;"></i> LangChain</h3>
+                        <p>Seamless integration with LangChain chains and agents.</p>
+                        <div class="code-window" style="margin-top: 1rem; font-size: 0.85rem;">
+                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LangChainEvaluator
+
+evaluator = LangChainEvaluator(qa_chain)
+results = evaluator.evaluate(questions)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-fire" style="color: #f59e0b;"></i> LlamaIndex</h3>
+                        <p>Track and evaluate LlamaIndex query engines.</p>
+                        <div class="code-window" style="margin-top: 1rem; font-size: 0.85rem;">
+                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LlamaIndexHandler
+
+handler = LlamaIndexHandler()
+index.as_query_engine(callbacks=[handler])</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="docs-card">
+                        <h3><i class="fa-solid fa-layer-group" style="color: #3b82f6;"></i> Haystack</h3>
+                        <p>Monitor Haystack pipelines with RAGLint.</p>
+                        <div class="code-window" style="margin-top: 1rem; font-size: 0.85rem;">
+                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> HaystackTracer
+
+pipeline.run(query, callbacks=[HaystackTracer()])</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Need Help -->
-            <div style="text-align: center; padding: 3rem 0;">
+            <section
+                style="text-align: center; padding: 3rem; background: rgba(139, 92, 246, 0.1); border-radius: 12px; margin-top: 4rem;">
                 <h2 style="margin-bottom: 1rem;">Need Help?</h2>
                 <p style="margin-bottom: 2rem; color: #9ca3af;">Join our community or reach out for support</p>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
@@ -197,9 +379,9 @@ results = analyzer.analyze(data)
                         <i class="fa-solid fa-comments"></i> Join Discussions
                     </a>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
+        </main>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -217,6 +399,46 @@ results = analyzer.analyze(data)
             </div>
         </div>
     </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    // Update active link
+                    document.querySelectorAll('.docs-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.docs-nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
