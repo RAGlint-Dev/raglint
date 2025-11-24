@@ -6,7 +6,7 @@ import pytest
 from raglint.plugins.builtins.citation_accuracy import CitationAccuracyPlugin
 from raglint.plugins.builtins.pii_detector import PIIDetectorPlugin
 from raglint.plugins.builtins.sql_injection import SQLInjectionDetectorPlugin
-from raglint.plugins.builtins.hallucination import HallucinationDetector
+from raglint.plugins.builtins.hallucination import HallucinationPlugin
 from raglint.plugins.builtins.bias_detector import BiasDetectorPlugin
 
 
@@ -118,13 +118,13 @@ def test_sql_injection_clean_response():
 # Hallucination Detector Tests
 def test_hallucination_detector_init():
     """Test HallucinationDetector initialization."""
-    plugin = HallucinationDetector()
-    assert plugin.name == "hallucination_detector"
+    plugin = HallucinationPlugin()
+    assert plugin.name == "hallucination_score"
 
 
 def test_hallucination_detector_evaluate():
     """Test hallucination detector evaluation."""
-    plugin = HallucinationDetector()
+    plugin = HallucinationPlugin()
     
     context = ["Python is a programming language"]
     response = "Python is used for machine learning"

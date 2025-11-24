@@ -2,10 +2,10 @@
 Hallucination Detector Plugin.
 """
 
-from typing import List
-from raglint.plugins.interface import MetricPlugin
-from raglint.llm import LLMFactory
 from raglint.config import Config
+from raglint.llm import LLMFactory
+from raglint.plugins.interface import MetricPlugin
+
 
 class HallucinationPlugin(MetricPlugin):
     """
@@ -18,17 +18,17 @@ class HallucinationPlugin(MetricPlugin):
         self.llm = LLMFactory.create(config.as_dict())
         self.prompt_template = """
         You are a strict fact-checking assistant.
-        
+
         Context:
         {context}
-        
+
         Answer:
         {answer}
-        
+
         Task:
         Determine if the Answer is fully supported by the Context.
         If the Answer contains information NOT present in the Context, it is a hallucination.
-        
+
         Respond with a JSON object:
         {{
             "score": <float between 0.0 and 1.0, where 1.0 means HIGH hallucination / unsupported, and 0.0 means fully supported>,
@@ -64,13 +64,13 @@ class HallucinationPlugin(MetricPlugin):
     async def _calculate_score(self, **kwargs) -> float:
         response = kwargs.get("response", "")
         contexts = kwargs.get("retrieved_contexts", [])
-        
+
         if not response or not contexts:
             return 0.0
-            
+
         context_text = "\n".join(contexts)
         prompt = self.prompt_template.format(context=context_text, answer=response)
-        
+
         try:
             result = await self.llm.generate_json(prompt)
             return float(result.get("score", 0.0))

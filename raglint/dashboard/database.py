@@ -2,10 +2,10 @@
 Database connection and session management.
 """
 
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker, declarative_base
-from pathlib import Path
 import os
+
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 # Default to a local SQLite file in the user's home directory or current dir
 DB_PATH = os.getenv("RAGLINT_DB_URL") or os.getenv("RAGLINT_DB_PATH", "sqlite+aiosqlite:///raglint.db")

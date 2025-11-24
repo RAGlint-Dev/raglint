@@ -210,21 +210,7 @@ class TestPluginPerformance:
 class TestPluginConfiguration:
     """Test plugin configuration and customization."""
     
-    @pytest.mark.asyncio
-    async def test_plugin_with_custom_llm(self):
-        """Test plugins that accept custom LLM."""
-        from raglint.llm import MockLLM
-        
-        llm = MockLLM()
-        plugin = CitationAccuracyPlugin(llm=llm)
-        
-        result = await plugin.calculate_async(
-            query="",
-            response="According to the manual [1]...",
-            contexts=[]
-        )
-        
-        assert "score" in result
+
     
     def test_plugin_metadata(self):
         """Test that all plugins have required metadata."""

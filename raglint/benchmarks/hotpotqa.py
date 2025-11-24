@@ -4,21 +4,21 @@ HotpotQA benchmark loader.
 
 import json
 import os
-from typing import List, Dict, Any, Optional
 from pathlib import Path
+from typing import Any, Optional
 
 
 class HotpotQABenchmark:
     """
     HotpotQA benchmark for RAG evaluation.
-    
+
     Focuses on multi-hop reasoning across multiple documents.
     """
-    
+
     def __init__(self, subset_size: int = 50, cache_dir: Optional[str] = None):
         """
         Initialize HotpotQA benchmark.
-        
+
         Args:
             subset_size: Number of examples to use
             cache_dir: Directory to cache data
@@ -28,29 +28,29 @@ class HotpotQABenchmark:
         self.name = "HotpotQA"
         self.description = "Dataset for diverse, explainable multi-hop question answering"
         os.makedirs(self.cache_dir, exist_ok=True)
-    
-    def load(self) -> List[Dict[str, Any]]:
+
+    def load(self) -> list[dict[str, Any]]:
         """
         Load HotpotQA benchmark data.
-        
+
         Returns:
             List of test cases in RAGLint format
         """
         cache_file = os.path.join(self.cache_dir, f"hotpotqa_subset_{self.subset_size}.json")
-        
+
         if os.path.exists(cache_file):
-            with open(cache_file, 'r') as f:
+            with open(cache_file) as f:
                 return json.load(f)
-        
+
         # Generate sample data
         data = self._generate_sample_hotpotqa()
-        
+
         with open(cache_file, 'w') as f:
             json.dump(data, f, indent=2)
-        
+
         return data
-    
-    def _generate_sample_hotpotqa(self) -> List[Dict[str, Any]]:
+
+    def _generate_sample_hotpotqa(self) -> list[dict[str, Any]]:
         """Generate sample HotpotQA-style data."""
         samples = [
             {
@@ -82,14 +82,14 @@ class HotpotQABenchmark:
                 "type": "bridge"
             }
         ]
-        
+
         raglint_data = []
         for i in range(self.subset_size):
             sample = samples[i % len(samples)]
-            
+
             # In HotpotQA, retrieved contexts should ideally be the supporting facts
             # plus potentially some distractors.
-            
+
             raglint_item = {
                 "query": sample["question"],
                 "retrieved_contexts": sample["supporting_facts"],
@@ -102,5 +102,5 @@ class HotpotQABenchmark:
                 }
             }
             raglint_data.append(raglint_item)
-            
+
         return raglint_data

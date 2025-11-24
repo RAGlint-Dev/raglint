@@ -6,11 +6,10 @@ Handles discovery and loading of plugins from entry points and directories.
 
 import importlib
 import importlib.util
-import os
+import logging
 import sys
 from pathlib import Path
-from typing import Dict, List, Type, Optional, Any
-import logging
+from typing import Any, Optional
 
 # Use importlib.metadata for Python 3.8+
 try:
@@ -28,11 +27,11 @@ class PluginLoader:
     """Registry and loader for RAGLint plugins."""
 
     _instance = None
-    
+
     def __init__(self):
-        self.plugins: Dict[str, BasePlugin] = {}
-        self.llm_plugins: Dict[str, LLMPlugin] = {}
-        self.metric_plugins: Dict[str, MetricPlugin] = {}
+        self.plugins: dict[str, BasePlugin] = {}
+        self.llm_plugins: dict[str, LLMPlugin] = {}
+        self.metric_plugins: dict[str, MetricPlugin] = {}
         self._loaded = False
 
     @classmethod
@@ -49,10 +48,10 @@ class PluginLoader:
 
         self._load_from_entry_points()
         self._load_builtins()
-        
+
         if plugins_dir:
             self._load_from_directory(plugins_dir)
-        
+
         # Also check default local plugins dir
         default_dir = Path("plugins")
         if default_dir.exists() and default_dir.is_dir():
@@ -102,23 +101,23 @@ class PluginLoader:
             return
 
         sys.path.insert(0, str(path.resolve()))
-        
+
         for file_path in path.glob("*.py"):
             if file_path.name.startswith("_"):
                 continue
-                
+
             # Security check
             if not self._validate_plugin_safety(file_path):
                 logger.warning(f"Skipping unsafe plugin: {file_path.name}")
                 continue
-                
+
             module_name = file_path.stem
             try:
                 spec = importlib.util.spec_from_file_location(module_name, file_path)
                 if spec and spec.loader:
                     module = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(module)
-                    
+
                     # Scan module for plugin classes
                     for attr_name in dir(module):
                         attr = getattr(module, attr_name)
@@ -133,7 +132,7 @@ class PluginLoader:
                             logger.info(f"Loaded plugin from file {file_path.name}: {attr().name}")
             except Exception as e:
                 logger.error(f"Failed to load plugin from {file_path}: {e}")
-        
+
         sys.path.pop(0)
 
     def _validate_plugin_safety(self, file_path: Path) -> bool:
@@ -142,13 +141,13 @@ class PluginLoader:
         Returns True if safe, False otherwise.
         """
         import ast
-        
+
         DANGEROUS_IMPORTS = {'os', 'sys', 'subprocess', 'shutil', 'pickle'}
-        
+
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 tree = ast.parse(f.read())
-                
+
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
@@ -164,18 +163,18 @@ class PluginLoader:
             logger.error(f"Failed to scan plugin {file_path}: {e}")
             return False
 
-    def _register_plugin_class(self, plugin_class: Type[BasePlugin]):
+    def _register_plugin_class(self, plugin_class: type[BasePlugin]):
         """Instantiate and register a plugin class."""
         try:
             plugin = plugin_class()
             self.plugins[plugin.name] = plugin
-            
+
             if isinstance(plugin, LLMPlugin):
                 self.llm_plugins[plugin.name] = plugin
-            
+
             if isinstance(plugin, MetricPlugin):
                 self.metric_plugins[plugin.name] = plugin
-                
+
         except Exception as e:
             logger.error(f"Failed to instantiate plugin {plugin_class}: {e}")
 
@@ -183,7 +182,7 @@ class PluginLoader:
         """Get an LLM plugin by name."""
         return self.llm_plugins.get(name)
 
-    def get_all_plugins(self) -> List[Dict[str, str]]:
+    def get_all_plugins(self) -> list[dict[str, str]]:
         """Get metadata for all loaded plugins."""
         return [
             {
@@ -204,11 +203,11 @@ class PluginLoader:
 
 class PluginRegistry:
     """Registry for RAGLint Marketplace."""
-    
+
     def __init__(self):
         self.registry_url = "https://registry.raglint.com"
-        
-    def list_available_plugins(self) -> List[Dict[str, Any]]:
+
+    def list_available_plugins(self) -> list[dict[str, Any]]:
         """List plugins available in the marketplace."""
         # In a real app, this would fetch from self.registry_url + "/plugins.json"
         return [
@@ -264,27 +263,27 @@ class PluginRegistry:
                 "downloads": 20
             }
         ]
-        
+
     def install_plugin(self, plugin_name: str, version: Optional[str] = None, target_dir: str = "plugins") -> bool:
         """Install a plugin from the registry."""
         import httpx
-        
+
         # Construct URL with version if provided
         if version:
             download_url = f"{self.registry_url}/plugins/{plugin_name}/{version}/download"
         else:
             download_url = f"{self.registry_url}/plugins/{plugin_name}/latest/download"
-            
+
         code = None
-        
+
         try:
             # Check verification status (mock logic for now)
             # In real app, we would check metadata from registry
             is_verified = plugin_name.startswith("raglint-") and "community" not in plugin_name
-            
+
             if not is_verified:
                 logger.warning(f"⚠️  Installing UNVERIFIED plugin: {plugin_name}. Proceed with caution.")
-            
+
             # Attempt real download
             # We set a short timeout so it fails fast in demo/dev if offline
             response = httpx.get(download_url, timeout=2.0)
@@ -295,21 +294,21 @@ class PluginRegistry:
                 logger.warning(f"Failed to download plugin {plugin_name}: Status {response.status_code}")
         except Exception as e:
             logger.warning(f"Network error downloading plugin {plugin_name}: {e}")
-            
+
         # Fallback to mock generation if download fails (for demo/testing without real server)
         if code is None:
             logger.info(f"Using mock fallback for plugin {plugin_name}")
             code = self._generate_mock_plugin_code(plugin_name, version)
-            
+
         path = Path(target_dir)
         path.mkdir(exist_ok=True)
-        
+
         safe_name = plugin_name.replace('-', '_')
         file_path = path / f"{safe_name}.py"
-        
+
         with open(file_path, "w") as f:
             f.write(code)
-            
+
         return True
 
     def _generate_mock_plugin_code(self, plugin_name: str, version: Optional[str] = None) -> str:
@@ -317,7 +316,7 @@ class PluginRegistry:
         safe_name = plugin_name.replace('-', '_')
         class_name = "".join(x.title() for x in safe_name.split('_'))
         ver = version or "1.0.0"
-        
+
         return f"""
 from raglint.plugins.interface import MetricPlugin
 import random
@@ -326,7 +325,7 @@ class {class_name}(MetricPlugin):
     name = "{plugin_name}"
     version = "{ver}"
     description = "Installed from marketplace (Mock)"
-    
+
     def evaluate(self, query: str, context: list, response: str) -> float:
         # Mock evaluation logic
         return 0.8 + (random.random() * 0.2)

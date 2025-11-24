@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Optional
 
 import yaml
 
@@ -12,7 +12,7 @@ class Config:
     model_name: str = "gpt-3.5-turbo"
     db_url: Optional[str] = None  # Database connection string
     slack_webhook_url: Optional[str] = None  # Slack webhook for alerts
-    metrics: Dict[str, bool] = field(
+    metrics: dict[str, bool] = field(
         default_factory=lambda: {
             "chunking": True,
             "retrieval": True,
@@ -22,10 +22,10 @@ class Config:
             "answer_relevance": True,
         }
     )
-    thresholds: Dict[str, float] = field(
+    thresholds: dict[str, float] = field(
         default_factory=lambda: {"faithfulness": 0.7, "relevance": 0.7}
     )
-    prompts: Dict[str, str] = field(
+    prompts: dict[str, str] = field(
         default_factory=lambda: {
             "faithfulness": """
         You are a judge evaluating a RAG system.
@@ -62,7 +62,7 @@ class Config:
         }
     )
 
-    def as_dict(self) -> Dict:
+    def as_dict(self) -> dict:
         """Convert config to dictionary."""
         return {
             "provider": self.provider,
@@ -74,15 +74,15 @@ class Config:
             "thresholds": self.thresholds,
             "prompts": self.prompts,
         }
-    
+
     @classmethod
-    def from_dict(cls, config_dict: Dict) -> "Config":
+    def from_dict(cls, config_dict: dict) -> "Config":
         """
         Create a Config instance from a dictionary.
-        
+
         Args:
             config_dict: Dictionary containing configuration values
-            
+
         Returns:
             Config instance with values from the dictionary
         """
@@ -125,7 +125,7 @@ class Config:
         env_key = os.getenv("OPENAI_API_KEY")
         if env_key:
             config.openai_api_key = env_key
-            
+
         env_slack = os.getenv("SLACK_WEBHOOK_URL")
         if env_slack:
             config.slack_webhook_url = env_slack

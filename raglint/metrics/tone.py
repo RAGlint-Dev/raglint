@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 from ..llm import BaseLLM, MockLLM
 
@@ -8,7 +8,7 @@ class ToneScorer:
         self.llm = llm if llm else MockLLM()
         self.desired_tone = desired_tone
 
-    def score(self, query: str, response: str) -> Tuple[float, str]:
+    def score(self, query: str, response: str) -> tuple[float, str]:
         """
         Scores tone: Does the response match the desired tone?
         Returns (score, reasoning). 1.0 = Matches, 0.0 = Mismatch.
@@ -17,7 +17,7 @@ class ToneScorer:
         result = self.llm.generate(prompt)
         return self._parse_response(result)
 
-    async def ascore(self, query: str, response: str) -> Tuple[float, str]:
+    async def ascore(self, query: str, response: str) -> tuple[float, str]:
         """
         Async version of score().
         """
@@ -28,14 +28,14 @@ class ToneScorer:
     def _build_prompt(self, query: str, response: str) -> str:
         return f"""
         You are a communication coach evaluating the tone of a system response.
-        
+
         Query: {query}
-        
+
         System Response:
         {response}
-        
+
         Desired Tone: {self.desired_tone}
-        
+
         Task:
         Does the System Response match the Desired Tone?
         1. Analyze the word choice, formality, and empathy.
@@ -43,13 +43,13 @@ class ToneScorer:
            - 1.0: Perfect match
            - 0.5: Acceptable but could be improved
            - 0.0: Completely inappropriate tone (e.g., rude, too casual, or robotic)
-        
+
         Output format:
         Reasoning: <analysis>
         Score: <0.0, 0.5, or 1.0>
         """
 
-    def _parse_response(self, response: str) -> Tuple[float, str]:
+    def _parse_response(self, response: str) -> tuple[float, str]:
         try:
             lines = response.strip().split("\n")
             score = 0.0

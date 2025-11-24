@@ -6,33 +6,33 @@ Provides standardized benchmark datasets for evaluating RAG systems.
 
 import json
 import os
-from typing import List, Dict, Any, Optional
 from pathlib import Path
+from typing import Any, Optional
 
 
 class SQUADBenchmark:
     """
     SQUAD (Stanford Question Answering Dataset) benchmark for RAG evaluation.
-    
+
     Example:
         ```python
         from raglint.benchmarks import SQUADBenchmark
-        
+
         # Load small subset for quick testing
         benchmark = SQUADBenchmark(subset_size=10)
         test_data = benchmark.load()
-        
+
         # Run evaluation
         from raglint import RAGPipelineAnalyzer
         analyzer = RAGPipelineAnalyzer()
         results = analyzer.analyze(test_data)
         ```
     """
-    
+
     def __init__(self, subset_size: int = 50, cache_dir: Optional[str] = None):
         """
         Initialize SQUAD benchmark.
-        
+
         Args:
             subset_size: Number of examples to use (default: 50)
             cache_dir: Directory to cache downloaded data
@@ -42,36 +42,36 @@ class SQUADBenchmark:
         self.name = "SQUAD"
         self.description = "Stanford Question Answering Dataset (SQUAD) subset for RAG evaluation."
         os.makedirs(self.cache_dir, exist_ok=True)
-    
-    def load(self) -> List[Dict[str, Any]]:
+
+    def load(self) -> list[dict[str, Any]]:
         """
         Load SQUAD benchmark data in RAGLint format.
-        
+
         Returns:
             List of test cases in RAGLint format
         """
         # Check cache first
         cache_file = os.path.join(self.cache_dir, f"squad_subset_{self.subset_size}.json")
-        
+
         if os.path.exists(cache_file):
             print(f"Loading cached SQUAD benchmark ({self.subset_size} examples)...")
-            with open(cache_file, 'r') as f:
+            with open(cache_file) as f:
                 return json.load(f)
-        
+
         # Generate sample data (in production, this would download actual SQUAD)
         print(f"Generating SQUAD benchmark ({self.subset_size} examples)...")
         data = self._generate_sample_squad()
-        
+
         # Cache it
         with open(cache_file, 'w') as f:
             json.dump(data, f, indent=2)
-        
+
         return data
-    
-    def _generate_sample_squad(self) -> List[Dict[str, Any]]:
+
+    def _generate_sample_squad(self) -> list[dict[str, Any]]:
         """
         Generate sample SQUAD-style data for demonstration.
-        
+
         In production, this would download the actual SQUAD dataset from:
         https://rajpurkar.github.io/SQuAD-explorer/
         """
@@ -108,12 +108,12 @@ class SQUADBenchmark:
                 "ground_truth": "efficiently retrieve semantically similar documents"
             },
         ]
-        
+
         # Expand to requested subset size by repeating/varying samples
         raglint_data = []
         for i in range(min(self.subset_size, len(samples))):
             sample = samples[i % len(samples)]
-            
+
             raglint_item = {
                 "query": sample["question"],
                 "retrieved_contexts": [sample["context"]],  # In real RAG, there would be multiple chunks
@@ -122,7 +122,7 @@ class SQUADBenchmark:
                 "response": sample["answer"]
             }
             raglint_data.append(raglint_item)
-        
+
         return raglint_data
 
 
@@ -131,17 +131,17 @@ class SQUADBenchmark:
 def download_squad(split: str = "dev", version: str = "v2.0") -> str:
     """
     Download SQUAD dataset.
-    
+
     Args:
         split: "train" or "dev"
         version: "v1.1" or "v2.0"
-        
+
     Returns:
         Path to downloaded file
     """
     # URL for SQUAD dataset
     base_url = "https://rajpurkar.github.io/SQuAD-explorer/dataset"
-    
+
     if version == "v1.1":
         if split == "train":
             url = f"{base_url}/train-v1.1.json"
@@ -152,26 +152,26 @@ def download_squad(split: str = "dev", version: str = "v2.0") -> str:
             url = f"{base_url}/train-v2.0.json"
         else:
             url = f"{base_url}/dev-v2.0.json"
-    
+
     cache_dir = os.path.join(Path.home(), ".cache", "raglint", "squad")
     os.makedirs(cache_dir, exist_ok=True)
-    
+
     filename = f"{split}-{version}.json"
     filepath = os.path.join(cache_dir, filename)
-    
+
     if os.path.exists(filepath):
         print(f"SQUAD dataset already cached: {filepath}")
         return filepath
-    
+
     print(f"Downloading SQUAD {version} ({split})...")
     print(f"URL: {url}")
-    print(f"Note: Download functionality not implemented in this demo.")
-    print(f"For production use, download manually or use the requests library.")
-    
+    print("Note: Download functionality not implemented in this demo.")
+    print("For production use, download manually or use the requests library.")
+
     # In production, use:
     # import requests
     # response = requests.get(url)
     # with open(filepath, 'wb') as f:
     #     f.write(response.content)
-    
+
     return filepath

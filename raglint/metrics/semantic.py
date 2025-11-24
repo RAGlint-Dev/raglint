@@ -1,4 +1,3 @@
-from typing import List, Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,14 +25,14 @@ def _ensure_dependencies():
 
 class SemanticMatcher:
     """Calculate semantic similarity between texts using embeddings."""
-    
+
     def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
         """Initialize with a sentence transformer model."""
         SentenceTransformer_cls, _ = _ensure_dependencies()
         self.model = SentenceTransformer_cls(model_name)
-    
+
     def calculate_similarity(
-        self, retrieved_contexts: List[str], ground_truth_contexts: List[str]
+        self, retrieved_contexts: list[str], ground_truth_contexts: list[str]
     ) -> float:
         """
         Calculates the maximum semantic similarity between retrieved contexts and ground truth.

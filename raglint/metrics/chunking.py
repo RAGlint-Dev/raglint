@@ -1,9 +1,9 @@
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
 
-def calculate_chunk_size_distribution(chunks: List[str]) -> Dict[str, Any]:
+def calculate_chunk_size_distribution(chunks: list[str]) -> dict[str, Any]:
     """
     Calculates statistics about the distribution of chunk sizes (in characters).
     """

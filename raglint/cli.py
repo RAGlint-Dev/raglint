@@ -75,7 +75,7 @@ def analyze(
         if api_key:
             cfg.openai_api_key = api_key
             cfg.provider = "openai"  # Assume OpenAI if key provided directly
-            
+
         if provider:
             cfg.provider = provider
 
@@ -200,12 +200,12 @@ def plugins():
 def list_plugins(plugins_dir):
     """List all installed and loaded plugins."""
     from raglint.plugins.loader import PluginLoader
-    
+
     loader = PluginLoader.get_instance()
     loader.load_plugins(plugins_dir)
-    
+
     plugins = loader.get_all_plugins()
-    
+
     if not plugins:
         click.echo("No plugins found.")
         return
@@ -220,11 +220,11 @@ def list_plugins(plugins_dir):
 @click.option("--version", help="Specific version to install")
 def install_plugin(plugin_name, version):
     """Install a plugin from the marketplace."""
-    from raglint.plugins.loader import PluginRegistry, PluginLoader
-    
+    from raglint.plugins.loader import PluginLoader, PluginRegistry
+
     click.echo(f"Installing plugin '{plugin_name}'...")
     registry = PluginRegistry()
-    
+
     try:
         success = registry.install_plugin(plugin_name, version=version)
         if success:
@@ -249,13 +249,14 @@ def config():
 @click.option("--config", "config_path", default="raglint.yaml", help="Path to configuration file")
 def snapshot(message, config_path):
     """Save the current configuration as a new version."""
+    import asyncio
     import hashlib
     import json
-    import asyncio
+
     from raglint.config import Config
-    from raglint.dashboard.database import init_db, SessionLocal
+    from raglint.dashboard.database import SessionLocal, init_db
     from raglint.dashboard.models import PipelineVersion
-    
+
     # Load config
     try:
         cfg = Config.load(config_path)
@@ -275,7 +276,7 @@ def snapshot(message, config_path):
             from sqlalchemy import select
             result = await session.execute(select(PipelineVersion).where(PipelineVersion.hash == config_hash))
             existing = result.scalar_one_or_none()
-            
+
             if existing:
                 click.echo(f"Configuration version already exists: {existing.id[:8]}")
                 if message and not existing.description:
@@ -306,7 +307,7 @@ def snapshot(message, config_path):
 def dashboard(host, port, reload):
     """Start the RAGLint Web Dashboard."""
     import uvicorn
-    
+
     click.echo(f"Starting RAGLint Dashboard at http://{host}:{port}")
     uvicorn.run("raglint.dashboard.app:app", host=host, port=port, reload=reload)
 
@@ -320,21 +321,21 @@ def dashboard(host, port, reload):
 def benchmark(dataset, subset_size, output, config_path, show_progress):
     """Run RAGLint on a standard benchmark dataset."""
     try:
-        from raglint.benchmarks import BenchmarkRegistry
-        from raglint.config import Config
         from raglint.analyzer import RAGPipelineAnalyzer
+        from raglint.benchmarks import BenchmarkRegistry
         from raglint.benchmarks.utils import create_summary_metrics, display_result, save_result
-        
+        from raglint.config import Config
+
         click.echo(f"Loading {dataset.upper()} benchmark ({subset_size} examples)...")
         test_data = BenchmarkRegistry.load(dataset, subset_size=subset_size)
-        
+
         cfg = Config.load(config_path) if config_path else Config.load()
         analyzer = RAGPipelineAnalyzer(use_smart_metrics=True, config=cfg.as_dict())
-        
-        click.echo(f"Running evaluation...")
+
+        click.echo("Running evaluation...")
         result = analyzer.analyze(test_data, show_progress=show_progress)
         summary = create_summary_metrics(result)
-        
+
         if output:
             save_result(result, summary, output)
             click.echo(f"Results saved to: {output}")
@@ -343,7 +344,7 @@ def benchmark(dataset, subset_size, output, config_path, show_progress):
             click.echo("BENCHMARK RESULTS")
             click.echo("="*60)
             display_result(result, summary)
-            
+
     except Exception as e:
         logger.error(f"Error during benchmark: {e}", exc_info=True)
         click.echo(f"Error: {e}", err=True)
@@ -357,41 +358,42 @@ def benchmark(dataset, subset_size, output, config_path, show_progress):
 def generate(input_file, count, output, api_key):
     """
     Generate a synthetic testset from a document (PDF or Text).
-    
+
     INPUT_FILE: Path to the source document.
     """
-    from raglint.generation import TestsetGenerator
-    from raglint.config import Config
     import asyncio
     import json
-    
+
+    from raglint.config import Config
+    from raglint.generation import TestsetGenerator
+
     # Setup config
     cfg = Config.load()
     if api_key:
         cfg.openai_api_key = api_key
         cfg.provider = "openai"
-        
+
     if not cfg.openai_api_key and cfg.provider == "openai":
         click.echo("Error: OpenAI API key is required for generation. Set OPENAI_API_KEY env var or use --api-key.", err=True)
         sys.exit(1)
-        
+
     click.echo(f"Generating {count} QA pairs from {input_file}...")
-    
+
     generator = TestsetGenerator(config=cfg)
-    
+
     try:
         results = asyncio.run(generator.generate_from_file(input_file, count))
-        
+
         if not results:
             click.echo("Failed to generate any valid QA pairs.", err=True)
             sys.exit(1)
-            
+
         with open(output, 'w') as f:
             json.dump(results, f, indent=2)
-            
+
         click.echo(f"✅ Successfully generated {len(results)} pairs.")
         click.echo(f"Saved to: {output}")
-        
+
     except ImportError as e:
         click.echo(f"Error: {e}", err=True)
         sys.exit(1)
@@ -412,53 +414,54 @@ def cost():
 def estimate_cost(input_file, model):
     """
     Estimate cost for analyzing a dataset.
-    
+
     INPUT_FILE: Path to the dataset (JSON).
     """
     import json
+
     from raglint.tracking import LLM_PRICING
-    
+
     if model not in LLM_PRICING:
         click.echo(f"Error: Unknown model '{model}'. Available: {', '.join(LLM_PRICING.keys())}", err=True)
         sys.exit(1)
-        
+
     try:
         with open(input_file) as f:
             data = json.load(f)
-            
+
         if not isinstance(data, list):
             click.echo("Error: Input file must be a list of items.", err=True)
             sys.exit(1)
-            
+
         num_items = len(data)
-        
-        # Rough estimation: 
+
+        # Rough estimation:
         # Input: Query + Contexts + System Prompt (~500 tokens)
         # Output: Evaluation reasoning + Score (~200 tokens)
         # We run multiple metrics per item.
-        
+
         # Let's assume 4 metrics per item (Faithfulness, Context Rel, Answer Rel, Semantic)
         # Semantic is embedding based (cheap), others are LLM based.
-        metrics_count = 3 
-        
+        metrics_count = 3
+
         avg_input_tokens = 1000 # Conservative estimate
-        avg_output_tokens = 200 
-        
+        avg_output_tokens = 200
+
         total_input = num_items * metrics_count * avg_input_tokens
         total_output = num_items * metrics_count * avg_output_tokens
-        
+
         pricing = LLM_PRICING[model]
         cost = (total_input / 1000 * pricing["input"]) + (total_output / 1000 * pricing["output"])
-        
+
         click.echo(f"💰 Cost Estimation for {input_file}")
-        click.echo(f"-----------------------------------")
+        click.echo("-----------------------------------")
         click.echo(f"Items: {num_items}")
         click.echo(f"Model: {model}")
         click.echo(f"Est. Input Tokens: {total_input:,}")
         click.echo(f"Est. Output Tokens: {total_output:,}")
-        click.echo(f"-----------------------------------")
+        click.echo("-----------------------------------")
         click.echo(f"Total Estimated Cost: ${cost:.4f}")
-        
+
     except Exception as e:
         click.echo(f"Error: {e}", err=True)
         sys.exit(1)

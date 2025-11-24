@@ -40,7 +40,7 @@ def test_plugin_loader_get_plugin():
     # Try to get a plugin (may or may not exist depending on load)
     plugins_list = list(loader.plugins.keys())
     if plugins_list:
-        first_plugin = loader.get_plugin(plugins_list[0])
+        first_plugin = loader.plugins.get(plugins_list[0])
         assert first_plugin is not None
 
 
@@ -49,7 +49,7 @@ def test_plugin_loader_list_plugins():
     loader = PluginLoader.get_instance()
     loader.load_plugins()
     
-    plugins = loader.list_plugins()
+    plugins = loader.get_all_plugins()
     assert isinstance(plugins, list)
 
 

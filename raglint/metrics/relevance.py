@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Union
 
 from ..llm import BaseLLM, MockLLM
 
@@ -8,7 +8,7 @@ class AnswerRelevanceScorer:
         self.llm = llm if llm else MockLLM()
         self.prompt_template = prompt_template
 
-    def score(self, query: str, response: str) -> Tuple[float, str]:
+    def score(self, query: str, response: str) -> tuple[float, str]:
         """
         Scores answer relevance: Is the response relevant to the query?
         Returns (score, reasoning).
@@ -17,7 +17,7 @@ class AnswerRelevanceScorer:
         result = self.llm.generate(prompt)
         return self._parse_response(result)
 
-    async def ascore(self, query: str, response: str) -> Tuple[float, str]:
+    async def ascore(self, query: str, response: str) -> tuple[float, str]:
         """
         Async version of score().
         Returns (score, reasoning).
@@ -29,31 +29,31 @@ class AnswerRelevanceScorer:
     def _build_prompt(self, query: str, response: str) -> str:
         if self.prompt_template:
             return self.prompt_template.format(query=query, response=response)
-        
+
         return f"""
         You are a judge evaluating a RAG system.
-        
+
         Query: {query}
-        
+
         System Response:
         {response}
-        
+
         Task:
         Does the System Response directly answer the Query?
         Ignore whether the answer is factually correct based on context. Focus ONLY on relevance.
-        
+
         1. Think step-by-step.
-        2. Assign a score: 
+        2. Assign a score:
            - 1.0: Directly answers the question.
            - 0.5: Partially answers or is vague.
            - 0.0: Irrelevant or refuses to answer.
-        
+
         Output format:
         Reasoning: <step-by-step reasoning>
         Score: <0.0, 0.5, or 1.0>
         """
 
-    def _parse_response(self, response: str) -> Tuple[float, str]:
+    def _parse_response(self, response: str) -> tuple[float, str]:
         try:
             lines = response.strip().split("\n")
             score = 0.0
@@ -74,26 +74,26 @@ class ContextRelevanceScorer:
         self.llm = llm if llm else MockLLM()
         self.prompt_template = prompt_template
 
-    def score(self, query: str, context: Union[str, List[str]]) -> Tuple[float, str]:
+    def score(self, query: str, context: Union[str, list[str]]) -> tuple[float, str]:
         """
         Scores context relevance: Is the retrieved context relevant to the query?
         Returns (score, reasoning).
         """
         if isinstance(context, list):
             context = "\n".join(context)
-            
+
         prompt = self._build_prompt(query, context)
         result = self.llm.generate(prompt)
         return self._parse_response(result)
 
-    async def ascore(self, query: str, context: Union[str, List[str]]) -> Tuple[float, str]:
+    async def ascore(self, query: str, context: Union[str, list[str]]) -> tuple[float, str]:
         """
         Async version of score().
         Returns (score, reasoning).
         """
         if isinstance(context, list):
             context = "\n".join(context)
-            
+
         prompt = self._build_prompt(query, context)
         result = await self.llm.agenerate(prompt)
         return self._parse_response(result)
@@ -101,30 +101,30 @@ class ContextRelevanceScorer:
     def _build_prompt(self, query: str, context: str) -> str:
         if self.prompt_template:
             return self.prompt_template.format(query=query, context=context)
-        
+
         return f"""
         You are a judge evaluating a RAG system.
-        
+
         Query: {query}
-        
+
         Retrieved Context:
         {context}
-        
+
         Task:
         Does the Retrieved Context contain information relevant to answering the Query?
-        
+
         1. Think step-by-step.
         2. Assign a score:
            - 1.0: Highly relevant.
            - 0.5: Somewhat relevant.
            - 0.0: Irrelevant.
-        
+
         Output format:
         Reasoning: <step-by-step reasoning>
         Score: <0.0, 0.5, or 1.0>
         """
 
-    def _parse_response(self, response: str) -> Tuple[float, str]:
+    def _parse_response(self, response: str) -> tuple[float, str]:
         try:
             lines = response.strip().split("\n")
             score = 0.0

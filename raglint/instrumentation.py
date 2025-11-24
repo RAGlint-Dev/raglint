@@ -4,15 +4,16 @@ Allows developers to wrap their functions with @raglint.watch to automatically c
 inputs, outputs, and latency.
 """
 
+import asyncio
 import functools
-import time
-import json
 import inspect
+import json
+import time
 import uuid
-from typing import Any, Callable, Dict, Optional, List
 from datetime import datetime
 from pathlib import Path
-import asyncio
+from typing import Any, Callable, Optional
+
 
 class Monitor:
     """
@@ -22,12 +23,12 @@ class Monitor:
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super(Monitor, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
             cls._instance.trace_file = Path("raglint_events.jsonl")
             cls._instance.enabled = True
         return cls._instance
 
-    def log_event(self, event_type: str, data: Dict[str, Any]):
+    def log_event(self, event_type: str, data: dict[str, Any]):
         """Log an event to the JSONL file."""
         if not self.enabled:
             return
@@ -72,11 +73,11 @@ def watch(
     name: Optional[str] = None,
     log_inputs: bool = True,
     log_outputs: bool = True,
-    tags: Optional[List[str]] = None
+    tags: Optional[list[str]] = None
 ):
     """
     Decorator to automatically log function calls.
-    
+
     Usage:
         @raglint.watch(tags=["retrieval"])
         def retrieve(query):
@@ -90,7 +91,7 @@ def watch(
         async def async_wrapper(*args, **kwargs):
             start_time = time.time()
             trace_id = str(uuid.uuid4())
-            
+
             # Capture inputs
             inputs = {}
             if log_inputs:
@@ -129,14 +130,14 @@ def watch(
                     "status": status,
                     "error": error
                 })
-            
+
             return result
 
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs):
             start_time = time.time()
             trace_id = str(uuid.uuid4())
-            
+
             # Capture inputs
             inputs = {}
             if log_inputs:
@@ -174,7 +175,7 @@ def watch(
                     "status": status,
                     "error": error
                 })
-            
+
             return result
 
         if asyncio.iscoroutinefunction(func):

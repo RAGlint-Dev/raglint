@@ -5,7 +5,6 @@ Defines the abstract base classes that all plugins must implement.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Tuple, List
 
 
 class BasePlugin(ABC):
@@ -31,7 +30,7 @@ class BasePlugin(ABC):
 class LLMPlugin(BasePlugin):
     """
     Interface for custom LLM providers.
-    
+
     Plugins implementing this interface can be used as LLM backends
     by setting `provider: <plugin_name>` in the config.
     """
@@ -68,14 +67,14 @@ class PluginInterface(MetricPlugin):
     Adapter for plugins using the async-first interface.
     Provides default implementations for synchronous MetricPlugin methods.
     """
-    
+
     @property
     def metric_type(self) -> str:
         return "quality"
 
     def score(self, **kwargs) -> float:
         """
-        Default sync implementation. 
+        Default sync implementation.
         Real implementation is in calculate_async().
         """
         return 0.0

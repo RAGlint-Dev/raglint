@@ -2,10 +2,10 @@
 OAuth 2.0 implementation for SSO (Google, GitHub)
 """
 
-from fastapi import HTTPException, Request
-from fastapi.responses import RedirectResponse
-from authlib.integrations.starlette_client import OAuth
 import os
+
+from authlib.integrations.starlette_client import OAuth
+from fastapi import HTTPException, Request
 
 # OAuth configuration
 oauth = OAuth()
@@ -44,7 +44,7 @@ async def google_callback(request: Request):
     try:
         token = await oauth.google.authorize_access_token(request)
         user_info = token.get('userinfo')
-        
+
         # user_info contains: email, name, picture
         return user_info
     except Exception as e:
@@ -59,11 +59,11 @@ async def github_callback(request: Request):
     """Handle GitHub OAuth callback"""
     try:
         token = await oauth.github.authorize_access_token(request)
-        
+
         # Get user info from GitHub API
         resp = await oauth.github.get('user', token=token)
         user_info = resp.json()
-        
+
         # user_info contains: login (username), email, name, avatar_url
         return user_info
     except Exception as e:

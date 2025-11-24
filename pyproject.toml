@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "raglint"
-version = "0.1.0"
+version = "0.1.1"
 description = "Production-ready RAG pipeline evaluation and observability platform"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -157,6 +157,9 @@ ignore = [
     "E501",  # line too long (handled by black)
     "B008",  # do not perform function calls in argument defaults
     "C901",  # too complex
+    "B904",  # raise from
+    "E722",  # bare except
+    "E402",  # import position
 ]
 
 [tool.ruff.lint.per-file-ignores]

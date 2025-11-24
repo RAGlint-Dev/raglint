@@ -2,10 +2,11 @@
 SQLAlchemy Models for RAGLint Dashboard.
 """
 
-from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey, Text, Float, Boolean
+import uuid
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-import uuid
 
 from .database import Base
 
@@ -31,7 +32,7 @@ class PipelineVersion(Base):
     config = Column(JSON, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     description = Column(String, nullable=True)
-    
+
     user_id = Column(String, ForeignKey("users.id"), nullable=True)
     user = relationship("User", back_populates="versions")
 
@@ -46,13 +47,13 @@ class AnalysisRun(Base):
     metrics_summary = Column(JSON, nullable=True)
     status = Column(String, default="pending") # pending, running, completed, failed
     error_message = Column(Text, nullable=True)
-    
+
     version_id = Column(String, ForeignKey("pipeline_versions.id"), nullable=True)
     version = relationship("PipelineVersion", back_populates="runs")
-    
+
     user_id = Column(String, ForeignKey("users.id"), nullable=True)
     user = relationship("User", back_populates="runs")
-    
+
     items = relationship("ResultItem", back_populates="run", cascade="all, delete-orphan")
 
 
@@ -61,15 +62,15 @@ class ResultItem(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     run_id = Column(String, ForeignKey("analysis_runs.id"))
-    
+
     query = Column(Text)
     response = Column(Text)
     retrieved_contexts = Column(JSON)
     ground_truth_contexts = Column(JSON, nullable=True)
-    
+
     # Individual metrics for this item
     metrics = Column(JSON)
-    
+
     run = relationship("AnalysisRun", back_populates="items")
 
 class Dataset(Base):
@@ -79,10 +80,10 @@ class Dataset(Base):
     name = Column(String, nullable=False)
     description = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
+
     user_id = Column(String, ForeignKey("users.id"), nullable=True)
     user = relationship("User", back_populates="datasets")
-    
+
     items = relationship("DatasetItem", back_populates="dataset", cascade="all, delete-orphan")
 
 class DatasetItem(Base):
@@ -90,7 +91,7 @@ class DatasetItem(Base):
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     dataset_id = Column(String, ForeignKey("datasets.id"))
-    
+
     data = Column(JSON) # Stores the row data (query, ground_truth, etc.)
-    
+
     dataset = relationship("Dataset", back_populates="items")

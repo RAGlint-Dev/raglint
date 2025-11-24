@@ -3,7 +3,7 @@ LangChain integration for RAGLint.
 Provides a callback handler to automatically trace LangChain executions.
 """
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 from uuid import UUID
 
 try:
@@ -18,13 +18,14 @@ except ImportError:
 
 from raglint.instrumentation import Monitor
 
+
 class RAGLintCallbackHandler(BaseCallbackHandler):
     """
     Callback handler for LangChain to automatically log events to RAGLint.
-    
+
     Usage:
         from raglint.integrations.langchain import RAGLintCallbackHandler
-        
+
         chain.invoke(input, config={"callbacks": [RAGLintCallbackHandler()]})
     """
 
@@ -32,7 +33,7 @@ class RAGLintCallbackHandler(BaseCallbackHandler):
         self.monitor = Monitor()
 
     def on_chain_start(
-        self, serialized: Dict[str, Any], inputs: Dict[str, Any], *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
+        self, serialized: dict[str, Any], inputs: dict[str, Any], *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
     ) -> Any:
         """Run when chain starts running."""
         self.monitor.log_event("chain_start", {
@@ -43,7 +44,7 @@ class RAGLintCallbackHandler(BaseCallbackHandler):
         })
 
     def on_chain_end(
-        self, outputs: Dict[str, Any], *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
+        self, outputs: dict[str, Any], *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
     ) -> Any:
         """Run when chain ends running."""
         self.monitor.log_event("chain_end", {
@@ -61,7 +62,7 @@ class RAGLintCallbackHandler(BaseCallbackHandler):
         })
 
     def on_llm_start(
-        self, serialized: Dict[str, Any], prompts: List[str], *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
+        self, serialized: dict[str, Any], prompts: list[str], *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
     ) -> Any:
         """Run when LLM starts running."""
         self.monitor.log_event("llm_start", {
@@ -81,7 +82,7 @@ class RAGLintCallbackHandler(BaseCallbackHandler):
         })
 
     def on_retriever_start(
-        self, serialized: Dict[str, Any], query: str, *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
+        self, serialized: dict[str, Any], query: str, *, run_id: UUID, parent_run_id: Optional[UUID] = None, **kwargs: Any
     ) -> Any:
         """Run when Retriever starts running."""
         self.monitor.log_event("retriever_start", {

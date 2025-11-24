@@ -3,55 +3,73 @@ Tests for tracking module.
 """
 
 import pytest
-from raglint.tracking import RunTracker
+import time
+from raglint.tracking import PerformanceTracker, get_tracker, reset_tracker
 
 
-def test_run_tracker_initialization():
-    """Test RunTracker initialization."""
-    tracker = RunTracker()
+def test_performance_tracker_initialization():
+    """Test PerformanceTracker initialization."""
+    tracker = PerformanceTracker()
     assert tracker is not None
+    assert tracker.latency_stats is not None
+    assert tracker.cost_stats is not None
 
 
-def test_run_tracker_start_run():
-    """Test starting a new run."""
-    tracker = RunTracker()
-    run_id = tracker.start_run(config={"provider": "mock"})
+def test_record_llm_call():
+    """Test recording an LLM call."""
+    tracker = PerformanceTracker()
     
-    assert run_id is not None
-    assert isinstance(run_id, str)
-
-
-def test_run_tracker_end_run():
-    """Test ending a run."""
-    tracker = RunTracker()
-    run_id = tracker.start_run(config={"provider": "mock"})
-    tracker.end_run(run_id, results={"score": 0.9})
+    tracker.record_llm_call(
+        input_tokens=100,
+        output_tokens=50,
+        model="gpt-3.5-turbo",
+        latency=0.5,
+        operation="generation"
+    )
     
-    # Run should be recorded
-    runs = tracker.get_runs()
-    assert len(runs) > 0
+    summary = tracker.get_summary()
+    assert summary["cost"]["num_llm_calls"] == 1
+    assert summary["cost"]["total_tokens"] == 150
+    assert summary["latency"]["num_operations"] == 1
+    assert summary["latency"]["total_time_seconds"] == 0.5
 
 
-def test_run_tracker_get_run():
-    """Test retrieving a specific run."""
-    tracker = RunTracker()
-    run_id = tracker.start_run(config={"provider": "mock"})
-    tracker.end_run(run_id, results={"score": 0.9})
+def test_operation_timing():
+    """Test timing operations."""
+    tracker = PerformanceTracker()
     
-    run = tracker.get_run(run_id)
-    assert run is not None
-    assert run.get("results", {}).get("score") == 0.9
+    tracker.start_operation("op1")
+    time.sleep(0.1)
+    tracker.end_operation("op1", operation_type="retrieval")
+    
+    summary = tracker.get_summary()
+    assert summary["latency"]["num_operations"] == 1
+    assert summary["operations"]["retrieval"]["num_calls"] == 1
+    assert summary["latency"]["total_time_seconds"] >= 0.1
 
 
-def test_run_tracker_multiple_runs():
-    """Test tracking multiple runs."""
-    tracker = RunTracker()
+def test_global_tracker():
+    """Test global tracker singleton."""
+    reset_tracker()
+    t1 = get_tracker()
+    t2 = get_tracker()
     
-    run1 = tracker.start_run(config={"provider": "mock"})
-    run2 = tracker.start_run(config={"provider": "ollama"})
+    assert t1 is t2
     
-    tracker.end_run(run1, results={"score": 0.8})
-    tracker.end_run(run2, results={"score": 0.9})
+    t1.record_llm_call(10, 10, "gpt-3.5-turbo", 0.1)
+    summary = t2.get_summary()
+    assert summary["cost"]["num_llm_calls"] == 1
+
+
+def test_estimate_cost():
+    """Test cost estimation."""
+    tracker = PerformanceTracker()
     
-    runs = tracker.get_runs()
-    assert len(runs) >= 2
+    # Add some data
+    tracker.record_llm_call(1000, 500, "gpt-3.5-turbo", 1.0)
+    
+    estimate = tracker.estimate_cost(num_queries=100, model="gpt-3.5-turbo")
+    
+    assert "estimated_cost_usd" in estimate
+    assert estimate["num_queries"] == 100
+    assert estimate["estimated_tokens"] == 150000

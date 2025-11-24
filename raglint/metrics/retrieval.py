@@ -1,9 +1,8 @@
-from typing import Dict, List
 
 import numpy as np
 
 
-def calculate_mrr(retrieved: List[str], ground_truth: List[str]) -> float:
+def calculate_mrr(retrieved: list[str], ground_truth: list[str]) -> float:
     """Calculates Mean Reciprocal Rank (MRR)."""
     for i, doc in enumerate(retrieved):
         if doc in ground_truth:
@@ -11,7 +10,7 @@ def calculate_mrr(retrieved: List[str], ground_truth: List[str]) -> float:
     return 0.0
 
 
-def calculate_ndcg(retrieved: List[str], ground_truth: List[str], k: int = 5) -> float:
+def calculate_ndcg(retrieved: list[str], ground_truth: list[str], k: int = 5) -> float:
     """Calculates Normalized Discounted Cumulative Gain (NDCG) at k."""
     dcg = 0.0
     idcg = 0.0
@@ -34,7 +33,7 @@ def calculate_ndcg(retrieved: List[str], ground_truth: List[str], k: int = 5) ->
     return dcg / idcg
 
 
-def calculate_retrieval_metrics(retrieved: List[str], ground_truth: List[str]) -> Dict[str, float]:
+def calculate_retrieval_metrics(retrieved: list[str], ground_truth: list[str]) -> dict[str, float]:
     """
     Calculates Precision, Recall, MRR, and NDCG@5.
     """

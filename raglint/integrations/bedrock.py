@@ -3,9 +3,10 @@ AWS Bedrock Integration for RAGLint.
 """
 
 import json
-import os
-from typing import Dict, Optional
+from typing import Optional
+
 from raglint.llm import BaseLLM
+
 
 class BedrockLLM(BaseLLM):
     """
@@ -14,7 +15,7 @@ class BedrockLLM(BaseLLM):
     """
 
     def __init__(
-        self, 
+        self,
         model_id: str = "anthropic.claude-3-sonnet-20240229-v1:0",
         region_name: str = "us-east-1",
         aws_access_key_id: Optional[str] = None,
@@ -74,7 +75,7 @@ class BedrockLLM(BaseLLM):
                 start = response.find("{")
                 end = response.rfind("}") + 1
                 response = response[start:end]
-            
+
             return json.loads(response)
         except Exception as e:
             print(f"Bedrock JSON Parse Error: {e}")

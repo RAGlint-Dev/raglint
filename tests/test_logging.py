@@ -4,26 +4,28 @@ Tests for logging module.
 
 import pytest
 import logging
-from raglint.logging import get_logger, configure_logging
+import pytest
+import logging
+from raglint.logging import get_logger, setup_logging
 
 
 def test_get_logger():
     """Test get_logger returns logger instance."""
     logger = get_logger("test_module")
     assert isinstance(logger, logging.Logger)
-    assert logger.name == "test_module"
+    assert logger.name == "raglint.test_module"
 
 
 def test_configure_logging_basic():
     """Test basic logging configuration."""
-    configure_logging(level=logging.INFO)
+    setup_logging(level="INFO")
     logger = get_logger("test")
     assert logger.level <= logging.INFO or logging.root.level <= logging.INFO
 
 
 def test_configure_logging_verbose():
     """Test verbose logging configuration."""
-    configure_logging(verbose=True)
+    setup_logging(verbose=True)
     logger = get_logger("verbose_test")
     # Should configure successfully
     assert logger is not None

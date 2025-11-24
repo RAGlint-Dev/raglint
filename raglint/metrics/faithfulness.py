@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 from ..llm import BaseLLM, MockLLM
 
@@ -8,7 +8,7 @@ class FaithfulnessScorer:
         self.llm = llm if llm else MockLLM()
         self.prompt_template = prompt_template
 
-    def score(self, query: str, retrieved_contexts: List[str], response: str) -> Tuple[float, str]:
+    def score(self, query: str, retrieved_contexts: list[str], response: str) -> tuple[float, str]:
         """
         Scores faithfulness: Is the response supported by the retrieved contexts?
         Returns (score, reasoning).
@@ -18,8 +18,8 @@ class FaithfulnessScorer:
         return self._parse_response(result)
 
     async def ascore(
-        self, query: str, retrieved_contexts: List[str], response: str
-    ) -> Tuple[float, str]:
+        self, query: str, retrieved_contexts: list[str], response: str
+    ) -> tuple[float, str]:
         """
         Async version of score() for parallel processing.
         Returns (score, reasoning).
@@ -28,7 +28,7 @@ class FaithfulnessScorer:
         result = await self.llm.agenerate(prompt)
         return self._parse_response(result)
 
-    def _build_prompt(self, query: str, retrieved_contexts: List[str], response: str) -> str:
+    def _build_prompt(self, query: str, retrieved_contexts: list[str], response: str) -> str:
         """Build the faithfulness evaluation prompt."""
         context_text = "\n".join(retrieved_contexts)
 
@@ -38,26 +38,26 @@ class FaithfulnessScorer:
             # Fallback default prompt
             return f"""
             You are a judge evaluating a RAG system.
-            
+
             Query: {query}
-            
+
             Retrieved Contexts:
             {context_text}
-            
+
             System Response:
             {response}
-            
+
             Task:
             Does the System Response contain information that is NOT supported by the Retrieved Contexts?
             1. Think step-by-step. Identify claims in the response and check if they exist in the context.
             2. Assign a score: 1.0 (Fully Supported) or 0.0 (Contains Hallucinations).
-            
+
             Output format:
             Reasoning: <step-by-step reasoning>
             Score: <0.0 or 1.0>
             """
 
-    def _parse_response(self, response: str) -> Tuple[float, str]:
+    def _parse_response(self, response: str) -> tuple[float, str]:
         try:
             lines = response.strip().split("\n")
             score = 0.0

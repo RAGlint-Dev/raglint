@@ -2,9 +2,8 @@
 Azure OpenAI Integration for RAGLint.
 """
 
-import os
-from typing import Dict, Optional
-from raglint.llm import BaseLLM, OpenAI_LLM
+from raglint.llm import OpenAI_LLM
+
 
 class AzureOpenAI_LLM(OpenAI_LLM):
     """
@@ -13,10 +12,10 @@ class AzureOpenAI_LLM(OpenAI_LLM):
     """
 
     def __init__(
-        self, 
-        api_key: str, 
-        azure_endpoint: str, 
-        api_version: str = "2023-05-15", 
+        self,
+        api_key: str,
+        azure_endpoint: str,
+        api_version: str = "2023-05-15",
         deployment_name: str = "gpt-35-turbo"
     ):
         try:

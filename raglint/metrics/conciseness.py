@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 from ..llm import BaseLLM, MockLLM
 
@@ -7,7 +7,7 @@ class ConcisenessScorer:
     def __init__(self, llm: Optional[BaseLLM] = None):
         self.llm = llm if llm else MockLLM()
 
-    def score(self, query: str, response: str) -> Tuple[float, str]:
+    def score(self, query: str, response: str) -> tuple[float, str]:
         """
         Scores conciseness: Is the response concise and to the point?
         Returns (score, reasoning). 1.0 = Concise, 0.0 = Verbose.
@@ -16,7 +16,7 @@ class ConcisenessScorer:
         result = self.llm.generate(prompt)
         return self._parse_response(result)
 
-    async def ascore(self, query: str, response: str) -> Tuple[float, str]:
+    async def ascore(self, query: str, response: str) -> tuple[float, str]:
         """
         Async version of score().
         """
@@ -27,12 +27,12 @@ class ConcisenessScorer:
     def _build_prompt(self, query: str, response: str) -> str:
         return f"""
         You are an editor evaluating the conciseness of a system response.
-        
+
         Query: {query}
-        
+
         System Response:
         {response}
-        
+
         Task:
         Is the System Response concise and to the point?
         1. Check for unnecessary fluff, repetition, or overly long explanations that don't add value.
@@ -40,13 +40,13 @@ class ConcisenessScorer:
            - 1.0: Concise and efficient
            - 0.5: A bit verbose but acceptable
            - 0.0: Excessive fluff or repetition
-        
+
         Output format:
         Reasoning: <analysis>
         Score: <0.0, 0.5, or 1.0>
         """
 
-    def _parse_response(self, response: str) -> Tuple[float, str]:
+    def _parse_response(self, response: str) -> tuple[float, str]:
         try:
             lines = response.strip().split("\n")
             score = 0.0

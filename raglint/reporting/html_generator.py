@@ -2,8 +2,6 @@ import os
 
 from jinja2 import Environment, FileSystemLoader
 
-from raglint.core import AnalysisResult
-
 
 def generate_html_report(results: dict, output_file: str = "raglint_report.html"):
     """

@@ -1,6 +1,6 @@
 import asyncio
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from tqdm.asyncio import tqdm as atqdm
 
@@ -22,11 +22,11 @@ logger = get_logger(__name__)
 
 @dataclass
 class AnalysisResult:
-    chunk_stats: Dict[str, float]
-    retrieval_stats: Dict[str, float]
-    detailed_results: List[Dict[str, Any]]
-    semantic_scores: List[float] = field(default_factory=list)
-    faithfulness_scores: List[float] = field(default_factory=list)
+    chunk_stats: dict[str, float]
+    retrieval_stats: dict[str, float]
+    detailed_results: list[dict[str, Any]]
+    semantic_scores: list[float] = field(default_factory=list)
+    faithfulness_scores: list[float] = field(default_factory=list)
     is_mock: bool = False
 
 
@@ -35,7 +35,7 @@ class RAGPipelineAnalyzer:
     RAG Pipeline Analyzer with async support for parallel LLM processing.
     """
 
-    def __init__(self, use_smart_metrics: bool = False, config: Optional[Dict] = None):
+    def __init__(self, use_smart_metrics: bool = False, config: Optional[dict] = None):
         self.use_smart_metrics = use_smart_metrics
         self.config = config or {}
 
@@ -60,7 +60,7 @@ class RAGPipelineAnalyzer:
             self.toxicity_scorer = ToxicityScorer(
                 llm=self.llm, prompt_template=prompts.get("toxicity")
             )
-            
+
             # Import context metrics
             from raglint.metrics.context_metrics import ContextPrecisionScorer, ContextRecallScorer
             self.context_precision_scorer = ContextPrecisionScorer(llm=self.llm)
@@ -71,7 +71,7 @@ class RAGPipelineAnalyzer:
             self.context_precision_scorer = None
             self.context_recall_scorer = None
 
-    def analyze(self, data: List[Dict[str, Any]], show_progress: bool = True) -> AnalysisResult:
+    def analyze(self, data: list[dict[str, Any]], show_progress: bool = True) -> AnalysisResult:
         """
         Synchronous analysis (for backwards compatibility).
         For better performance with smart metrics, use analyze_async().
@@ -83,7 +83,7 @@ class RAGPipelineAnalyzer:
         else:
             return self._analyze_sync(data)
 
-    def _analyze_sync(self, data: List[Dict[str, Any]]) -> AnalysisResult:
+    def _analyze_sync(self, data: list[dict[str, Any]]) -> AnalysisResult:
         """Synchronous analysis implementation."""
         all_chunks = []
         all_retrieval_metrics = {"precision": [], "recall": [], "mrr": [], "ndcg": []}
@@ -177,7 +177,7 @@ class RAGPipelineAnalyzer:
         )
 
     async def analyze_async(
-        self, data: List[Dict[str, Any]], show_progress: bool = True
+        self, data: list[dict[str, Any]], show_progress: bool = True
     ) -> AnalysisResult:
         """
         Async analysis with parallel LLM processing.
@@ -252,7 +252,7 @@ class RAGPipelineAnalyzer:
             is_mock=self.config.get("provider") == "mock",
         )
 
-    async def _process_item_async(self, item: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_item_async(self, item: dict[str, Any]) -> dict[str, Any]:
         """Process a single item asynchronously."""
         retrieved = item.get("retrieved_contexts", [])
         ground_truth = item.get("ground_truth_contexts", [])
@@ -323,7 +323,7 @@ class RAGPipelineAnalyzer:
                 except Exception as e:
                     logger.error(f"Error calculating context precision: {e}")
                     context_precision = None
-            
+
             # Context Recall (RAGAS-style)
             if retrieved and ground_truth:
                 try:

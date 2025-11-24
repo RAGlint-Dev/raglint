@@ -3,11 +3,12 @@ Generic Webhook System for RAGLint
 Supports triggering webhooks on various events (not just Slack)
 """
 
-import aiohttp
 import asyncio
-from typing import Dict, Any, List, Optional
-from enum import Enum
 import logging
+from enum import Enum
+from typing import Any, Optional
+
+import aiohttp
 
 logger = logging.getLogger(__name__)
 
@@ -24,24 +25,24 @@ class WebhookManager:
     """
     Manages generic webhook deliveries
     """
-    
+
     def __init__(self):
-        self.webhooks: List[Dict[str, Any]] = []
+        self.webhooks: list[dict[str, Any]] = []
         self.load_webhooks()
-    
+
     def load_webhooks(self):
         """Load webhooks from config"""
-        import os
         import json
-        
+        import os
+
         webhooks_config = os.getenv("RAGLINT_WEBHOOKS")
         if webhooks_config:
             try:
                 self.webhooks = json.loads(webhooks_config)
             except:
                 logger.warning("Failed to parse RAGLINT_WEBHOOKS")
-    
-    def register_webhook(self, url: str, events: List[WebhookEvent], headers: Optional[Dict[str, str]] = None):
+
+    def register_webhook(self, url: str, events: list[WebhookEvent], headers: Optional[dict[str, str]] = None):
         """Register a new webhook"""
         webhook = {
             "url": url,
@@ -50,34 +51,34 @@ class WebhookManager:
             "enabled": True
         }
         self.webhooks.append(webhook)
-    
-    async def trigger(self, event: WebhookEvent, payload: Dict[str, Any]):
+
+    async def trigger(self, event: WebhookEvent, payload: dict[str, Any]):
         """
         Trigger webhooks for a specific event
         """
         matching_webhooks = [
-            wh for wh in self.webhooks 
+            wh for wh in self.webhooks
             if wh["enabled"] and event.value in wh["events"]
         ]
-        
+
         if not matching_webhooks:
             return
-        
+
         # Prepare payload
         webhook_payload = {
             "event": event.value,
             "timestamp": payload.get("timestamp"),
             "data": payload
         }
-        
+
         # Send to all matching webhooks
         tasks = []
         for webhook in matching_webhooks:
             tasks.append(self._send_webhook(webhook, webhook_payload))
-        
+
         await asyncio.gather(*tasks, return_exceptions=True)
-    
-    async def _send_webhook(self, webhook: Dict[str, Any], payload: Dict[str, Any]):
+
+    async def _send_webhook(self, webhook: dict[str, Any], payload: dict[str, Any]):
         """Send a single webhook"""
         try:
             async with aiohttp.ClientSession() as session:
@@ -98,7 +99,7 @@ class WebhookManager:
 webhook_manager = WebhookManager()
 
 # Helper functions
-async def trigger_run_completed(run_id: str, metrics: Dict[str, float]):
+async def trigger_run_completed(run_id: str, metrics: dict[str, float]):
     """Trigger webhook when a run completes"""
     await webhook_manager.trigger(
         WebhookEvent.RUN_COMPLETED,

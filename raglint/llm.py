@@ -64,8 +64,9 @@ class OpenAI_LLM(BaseLLM):
     async def agenerate(self, prompt: str) -> str:
         """Generate text asynchronously with tracking and caching."""
         import time
-        from raglint.tracking import get_tracker
+
         from raglint.cache import get_cache
+        from raglint.tracking import get_tracker
 
         # Check cache first
         cache = get_cache()
@@ -75,15 +76,15 @@ class OpenAI_LLM(BaseLLM):
 
         try:
             start_time = time.time()
-            
+
             response = await self.async_client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0,
             )
-            
+
             latency = time.time() - start_time
-            
+
             # Track cost and latency
             if hasattr(response, 'usage') and response.usage:
                 tracker = get_tracker()
@@ -94,12 +95,12 @@ class OpenAI_LLM(BaseLLM):
                     latency=latency,
                     operation="text_generation"
                 )
-            
+
             result = response.choices[0].message.content.strip()
-            
+
             # Cache the result
             cache.set(prompt, result, self.model)
-            
+
             return result
         except Exception as e:
             print(f"OpenAI API Error: {e}")
@@ -107,22 +108,23 @@ class OpenAI_LLM(BaseLLM):
 
     async def generate_json(self, prompt: str) -> dict:
         """Generate JSON asynchronously with tracking."""
-        import time
-        from raglint.tracking import get_tracker
         import json
-        
+        import time
+
+        from raglint.tracking import get_tracker
+
         try:
             start_time = time.time()
-            
+
             response = await self.async_client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0,
                 response_format={"type": "json_object"},
             )
-            
+
             latency = time.time() - start_time
-            
+
             # Track cost and latency
             if hasattr(response, 'usage') and response.usage:
                 tracker = get_tracker()
@@ -133,7 +135,7 @@ class OpenAI_LLM(BaseLLM):
                     latency=latency,
                     operation="json_generation"
                 )
-            
+
             content = response.choices[0].message.content.strip()
             return json.loads(content)
         except Exception as e:
@@ -181,6 +183,7 @@ class OllamaLLM(BaseLLM):
     async def generate_json(self, prompt: str) -> dict:
         """Generate JSON response using Ollama."""
         import json
+
         import aiohttp
 
         try:
@@ -188,9 +191,9 @@ class OllamaLLM(BaseLLM):
                 async with session.post(
                     f"{self.base_url}/api/generate",
                     json={
-                        "model": self.model, 
-                        "prompt": prompt, 
-                        "stream": False, 
+                        "model": self.model,
+                        "prompt": prompt,
+                        "stream": False,
                         "format": "json",
                         "options": {"temperature": 0}
                     },
@@ -199,7 +202,7 @@ class OllamaLLM(BaseLLM):
                     resp.raise_for_status()
                     data = await resp.json()
                     response_text = data.get("response", "").strip()
-                    
+
                     try:
                         return json.loads(response_text)
                     except json.JSONDecodeError:
@@ -209,7 +212,7 @@ class OllamaLLM(BaseLLM):
                         if start != -1 and end != -1:
                             return json.loads(response_text[start:end])
                         raise
-                        
+
         except Exception as e:
             print(f"Ollama JSON API Error: {e}")
             return {"score": 0.0, "reasoning": f"Error: {str(e)}"}
@@ -236,7 +239,7 @@ class LLMFactory:
                 model=config_dict.get("model_name", "llama3"),
                 base_url=config_dict.get("base_url", "http://localhost:11434")
             )
-            
+
         elif provider == "mock":
             return MockLLM()
 
@@ -263,7 +266,7 @@ class LLMFactory:
         loader = PluginLoader.get_instance()
         # Ensure plugins are loaded (lazy load if not already)
         loader.load_plugins()
-        
+
         plugin = loader.get_llm_plugin(provider)
         if plugin:
             # We assume the plugin instance is ready to use
