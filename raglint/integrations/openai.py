@@ -16,8 +16,8 @@ def wrap_openai(client: Any, monitor: Optional[Monitor] = None) -> Any:
     Returns:
         The wrapped client.
     """
-    if monitor is None:
-        monitor = Monitor.get_instance()
+    if monitor == None:
+        monitor = Monitor()  # Singleton via __new__
 
     # Wrap chat.completions.create
     if hasattr(client, "chat") and hasattr(client.chat, "completions"):

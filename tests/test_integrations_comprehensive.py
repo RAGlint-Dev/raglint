@@ -87,6 +87,11 @@ def test_bedrock_integration_import():
 
 def test_bedrock_llm_initialization():
     """Test Bedrock LLM initialization."""
+    try:
+        import boto3
+    except ImportError:
+        pytest.skip("boto3 not installed")
+        
     from raglint.integrations.bedrock import BedrockLLM
     
     llm = BedrockLLM(
