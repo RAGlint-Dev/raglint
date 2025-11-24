@@ -58,6 +58,7 @@ class ContextCompressionPlugin(PluginInterface):
     def _normalize_tokens(self, text: str) -> set[str]:
         """Normalize text and return unique tokens."""
         import string
+
         # Remove punctuation and convert to lowercase
         text = text.translate(str.maketrans("", "", string.punctuation))
         return set(text.lower().split())

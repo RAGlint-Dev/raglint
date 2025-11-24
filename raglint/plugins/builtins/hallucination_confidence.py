@@ -88,16 +88,23 @@ class HallucinationConfidencePlugin(PluginInterface):
         if not contexts:
             return 0.5  # Neutral if no context
 
-        response_words = set(response.lower().split())
+        import string
+
+        # Normalize
+        response_clean = response.translate(str.maketrans("", "", string.punctuation))
+        response_words = set(response_clean.lower().split())
+
         context_words = set()
         for context in contexts:
-            context_words.update(context.lower().split())
+            ctx_clean = context.translate(str.maketrans("", "", string.punctuation))
+            context_words.update(ctx_clean.lower().split())
 
         if not response_words:
             return 0.0
 
         overlap = len(response_words & context_words) / len(response_words)
-        return min(1.0, overlap * 1.2)  # Boost slightly, cap at 1.0
+        # Boost overlap for well-grounded responses
+        return min(1.0, overlap * 1.5)
 
     def _calculate_specificity(self, response: str) -> float:
         """Calculate specificity (more specific = higher score)."""

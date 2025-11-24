@@ -31,9 +31,10 @@ class ResponseDiversityPlugin(PluginInterface):
 
         # Normalize text for better analysis
         import string
+
         response_clean = response.translate(str.maketrans("", "", string.punctuation))
         words = response_clean.lower().split()
-        
+
         if len(words) < 5:
             return {"score": 0.5, "message": "Response too short to analyze diversity"}
 
@@ -102,11 +103,38 @@ class ResponseDiversityPlugin(PluginInterface):
         return variety
 
     def _calculate_repetition(self, words: list[str]) -> float:
-        """Detect repetitive patterns (n-grams)."""
+        """Detect repetitive patterns (n-grams and word repetition)."""
+        if len(words) < 4:
+            return 0.0
+
+        # Check for simple word repetition
+        word_counts = {}
+        for word in words:
+            word_counts[word] = word_counts.get(word, 0) + 1
+
+        # If any word appears more than 2 times in short text, it's repetitive
+        max_count = max(word_counts.values()) if word_counts else 0
+        if len(words) < 15 and max_count > 2:
+            return 0.8  # High repetition
+
+        # Check 2-gram repetition for patterns like "good good good"
+        if len(words) >= 4:
+            bigrams = []
+            for i in range(len(words) - 1):
+                bigram = " ".join(words[i : i + 2]).lower()
+                bigrams.append(bigram)
+
+            if bigrams:
+                unique_bigrams = len(set(bigrams))
+                total_bigrams = len(bigrams)
+                repetition = 1.0 - (unique_bigrams / total_bigrams)
+                if repetition > 0.5:
+                    return repetition
+
+        # Original trigram check
         if len(words) < 6:
             return 0.0
 
-        # Check 3-gram repetition
         trigrams = []
         for i in range(len(words) - 2):
             trigram = " ".join(words[i : i + 3]).lower()

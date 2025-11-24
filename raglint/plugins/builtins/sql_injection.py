@@ -5,6 +5,7 @@ Important for applications that might use RAG responses in database queries.
 """
 
 import re
+from typing import Any
 
 from raglint.plugins.interface import PluginInterface
 
@@ -19,6 +20,35 @@ class SQLInjectionDetectorPlugin(PluginInterface):
     name = "sql_injection_detector"
     version = "2.0.0"
     description = "Detects potential SQL injection patterns for security"
+
+    async def calculate_async(
+        self, query: str, response: str, contexts: list[str], **kwargs: Any
+    ) -> dict[str, Any]:
+        """Detect SQL injection patterns async."""
+        from typing import Any
+
+        score = self.evaluate(query, contexts, response)
+
+        # Count patterns for reporting
+        dangerous_patterns = [
+            r"\bSELECT\b.*\bFROM\b",
+            r"\bINSERT\s+INTO\b",
+            r"\bDELETE\s+FROM\b",
+            r"\bDROP\s+TABLE\b",
+            r"\bUNION\s+SELECT\b",
+        ]
+
+        response_upper = response.upper()
+        pattern_count = sum(
+            1 for pattern in dangerous_patterns if re.search(pattern, response_upper, re.IGNORECASE)
+        )
+
+        return {
+            "score": score,
+            "sql_patterns_found": pattern_count > 0,
+            "pattern_count": pattern_count,
+            "risk_level": "critical" if score == 0.0 else "low" if score == 1.0 else "medium",
+        }
 
     def evaluate(self, query: str, context: list, response: str) -> float:
         """

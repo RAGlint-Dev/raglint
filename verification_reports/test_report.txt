@@ -1,0 +1,1421 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.7, pytest-9.0.1, pluggy-1.6.0 -- /home/yesir/Dokument/RAGlint/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/yesir/Dokument/RAGlint
+configfile: pytest.ini (WARNING: ignoring pytest config in pyproject.toml!)
+testpaths: tests
+plugins: asyncio-1.3.0, anyio-4.11.0, cov-7.0.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 391 items
+
+tests/core/test_rag_analyzer.py::test_analyzer_initialization_no_smart_metrics PASSED [  0%]
+tests/core/test_rag_analyzer.py::test_analyzer_initialization_with_config PASSED [  0%]
+tests/core/test_rag_analyzer.py::test_analyze_empty_dataset PASSED       [  0%]
+tests/core/test_rag_analyzer.py::test_analyze_without_smart_metrics PASSED [  1%]
+tests/core/test_rag_analyzer.py::test_analyze_with_ground_truth PASSED   [  1%]
+tests/core/test_rag_analyzer.py::test_analyze_async_without_smart_metrics PASSED [  1%]
+tests/core/test_rag_analyzer.py::test_analyze_with_smart_metrics_mock PASSED [  1%]
+tests/core/test_rag_analyzer.py::test_analyze_async_with_smart_metrics PASSED [  2%]
+tests/core/test_rag_analyzer.py::test_analyze_handles_missing_fields PASSED [  2%]
+tests/core/test_rag_analyzer.py::test_analyze_calculates_chunk_stats PASSED [  2%]
+tests/core/test_rag_analyzer.py::test_is_mock_flag PASSED                [  2%]
+tests/dashboard/test_api.py::test_health_check PASSED                    [  3%]
+tests/dashboard/test_api.py::test_root_endpoint PASSED                   [  3%]
+tests/dashboard/test_api.py::test_trigger_analysis PASSED                [  3%]
+tests/dashboard/test_api.py::test_get_runs PASSED                        [  3%]
+tests/dashboard/test_api.py::test_run_details_ui PASSED                  [  4%]
+tests/dashboard/test_api.py::test_compare_ui PASSED                      [  4%]
+tests/dashboard/test_api.py::test_versions_ui PASSED                     [  4%]
+tests/dashboard/test_api.py::test_auth_flow FAILED                       [  4%]
+tests/dashboard/test_database.py::test_dashboard_database_init PASSED    [  5%]
+tests/dashboard/test_database.py::test_run_model_create FAILED           [  5%]
+tests/dashboard/test_database.py::test_dataset_model FAILED              [  5%]
+tests/dashboard/test_database.py::test_get_db_session PASSED             [  5%]
+tests/dashboard/test_datasets.py::test_datasets_endpoints PASSED         [  6%]
+tests/dashboard/test_marketplace.py::test_marketplace_endpoints PASSED   [  6%]
+tests/dashboard/test_marketplace.py::test_registry_install_logic FAILED  [  6%]
+tests/dashboard/test_playground.py::test_playground_generate PASSED      [  6%]
+tests/dashboard/test_playground.py::test_playground_analyze_metric PASSED [  7%]
+tests/integration/test_full_pipeline.py::test_full_pipeline_evaluation FAILED [  7%]
+tests/integration/test_full_pipeline.py::test_pipeline_with_missing_data FAILED [  7%]
+tests/integration/test_full_pipeline.py::test_pipeline_plugin_integration FAILED [  7%]
+tests/integration/test_langchain_integration.py::test_langchain_integration SKIPPED [  8%]
+tests/integration/test_langchain_integration.py::test_langchain_evaluator_init SKIPPED [  8%]
+tests/integrations/test_haystack.py::test_haystack_tracer PASSED         [  8%]
+tests/integrations/test_haystack.py::test_haystack_tracer_error PASSED   [  8%]
+tests/integrations/test_openai.py::test_wrap_openai_sync PASSED          [  9%]
+tests/integrations/test_openai.py::test_wrap_openai_error PASSED         [  9%]
+tests/llm/test_providers.py::test_mock_llm_initialization PASSED         [  9%]
+tests/llm/test_providers.py::test_mock_llm_generate PASSED               [  9%]
+tests/llm/test_providers.py::test_mock_llm_agenerate PASSED              [ 10%]
+tests/llm/test_providers.py::test_ollama_llm_initialization PASSED       [ 10%]
+tests/llm/test_providers.py::test_ollama_llm_generate_success FAILED     [ 10%]
+tests/llm/test_providers.py::test_ollama_llm_generate_error PASSED       [ 10%]
+tests/llm/test_providers.py::test_ollama_llm_agenerate FAILED            [ 11%]
+tests/llm/test_providers.py::test_openai_llm_initialization PASSED       [ 11%]
+tests/llm/test_providers.py::test_openai_llm_generate PASSED             [ 11%]
+tests/llm/test_providers.py::test_llm_factory_create_mock FAILED         [ 12%]
+tests/llm/test_providers.py::test_llm_factory_create_ollama FAILED       [ 12%]
+tests/llm/test_providers.py::test_llm_factory_create_openai FAILED       [ 12%]
+tests/llm/test_providers.py::test_llm_factory_invalid_provider FAILED    [ 12%]
+tests/llm/test_providers.py::test_llm_factory_missing_api_key FAILED     [ 13%]
+tests/metrics/test_all_scorers.py::test_bias_scorer_initialization PASSED [ 13%]
+tests/metrics/test_all_scorers.py::test_bias_scorer_async PASSED         [ 13%]
+tests/metrics/test_all_scorers.py::test_bias_scorer_sync PASSED          [ 13%]
+tests/metrics/test_all_scorers.py::test_tone_scorer_initialization PASSED [ 14%]
+tests/metrics/test_all_scorers.py::test_tone_scorer_async PASSED         [ 14%]
+tests/metrics/test_all_scorers.py::test_tone_scorer_sync PASSED          [ 14%]
+tests/metrics/test_all_scorers.py::test_conciseness_scorer_initialization PASSED [ 14%]
+tests/metrics/test_all_scorers.py::test_conciseness_scorer_async PASSED  [ 15%]
+tests/metrics/test_all_scorers.py::test_conciseness_scorer_sync PASSED   [ 15%]
+tests/metrics/test_all_scorers.py::test_faithfulness_scorer_async PASSED [ 15%]
+tests/metrics/test_all_scorers.py::test_faithfulness_scorer_sync PASSED  [ 15%]
+tests/metrics/test_all_scorers.py::test_toxicity_scorer_async PASSED     [ 16%]
+tests/metrics/test_all_scorers.py::test_toxicity_scorer_sync PASSED      [ 16%]
+tests/metrics/test_all_scorers.py::test_scorer_parsing_resilience PASSED [ 16%]
+tests/metrics/test_all_scorers.py::test_scorer_with_custom_prompt PASSED [ 16%]
+tests/metrics/test_new_metrics.py::test_bias_scorer PASSED               [ 17%]
+tests/metrics/test_new_metrics.py::test_tone_scorer PASSED               [ 17%]
+tests/metrics/test_new_metrics.py::test_conciseness_scorer PASSED        [ 17%]
+tests/plugins/test_loader.py::test_plugin_loader_singleton PASSED        [ 17%]
+tests/plugins/test_loader.py::test_plugin_loader_initialization PASSED   [ 18%]
+tests/plugins/test_loader.py::test_plugin_loader_load_builtin_plugins PASSED [ 18%]
+tests/plugins/test_loader.py::test_plugin_loader_get_plugin PASSED       [ 18%]
+tests/plugins/test_loader.py::test_plugin_loader_list_plugins PASSED     [ 18%]
+tests/plugins/test_loader.py::test_plugin_loader_validate_safety PASSED  [ 19%]
+tests/plugins/test_loader.py::test_plugin_loader_validate_unsafe PASSED  [ 19%]
+tests/plugins/test_loader.py::test_plugin_registry_initialization PASSED [ 19%]
+tests/plugins/test_loader.py::test_plugin_registry_list_available PASSED [ 19%]
+tests/plugins/test_loader.py::test_plugin_registry_install_success PASSED [ 20%]
+tests/plugins/test_loader.py::test_plugin_registry_install_fallback PASSED [ 20%]
+tests/test_async.py::test_async_analysis PASSED                          [ 20%]
+tests/test_async.py::test_async_llm_mock PASSED                          [ 20%]
+tests/test_async.py::test_async_faithfulness_scorer PASSED               [ 21%]
+tests/test_async.py::test_sync_analysis_with_smart_metrics_uses_async PASSED [ 21%]
+tests/test_async.py::test_sync_analysis_small_dataset_stays_sync PASSED  [ 21%]
+tests/test_benchmarks.py::TestBenchmarkRegistry::test_list_benchmarks PASSED [ 21%]
+tests/test_benchmarks.py::TestBenchmarkRegistry::test_load_squad PASSED  [ 22%]
+tests/test_benchmarks.py::TestBenchmarkRegistry::test_load_coqa PASSED   [ 22%]
+tests/test_benchmarks.py::TestBenchmarkRegistry::test_load_hotpotqa PASSED [ 22%]
+tests/test_benchmarks.py::TestBenchmarkRegistry::test_load_case_insensitive PASSED [ 23%]
+tests/test_benchmarks.py::TestBenchmarkRegistry::test_unknown_benchmark PASSED [ 23%]
+tests/test_benchmarks.py::TestCoQABenchmark::test_generate_sample PASSED [ 23%]
+tests/test_benchmarks.py::TestHotpotQABenchmark::test_generate_sample PASSED [ 23%]
+tests/test_benchmarks.py::TestHotpotQABenchmark::test_download_squad PASSED [ 24%]
+tests/test_builtin_plugins.py::test_chunk_coverage_plugin PASSED         [ 24%]
+tests/test_builtin_plugins.py::test_query_difficulty_plugin PASSED       [ 24%]
+tests/test_builtin_plugins.py::test_hallucination_plugin PASSED          [ 24%]
+tests/test_builtin_plugins.py::test_loader_loads_builtins PASSED         [ 25%]
+tests/test_builtin_plugins_coverage.py::test_citation_accuracy_plugin_init PASSED [ 25%]
+tests/test_builtin_plugins_coverage.py::test_citation_accuracy_with_numeric_citations PASSED [ 25%]
+tests/test_builtin_plugins_coverage.py::test_citation_accuracy_no_citations PASSED [ 25%]
+tests/test_builtin_plugins_coverage.py::test_pii_detector_plugin_init PASSED [ 26%]
+tests/test_builtin_plugins_coverage.py::test_pii_detector_finds_email PASSED [ 26%]
+tests/test_builtin_plugins_coverage.py::test_pii_detector_finds_phone PASSED [ 26%]
+tests/test_builtin_plugins_coverage.py::test_pii_detector_clean_response PASSED [ 26%]
+tests/test_builtin_plugins_coverage.py::test_sql_injection_plugin_init PASSED [ 27%]
+tests/test_builtin_plugins_coverage.py::test_sql_injection_detects_select PASSED [ 27%]
+tests/test_builtin_plugins_coverage.py::test_sql_injection_detects_drop PASSED [ 27%]
+tests/test_builtin_plugins_coverage.py::test_sql_injection_clean_response PASSED [ 27%]
+tests/test_builtin_plugins_coverage.py::test_hallucination_detector_init PASSED [ 28%]
+tests/test_builtin_plugins_coverage.py::test_hallucination_detector_evaluate FAILED [ 28%]
+tests/test_builtin_plugins_coverage.py::test_bias_detector_init PASSED   [ 28%]
+tests/test_builtin_plugins_coverage.py::test_bias_detector_evaluate FAILED [ 28%]
+tests/test_chunking.py::test_calculate_chunk_stats_basic PASSED          [ 29%]
+tests/test_chunking.py::test_calculate_chunk_stats_empty PASSED          [ 29%]
+tests/test_chunking.py::test_calculate_chunk_stats_single PASSED         [ 29%]
+tests/test_chunking.py::test_chunk_stats_realistic_data PASSED           [ 29%]
+tests/test_cli.py::test_cli_help PASSED                                  [ 30%]
+tests/test_cli.py::test_analyze_command_basic PASSED                     [ 30%]
+tests/test_cli.py::test_analyze_command_with_smart_flag PASSED           [ 30%]
+tests/test_cli.py::test_analyze_command_nonexistent_file PASSED          [ 30%]
+tests/test_cli.py::test_analyze_command_invalid_json PASSED              [ 31%]
+tests/test_cli.py::test_analyze_command_with_output PASSED               [ 31%]
+tests/test_cli.py::test_analyze_handles_analyzer_error PASSED            [ 31%]
+tests/test_cli_coverage.py::TestCLI::test_help PASSED                    [ 31%]
+tests/test_cli_coverage.py::TestCLI::test_analyze_help PASSED            [ 32%]
+tests/test_cli_coverage.py::TestCLI::test_dashboard_help PASSED          [ 32%]
+tests/test_cli_coverage.py::TestCLI::test_benchmark_help PASSED          [ 32%]
+tests/test_cli_coverage.py::TestCLI::test_list_plugins_empty PASSED      [ 32%]
+tests/test_cli_coverage.py::TestCLI::test_list_plugins_found PASSED      [ 33%]
+tests/test_cli_coverage_full.py::TestCLICoverage::test_cost_estimate_missing_file PASSED [ 33%]
+tests/test_cli_coverage_full.py::TestCLICoverage::test_cost_estimate_valid PASSED [ 33%]
+tests/test_cli_coverage_full.py::TestCLICoverage::test_cost_estimate_invalid_json PASSED [ 34%]
+tests/test_cli_coverage_full.py::TestCLICoverage::test_generate_missing_file PASSED [ 34%]
+tests/test_cli_coverage_full.py::TestCLICoverage::test_generate_success PASSED [ 34%]
+tests/test_cli_coverage_full.py::TestCLICoverage::test_dashboard_command PASSED [ 34%]
+tests/test_cli_extended.py::test_analyze_verbose_mode PASSED             [ 35%]
+tests/test_cli_extended.py::test_analyze_with_log_file PASSED            [ 35%]
+tests/test_cli_extended.py::test_analyze_with_custom_config PASSED       [ 35%]
+tests/test_cli_extended.py::test_analyze_file_not_found PASSED           [ 35%]
+tests/test_cli_extended.py::test_analyze_invalid_json_format PASSED      [ 36%]
+tests/test_cli_extended.py::test_analyze_with_custom_output PASSED       [ 36%]
+tests/test_cli_extended.py::test_analyze_with_api_key_flag PASSED        [ 36%]
+tests/test_cli_extended.py::test_analyze_empty_data_file PASSED          [ 36%]
+tests/test_cli_extended.py::test_analyze_with_progress_disabled PASSED   [ 37%]
+tests/test_cli_extended.py::test_cli_help_command PASSED                 [ 37%]
+tests/test_cli_extended.py::test_analyze_subcommand_help PASSED          [ 37%]
+tests/test_cli_extended.py::test_config_snapshot PASSED                  [ 37%]
+tests/test_cli_final.py::test_setup_logging_verbose PASSED               [ 38%]
+tests/test_cli_final.py::test_setup_logging_file PASSED                  [ 38%]
+tests/test_cli_final.py::test_cli_compare_command PASSED                 [ 38%]
+tests/test_cli_final.py::test_cli_compare_regression PASSED              [ 38%]
+tests/test_cli_final.py::test_analyze_with_invalid_json_structure PASSED [ 39%]
+tests/test_cli_final.py::test_analyze_with_mock_warning PASSED           [ 39%]
+tests/test_config.py::test_config_initialization_defaults PASSED         [ 39%]
+tests/test_config.py::test_config_from_dict PASSED                       [ 39%]
+tests/test_config.py::test_config_to_dict PASSED                         [ 40%]
+tests/test_config.py::test_config_from_yaml PASSED                       [ 40%]
+tests/test_config.py::test_config_provider_validation PASSED             [ 40%]
+tests/test_config.py::test_config_with_environment_variables PASSED      [ 40%]
+tests/test_config.py::test_config_metrics_list PASSED                    [ 41%]
+tests/test_context_metrics.py::test_context_precision_basic PASSED       [ 41%]
+tests/test_context_metrics.py::test_context_precision_empty_contexts PASSED [ 41%]
+tests/test_context_metrics.py::test_context_precision_sync PASSED        [ 41%]
+tests/test_context_metrics.py::test_context_recall_basic PASSED          [ 42%]
+tests/test_context_metrics.py::test_context_recall_no_ground_truth PASSED [ 42%]
+tests/test_context_metrics.py::test_context_recall_no_retrieved PASSED   [ 42%]
+tests/test_context_metrics.py::test_context_recall_sync PASSED           [ 42%]
+tests/test_context_metrics.py::test_context_recall_simple_fallback PASSED [ 43%]
+tests/test_context_metrics.py::test_context_recall_sentence_splitting PASSED [ 43%]
+tests/test_context_metrics.py::test_context_precision_error_handling PASSED [ 43%]
+tests/test_context_metrics.py::test_context_recall_error_handling PASSED [ 43%]
+tests/test_core.py::test_analyzer_initialization PASSED                  [ 44%]
+tests/test_core.py::test_analyze_with_sample_data PASSED                 [ 44%]
+tests/test_core.py::test_chunking_metrics PASSED                         [ 44%]
+tests/test_core.py::test_retrieval_metrics PASSED                        [ 45%]
+tests/test_core.py::test_empty_data PASSED                               [ 45%]
+tests/test_core.py::test_invalid_data_structure PASSED                   [ 45%]
+tests/test_core.py::test_faithfulness_with_real_api SKIPPED (Require...) [ 45%]
+tests/test_core_coverage.py::test_analyzer_initialization PASSED         [ 46%]
+tests/test_core_coverage.py::test_analyze_empty_data PASSED              [ 46%]
+tests/test_core_coverage.py::test_analyze_basic_flow PASSED              [ 46%]
+tests/test_core_coverage.py::test_analyze_smart_metrics PASSED           [ 46%]
+tests/test_core_extended.py::test_analyzer_async_error_handling PASSED   [ 47%]
+tests/test_core_extended.py::test_analyzer_progress_bar_disable PASSED   [ 47%]
+tests/test_dashboard.py::test_homepage_redirect PASSED                   [ 47%]
+tests/test_dashboard.py::test_login_page PASSED                          [ 47%]
+tests/test_dashboard.py::test_register_page PASSED                       [ 48%]
+tests/test_dashboard.py::test_register_user PASSED                       [ 48%]
+tests/test_dashboard.py::test_login_invalid_credentials PASSED           [ 48%]
+tests/test_dashboard.py::test_dashboard_authenticated SKIPPED (Requi...) [ 48%]
+tests/test_dashboard.py::test_traces_endpoint PASSED                     [ 49%]
+tests/test_dashboard.py::test_playground_endpoint PASSED                 [ 49%]
+tests/test_dashboard.py::test_versions_endpoint PASSED                   [ 49%]
+tests/test_dashboard.py::test_api_batch_analyze SKIPPED (Requires au...) [ 49%]
+tests/test_dashboard.py::test_health_check PASSED                        [ 50%]
+tests/test_dashboard.py::test_websocket_metrics PASSED                   [ 50%]
+tests/test_dashboard.py::test_full_registration_and_login_flow PASSED    [ 50%]
+tests/test_dashboard_coverage.py::TestDashboardCoverage::test_read_root_redirect PASSED [ 50%]
+tests/test_dashboard_coverage.py::TestDashboardCoverage::test_login_page FAILED [ 51%]
+tests/test_dashboard_coverage.py::TestDashboardCoverage::test_dashboard_unauthorized PASSED [ 51%]
+tests/test_dashboard_coverage.py::TestDashboardCoverage::test_dashboard_authorized SKIPPED [ 51%]
+tests/test_dashboard_coverage.py::TestDashboardCoverage::test_playground_page PASSED [ 51%]
+tests/test_dashboard_coverage.py::TestDashboardCoverage::test_playground_analyze SKIPPED [ 52%]
+tests/test_error_handling.py::test_llm_factory_invalid_provider PASSED   [ 52%]
+tests/test_error_handling.py::test_llm_factory_missing_provider PASSED   [ 52%]
+tests/test_error_handling.py::test_analyzer_handles_missing_response PASSED [ 52%]
+tests/test_error_handling.py::test_analyzer_handles_empty_contexts PASSED [ 53%]
+tests/test_error_handling.py::test_semantic_matcher_empty_lists PASSED   [ 53%]
+tests/test_error_handling.py::test_semantic_matcher_one_empty_list PASSED [ 53%]
+tests/test_error_handling.py::test_faithfulness_scorer_empty_context PASSED [ 53%]
+tests/test_error_handling.py::test_retrieval_metrics_empty_ground_truth PASSED [ 54%]
+tests/test_error_handling.py::test_retrieval_metrics_empty_retrieved PASSED [ 54%]
+tests/test_error_handling.py::test_config_validation PASSED              [ 54%]
+tests/test_exceptions.py::test_raglint_error PASSED                      [ 54%]
+tests/test_exceptions.py::test_generation_error PASSED                   [ 55%]
+tests/test_exceptions.py::test_plugin_error PASSED                       [ 55%]
+tests/test_exceptions.py::test_llm_error PASSED                          [ 55%]
+tests/test_exceptions.py::test_exception_with_message PASSED             [ 56%]
+tests/test_experiment.py::TestExperimentRunner::test_run_experiment PASSED [ 56%]
+tests/test_experiment.py::TestExperimentRunner::test_comparison_result_diff PASSED [ 56%]
+tests/test_experiment.py::TestExperimentRunner::test_comparison_result_verdict PASSED [ 56%]
+tests/test_generation.py::TestTestsetGenerator::test_generate_from_text PASSED [ 57%]
+tests/test_generation.py::TestTestsetGenerator::test_generate_from_file_text PASSED [ 57%]
+tests/test_generation.py::TestTestsetGenerator::test_chunk_text FAILED   [ 57%]
+tests/test_html_generation.py::test_generate_html_report_basic PASSED    [ 57%]
+tests/test_html_generation.py::test_generate_html_report_content PASSED  [ 58%]
+tests/test_html_generation.py::test_generate_html_report_mock_mode PASSED [ 58%]
+tests/test_html_generation.py::test_generate_html_report_empty_scores PASSED [ 58%]
+tests/test_instrumentation.py::test_monitor_singleton PASSED             [ 58%]
+tests/test_instrumentation.py::test_monitor_enable_disable PASSED        [ 59%]
+tests/test_instrumentation.py::test_watch_decorator PASSED               [ 59%]
+tests/test_instrumentation.py::test_watch_decorator_with_error PASSED    [ 59%]
+tests/test_instrumentation.py::test_watch_async_function PASSED          [ 59%]
+tests/test_instrumentation.py::test_log_event PASSED                     [ 60%]
+tests/test_instrumentation.py::test_monitor_disabled_no_logging PASSED   [ 60%]
+tests/test_instrumentation_coverage.py::test_monitor_singleton FAILED    [ 60%]
+tests/test_instrumentation_coverage.py::test_watch_decorator PASSED      [ 60%]
+tests/test_instrumentation_coverage.py::test_watch_decorator_with_tracking PASSED [ 61%]
+tests/test_instrumentation_coverage.py::test_watch_async_support PASSED  [ 61%]
+tests/test_instrumentation_coverage.py::test_monitor_disable_enable PASSED [ 61%]
+tests/test_integration.py::test_basic_analysis PASSED                    [ 61%]
+tests/test_integration.py::test_smart_analysis_mock_mode PASSED          [ 62%]
+tests/test_integration.py::test_empty_data PASSED                        [ 62%]
+tests/test_integration.py::test_missing_ground_truth PASSED              [ 62%]
+tests/test_integration.py::test_malformed_data PASSED                    [ 62%]
+tests/test_integration.py::test_async_compatibility PASSED               [ 63%]
+tests/test_integrations_comprehensive.py::test_langchain_integration_import SKIPPED [ 63%]
+tests/test_integrations_comprehensive.py::test_langchain_callback_initialization SKIPPED [ 63%]
+tests/test_integrations_comprehensive.py::test_haystack_integration_import SKIPPED [ 63%]
+tests/test_integrations_comprehensive.py::test_openai_integration_import SKIPPED [ 64%]
+tests/test_integrations_comprehensive.py::test_openai_wrapper_basic FAILED [ 64%]
+tests/test_integrations_comprehensive.py::test_azure_integration_import PASSED [ 64%]
+tests/test_integrations_comprehensive.py::test_azure_llm_initialization FAILED [ 64%]
+tests/test_integrations_comprehensive.py::test_bedrock_integration_import PASSED [ 65%]
+tests/test_integrations_comprehensive.py::test_bedrock_llm_initialization FAILED [ 65%]
+tests/test_integrations_llamaindex.py::TestLlamaIndexIntegration::test_llm_event PASSED [ 65%]
+tests/test_integrations_llamaindex.py::TestLlamaIndexIntegration::test_retrieve_event PASSED [ 65%]
+tests/test_llm.py::test_mock_llm_score PASSED                            [ 66%]
+tests/test_llm.py::test_mock_llm_consistency PASSED                      [ 66%]
+tests/test_llm.py::test_llm_factory_mock PASSED                          [ 66%]
+tests/test_llm.py::test_llm_factory_openai PASSED                        [ 67%]
+tests/test_llm.py::test_llm_factory_ollama PASSED                        [ 67%]
+tests/test_llm.py::test_llm_factory_default PASSED                       [ 67%]
+tests/test_llm.py::test_llm_factory_invalid_provider PASSED              [ 67%]
+tests/test_llm.py::test_openai_llm_missing_api_key PASSED                [ 68%]
+tests/test_llm.py::test_ollama_llm_initialization PASSED                 [ 68%]
+tests/test_llm_coverage.py::test_openai_llm_generate PASSED              [ 68%]
+tests/test_llm_coverage.py::test_ollama_llm_generate_json PASSED         [ 68%]
+tests/test_llm_extended.py::TestMockLLM::test_generate_json FAILED       [ 69%]
+tests/test_llm_extended.py::TestMockLLM::test_agenerate_json FAILED      [ 69%]
+tests/test_llm_extended.py::TestOpenAIJSON::test_generate_json_success PASSED [ 69%]
+tests/test_llm_extended.py::TestOpenAIJSON::test_generate_json_error PASSED [ 69%]
+tests/test_llm_extended.py::TestOllamaIntegration::test_agenerate_success PASSED [ 70%]
+tests/test_llm_extended.py::TestOllamaIntegration::test_agenerate_error PASSED [ 70%]
+tests/test_llm_extended.py::TestOllamaIntegration::test_generate_json_success PASSED [ 70%]
+tests/test_llm_extended.py::TestOllamaIntegration::test_generate_json_error PASSED [ 70%]
+tests/test_llm_extended.py::TestOllamaIntegration::test_generate_json_parse_error PASSED [ 71%]
+tests/test_llm_providers.py::test_mock_llm_generate PASSED               [ 71%]
+tests/test_llm_providers.py::test_mock_llm_agenerate PASSED              [ 71%]
+tests/test_llm_providers.py::test_openai_llm_agenerate_success PASSED    [ 71%]
+tests/test_llm_providers.py::test_openai_llm_agenerate_error PASSED      [ 72%]
+tests/test_llm_providers.py::test_openai_llm_generate_success PASSED     [ 72%]
+tests/test_llm_providers.py::test_openai_llm_generate_error PASSED       [ 72%]
+tests/test_llm_providers.py::test_ollama_llm_agenerate_success PASSED    [ 72%]
+tests/test_llm_providers.py::test_ollama_llm_agenerate_error PASSED      [ 73%]
+tests/test_llm_providers.py::test_ollama_llm_generate_success PASSED     [ 73%]
+tests/test_llm_providers.py::test_ollama_llm_generate_error PASSED       [ 73%]
+tests/test_llm_providers.py::test_ollama_llm_custom_base_url PASSED      [ 73%]
+tests/test_llm_providers.py::test_llm_factory_create_openai_without_key PASSED [ 74%]
+tests/test_llm_providers.py::test_llm_factory_create_openai_with_env_key PASSED [ 74%]
+tests/test_llm_providers.py::test_llm_factory_create_openai_with_config_key PASSED [ 74%]
+tests/test_llm_providers.py::test_llm_factory_create_ollama PASSED       [ 74%]
+tests/test_llm_providers.py::test_llm_factory_create_unknown_provider PASSED [ 75%]
+tests/test_logging.py::test_get_logger PASSED                            [ 75%]
+tests/test_logging.py::test_configure_logging_basic PASSED               [ 75%]
+tests/test_logging.py::test_configure_logging_verbose PASSED             [ 75%]
+tests/test_logging.py::test_logger_outputs_messages PASSED               [ 76%]
+tests/test_logging.py::test_multiple_loggers PASSED                      [ 76%]
+tests/test_metrics.py::test_retrieval_metrics PASSED                     [ 76%]
+tests/test_metrics.py::test_faithfulness_scorer_mock PASSED              [ 76%]
+tests/test_metrics.py::test_faithfulness_scorer_custom_prompt PASSED     [ 77%]
+tests/test_metrics_advanced.py::TestAdvancedMetrics::test_answer_relevance_scorer PASSED [ 77%]
+tests/test_metrics_advanced.py::TestAdvancedMetrics::test_toxicity_scorer_safe PASSED [ 77%]
+tests/test_metrics_advanced.py::TestAdvancedMetrics::test_toxicity_scorer_toxic PASSED [ 78%]
+tests/test_new_plugins.py::test_citation_accuracy_plugin FAILED          [ 78%]
+tests/test_new_plugins.py::test_readability_plugin PASSED                [ 78%]
+tests/test_new_plugins.py::test_completeness_plugin FAILED               [ 78%]
+tests/test_new_plugins.py::test_conciseness_plugin PASSED                [ 79%]
+tests/test_new_plugins.py::test_bias_detector_plugin PASSED              [ 79%]
+tests/test_new_plugins.py::test_multilingual_plugin PASSED               [ 79%]
+tests/test_new_plugins.py::test_pii_detector_plugin FAILED               [ 79%]
+tests/test_new_plugins.py::test_sql_injection_detector_plugin FAILED     [ 80%]
+tests/test_new_plugins.py::test_hallucination_confidence_plugin FAILED   [ 80%]
+tests/test_new_plugins.py::test_context_compression_plugin FAILED        [ 80%]
+tests/test_new_plugins.py::test_response_diversity_plugin FAILED         [ 80%]
+tests/test_new_plugins.py::test_user_intent_plugin FAILED                [ 81%]
+tests/test_new_plugins.py::test_multiple_plugins_integration FAILED      [ 81%]
+tests/test_plugin_integration.py::TestPluginLoader::test_loader_singleton PASSED [ 81%]
+tests/test_plugin_integration.py::TestPluginLoader::test_load_all_builtins PASSED [ 81%]
+tests/test_plugin_integration.py::TestPluginLoader::test_get_plugin FAILED [ 82%]
+tests/test_plugin_integration.py::TestPluginIntegration::test_comprehensive_analysis FAILED [ 82%]
+tests/test_plugin_integration.py::TestPluginIntegration::test_plugin_pipeline FAILED [ 82%]
+tests/test_plugin_integration.py::TestPluginIntegration::test_error_handling FAILED [ 82%]
+tests/test_plugin_integration.py::TestPluginPerformance::test_async_concurrent_execution FAILED [ 83%]
+tests/test_plugin_integration.py::TestPluginPerformance::test_plugin_memory_efficiency PASSED [ 83%]
+tests/test_plugin_integration.py::TestPluginConfiguration::test_plugin_metadata PASSED [ 83%]
+tests/test_plugin_integration.py::TestPluginStress::test_large_text_handling FAILED [ 83%]
+tests/test_plugin_integration.py::TestPluginStress::test_many_concurrent_plugins FAILED [ 84%]
+tests/test_plugins.py::test_plugin_loader_singleton PASSED               [ 84%]
+tests/test_plugins.py::test_register_plugin_manually PASSED              [ 84%]
+tests/test_plugins.py::test_llm_factory_uses_plugin PASSED               [ 84%]
+tests/test_plugins.py::test_load_from_directory PASSED                   [ 85%]
+tests/test_plugins.py::test_load_from_entry_points PASSED                [ 85%]
+tests/test_plugins_simple.py::TestCitationAccuracy::test_init PASSED     [ 85%]
+tests/test_plugins_simple.py::TestCitationAccuracy::test_with_citations PASSED [ 85%]
+tests/test_plugins_simple.py::TestCitationAccuracy::test_no_citations PASSED [ 86%]
+tests/test_plugins_simple.py::TestPIIDetector::test_init PASSED          [ 86%]
+tests/test_plugins_simple.py::TestPIIDetector::test_detects_email PASSED [ 86%]
+tests/test_plugins_simple.py::TestPIIDetector::test_clean_response PASSED [ 86%]
+tests/test_plugins_simple.py::TestSQLInjection::test_init PASSED         [ 87%]
+tests/test_plugins_simple.py::TestSQLInjection::test_detects_select PASSED [ 87%]
+tests/test_plugins_simple.py::TestSQLInjection::test_clean_response PASSED [ 87%]
+tests/test_relevance.py::test_context_relevance_scorer_mock PASSED       [ 87%]
+tests/test_relevance.py::test_answer_relevance_scorer_mock PASSED        [ 88%]
+tests/test_relevance.py::test_relevance_parsing_logic PASSED             [ 88%]
+tests/test_relevance.py::test_relevance_parsing_error PASSED             [ 88%]
+tests/test_relevance.py::test_context_relevance_scorer_sync PASSED       [ 89%]
+tests/test_relevance.py::test_answer_relevance_scorer_sync PASSED        [ 89%]
+tests/test_reporting.py::test_generate_html_report PASSED                [ 89%]
+tests/test_reporting.py::test_html_report_includes_metrics PASSED        [ 89%]
+tests/test_retrieval_metrics.py::test_calculate_precision_perfect PASSED [ 90%]
+tests/test_retrieval_metrics.py::test_calculate_precision_partial PASSED [ 90%]
+tests/test_retrieval_metrics.py::test_calculate_precision_zero PASSED    [ 90%]
+tests/test_retrieval_metrics.py::test_calculate_recall_perfect PASSED    [ 90%]
+tests/test_retrieval_metrics.py::test_calculate_recall_partial PASSED    [ 91%]
+tests/test_retrieval_metrics.py::test_calculate_recall_zero PASSED       [ 91%]
+tests/test_retrieval_metrics.py::test_empty_lists PASSED                 [ 91%]
+tests/test_tracking.py::TestLatencyStats::test_initialization PASSED     [ 91%]
+tests/test_tracking.py::TestLatencyStats::test_add_latency PASSED        [ 92%]
+tests/test_tracking.py::TestLatencyStats::test_avg_latency PASSED        [ 92%]
+tests/test_tracking.py::TestLatencyStats::test_calculate_percentiles PASSED [ 92%]
+tests/test_tracking.py::TestLatencyStats::test_percentiles_small_dataset PASSED [ 92%]
+tests/test_tracking.py::TestCostStats::test_initialization PASSED        [ 93%]
+tests/test_tracking.py::TestCostStats::test_add_usage_gpt35 PASSED       [ 93%]
+tests/test_tracking.py::TestCostStats::test_add_usage_gpt4 PASSED        [ 93%]
+tests/test_tracking.py::TestCostStats::test_add_usage_ollama PASSED      [ 93%]
+tests/test_tracking.py::TestCostStats::test_avg_cost_per_call PASSED     [ 94%]
+tests/test_tracking.py::TestCostStats::test_multiple_operations PASSED   [ 94%]
+tests/test_tracking.py::TestPerformanceTracker::test_initialization PASSED [ 94%]
+tests/test_tracking.py::TestPerformanceTracker::test_start_end_operation PASSED [ 94%]
+tests/test_tracking.py::TestPerformanceTracker::test_record_llm_call PASSED [ 95%]
+tests/test_tracking.py::TestPerformanceTracker::test_get_summary PASSED  [ 95%]
+tests/test_tracking.py::TestPerformanceTracker::test_estimate_cost PASSED [ 95%]
+tests/test_tracking.py::TestPerformanceTracker::test_estimate_cost_no_data PASSED [ 95%]
+tests/test_tracking.py::TestPerformanceTracker::test_estimate_cost_unknown_model PASSED [ 96%]
+tests/test_tracking.py::TestGlobalTracker::test_get_tracker PASSED       [ 96%]
+tests/test_tracking.py::TestGlobalTracker::test_reset_tracker PASSED     [ 96%]
+tests/test_tracking.py::TestPricing::test_pricing_data_exists PASSED     [ 96%]
+tests/test_tracking.py::TestPricing::test_pricing_structure PASSED       [ 97%]
+tests/test_tracking_comprehensive.py::test_performance_tracker_initialization PASSED [ 97%]
+tests/test_tracking_comprehensive.py::test_record_llm_call PASSED        [ 97%]
+tests/test_tracking_comprehensive.py::test_operation_timing PASSED       [ 97%]
+tests/test_tracking_comprehensive.py::test_global_tracker PASSED         [ 98%]
+tests/test_tracking_comprehensive.py::test_estimate_cost PASSED          [ 98%]
+tests/test_tracking_coverage.py::TestTrackingCoverage::test_tracker_singleton PASSED [ 98%]
+tests/test_tracking_coverage.py::TestTrackingCoverage::test_record_llm_call PASSED [ 98%]
+tests/test_tracking_coverage.py::TestTrackingCoverage::test_operation_timing PASSED [ 99%]
+tests/test_tracking_coverage.py::TestTrackingCoverage::test_estimate_cost PASSED [ 99%]
+tests/test_tracking_coverage.py::TestTrackingCoverage::test_unknown_model_estimate PASSED [ 99%]
+tests/test_tracking_coverage.py::TestTrackingCoverage::test_get_summary PASSED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_auth_flow ________________________________
+
+test_db = None
+
+    @pytest.mark.asyncio
+    async def test_auth_flow(test_db):
+        """Test registration, login, and protected route."""
+        from raglint.dashboard import models
+        from raglint.dashboard.database import SessionLocal
+    
+        with TestClient(app) as client:
+            # 1. Access Home -> Redirect to Login
+            response = client.get("/", follow_redirects=False)
+            assert response.status_code == 307 or response.status_code == 303
+            assert "/login" in response.headers["location"]
+    
+            # 2. Register
+            response = client.post(
+                "/auth/register",
+                data={"email": "test@example.com", "password": "password123"},
+                follow_redirects=False
+            )
+            assert response.status_code == 303
+            assert "/login" in response.headers["location"]
+    
+            # Verify user in DB
+            async with SessionLocal() as session:
+                from sqlalchemy import select
+                result = await session.execute(select(models.User).where(models.User.email == "test@example.com"))
+                user = result.scalar_one_or_none()
+                assert user is not None
+    
+            # 3. Login UI
+            response = client.post(
+                "/auth/login-ui",
+                data={"email": "test@example.com", "password": "password123"},
+                follow_redirects=False
+            )
+            assert response.status_code == 303
+            assert "/" in response.headers["location"]
+            assert "access_token" in response.cookies
+    
+            # 4. Access Home with Cookie
+            client.cookies = response.cookies # Set cookie for subsequent requests
+            response = client.get("/")
+            assert response.status_code == 200
+>           assert "test@example.com" in response.text
+E           assert 'test@example.com' in '<!DOCTYPE html>\n<html lang="en" class="h-full bg-gray-50">\n\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>RAGLint Dashboard</title>\n\n    <!-- Tailwind CSS (CDN for dev) -->\n    <script src="https://cdn.tailwindcss.com"></script>\n    <script>\n        tailwind.config = {\n            darkMode: \'class\',\n        }\n    </script>\n\n    <!-- HTMX (CDN for dev) -->\n    <script src="https://unpkg.com/htmx.org@1.9.6"></script>\n    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>\n\n    <!-- Google Fonts -->\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n    <style>\n        body {\n            font-family: \'Inter\', sans-serif;\n        }\n\n        [x-cloak] {\n            display: none !important;\n        }\n    </style>\n\n    <!-- Alpine.js for client-side interactivity (optional but good for UI state) -->\n    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@...   // Toggle icons\n            themeToggleDarkIcon.classList.toggle(\'hidden\');\n            themeToggleLightIcon.classList.toggle(\'hidden\');\n\n            // If is set in localStorage\n            if (localStorage.getItem(\'color-theme\')) {\n                if (localStorage.getItem(\'color-theme\') === \'light\') {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'light\');\n                }\n            } else {\n                // If not in localStorage\n                if (document.documentElement.classList.contains(\'dark\')) {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                }\n            }\n        });\n    </script>\n\n    \n</body>\n\n</html>'
+E            +  where '<!DOCTYPE html>\n<html lang="en" class="h-full bg-gray-50">\n\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>RAGLint Dashboard</title>\n\n    <!-- Tailwind CSS (CDN for dev) -->\n    <script src="https://cdn.tailwindcss.com"></script>\n    <script>\n        tailwind.config = {\n            darkMode: \'class\',\n        }\n    </script>\n\n    <!-- HTMX (CDN for dev) -->\n    <script src="https://unpkg.com/htmx.org@1.9.6"></script>\n    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>\n\n    <!-- Google Fonts -->\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n    <style>\n        body {\n            font-family: \'Inter\', sans-serif;\n        }\n\n        [x-cloak] {\n            display: none !important;\n        }\n    </style>\n\n    <!-- Alpine.js for client-side interactivity (optional but good for UI state) -->\n    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@...   // Toggle icons\n            themeToggleDarkIcon.classList.toggle(\'hidden\');\n            themeToggleLightIcon.classList.toggle(\'hidden\');\n\n            // If is set in localStorage\n            if (localStorage.getItem(\'color-theme\')) {\n                if (localStorage.getItem(\'color-theme\') === \'light\') {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'light\');\n                }\n            } else {\n                // If not in localStorage\n                if (document.documentElement.classList.contains(\'dark\')) {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                }\n            }\n        });\n    </script>\n\n    \n</body>\n\n</html>' = <Response [200 OK]>.text
+
+tests/dashboard/test_api.py:271: AssertionError
+____________________________ test_run_model_create _____________________________
+
+    @pytest.mark.asyncio
+    async def test_run_model_create():
+        """Test Run model creation."""
+>       from raglint.dashboard.database import Run
+E       ImportError: cannot import name 'Run' from 'raglint.dashboard.database' (/home/yesir/Dokument/RAGlint/raglint/dashboard/database.py)
+
+tests/dashboard/test_database.py:21: ImportError
+______________________________ test_dataset_model ______________________________
+
+    @pytest.mark.asyncio
+    async def test_dataset_model():
+        """Test Dataset model."""
+>       from raglint.dashboard.database import Dataset
+E       ImportError: cannot import name 'Dataset' from 'raglint.dashboard.database' (/home/yesir/Dokument/RAGlint/raglint/dashboard/database.py)
+
+tests/dashboard/test_database.py:36: ImportError
+_________________________ test_registry_install_logic __________________________
+
+    @pytest.mark.asyncio
+    async def test_registry_install_logic():
+        from raglint.plugins.loader import PluginRegistry
+        from unittest.mock import mock_open
+        from pathlib import Path
+    
+        registry = PluginRegistry()
+    
+        # Mock httpx
+        with patch("httpx.get") as mock_get:
+            # Case 1: Successful Download
+            mock_response = MagicMock()
+            mock_response.status_code = 200
+            mock_response.text = "print('Downloaded Code')"
+            mock_get.return_value = mock_response
+    
+            m = mock_open()
+            with patch("builtins.open", m):
+                registry.install_plugin("test-plugin", target_dir="/tmp/test_plugins")
+    
+                # Verify URL
+>               mock_get.assert_called_with("https://registry.raglint.com/plugins/test-plugin.py", timeout=2.0)
+
+tests/dashboard/test_marketplace.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <MagicMock name='get' id='129468716423488'>
+args = ('https://registry.raglint.com/plugins/test-plugin.py',)
+kwargs = {'timeout': 2.0}
+expected = call('https://registry.raglint.com/plugins/test-plugin.py', timeout=2.0)
+actual = call('https://registry.raglint.com/plugins/test-plugin/latest/download', timeout=2.0)
+_error_message = <function NonCallableMock.assert_called_with.<locals>._error_message at 0x75c048100720>
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: get('https://registry.raglint.com/plugins/test-plugin.py', timeout=2.0)
+E             Actual: get('https://registry.raglint.com/plugins/test-plugin/latest/download', timeout=2.0)
+
+/usr/lib/python3.13/unittest/mock.py:979: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  raglint.plugins.loader:loader.py:293 ⚠️  Installing UNVERIFIED plugin: test-plugin. Proceed with caution.
+________________________ test_full_pipeline_evaluation _________________________
+
+    @pytest.mark.asyncio
+    async def test_full_pipeline_evaluation():
+        """Test complete evaluation pipeline end-to-end."""
+        # Create config with mock LLM
+        config = Config(provider="mock")
+    
+        # Initialize analyzer
+        analyzer = RAGPipelineAnalyzer(config)
+    
+        # Sample test data
+        test_data = [
+            {
+                "query": "What is Python?",
+                "response": "Python is a programming language.",
+                "retrieved_contexts": ["Python is a high-level programming language."],
+                "ground_truth_contexts": ["Python is a high-level programming language."],
+                "ground_truth": "Python is a programming language."
+            }
+        ]
+    
+        # Run evaluation
+>       results = await analyzer.evaluate_batch_async(test_data)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RAGPipelineAnalyzer' object has no attribute 'evaluate_batch_async'
+
+tests/integration/test_full_pipeline.py:31: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing Smart Metrics (this may take a moment)...
+_______________________ test_pipeline_with_missing_data ________________________
+
+    @pytest.mark.asyncio
+    async def test_pipeline_with_missing_data():
+        """Test pipeline gracefully handles missing data."""
+        config = Config(provider="mock")
+        analyzer = RAGPipelineAnalyzer(config)
+    
+        # Missing ground truth
+        test_data = [
+            {
+                "query": "What is Python?",
+                "response": "Python is a programming language.",
+                "retrieved_contexts": ["Python is a high-level programming language."],
+            }
+        ]
+    
+        # Should not crash
+>       results = await analyzer.evaluate_batch_async(test_data)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RAGPipelineAnalyzer' object has no attribute 'evaluate_batch_async'
+
+tests/integration/test_full_pipeline.py:64: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing Smart Metrics (this may take a moment)...
+_______________________ test_pipeline_plugin_integration _______________________
+
+    @pytest.mark.asyncio
+    async def test_pipeline_plugin_integration():
+        """Test that plugins are properly loaded and executed."""
+        config = Config(provider="mock")
+        analyzer = RAGPipelineAnalyzer(config)
+    
+        test_data = [
+            {
+                "query": "Test query",
+                "response": "Test response",
+                "retrieved_contexts": ["Test context"],
+            }
+        ]
+    
+>       results = await analyzer.evaluate_batch_async(test_data)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RAGPipelineAnalyzer' object has no attribute 'evaluate_batch_async'
+
+tests/integration/test_full_pipeline.py:82: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing Smart Metrics (this may take a moment)...
+_______________________ test_ollama_llm_generate_success _______________________
+
+mock_post = <MagicMock name='post' id='129468716431216'>
+
+    @patch('httpx.post')
+    def test_ollama_llm_generate_success(mock_post):
+        """Test OllamaLLM generation with mocked response."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"response": "This is a test response"}
+        mock_post.return_value = mock_response
+    
+        llm = OllamaLLM()
+        result = llm.generate("Test prompt")
+    
+>       assert result == "This is a test response"
+E       AssertionError: assert 'Error' == 'This is a test response'
+E         
+E         - This is a test response
+E         + Error
+
+tests/llm/test_providers.py:54: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Ollama API Error: 404 Client Error: Not Found for url: http://localhost:11434/api/generate
+__________________________ test_ollama_llm_agenerate ___________________________
+
+mock_post = <AsyncMock name='post' id='129474513961040'>
+
+    @pytest.mark.asyncio
+    @patch('httpx.AsyncClient.post')
+    async def test_ollama_llm_agenerate(mock_post):
+        """Test OllamaLLM async generation."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"response": "Async response"}
+        mock_post.return_value = mock_response
+    
+        llm = OllamaLLM()
+        result = await llm.agenerate("Test prompt")
+    
+>       assert result == "Async response"
+E       AssertionError: assert 'Error' == 'Async response'
+E         
+E         - Async response
+E         + Error
+
+tests/llm/test_providers.py:81: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Ollama API Error: 404, message='Not Found', url='http://localhost:11434/api/generate'
+_________________________ test_llm_factory_create_mock _________________________
+
+    def test_llm_factory_create_mock():
+        """Test LLMFactory creates MockLLM."""
+>       llm = LLMFactory.create(provider="mock")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: LLMFactory.create() got an unexpected keyword argument 'provider'
+
+tests/llm/test_providers.py:110: TypeError
+________________________ test_llm_factory_create_ollama ________________________
+
+    def test_llm_factory_create_ollama():
+        """Test LLMFactory creates OllamaLLM."""
+>       llm = LLMFactory.create(provider="ollama", model="llama2")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: LLMFactory.create() got an unexpected keyword argument 'provider'
+
+tests/llm/test_providers.py:116: TypeError
+________________________ test_llm_factory_create_openai ________________________
+
+mock_openai = <MagicMock name='OpenAI' id='129467366302656'>
+
+    @patch('openai.OpenAI')
+    def test_llm_factory_create_openai(mock_openai):
+        """Test LLMFactory creates OpenAI_LLM."""
+>       llm = LLMFactory.create(provider="openai", api_key="test-key")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: LLMFactory.create() got an unexpected keyword argument 'provider'
+
+tests/llm/test_providers.py:124: TypeError
+______________________ test_llm_factory_invalid_provider _______________________
+
+    def test_llm_factory_invalid_provider():
+        """Test LLMFactory handles invalid provider."""
+        with pytest.raises(ValueError):
+>           LLMFactory.create(provider="invalid_provider")
+E           TypeError: LLMFactory.create() got an unexpected keyword argument 'provider'
+
+tests/llm/test_providers.py:131: TypeError
+_______________________ test_llm_factory_missing_api_key _______________________
+
+    def test_llm_factory_missing_api_key():
+        """Test LLMFactory validates API key for OpenAI."""
+        with pytest.raises(ValueError):
+>           LLMFactory.create(provider="openai", api_key=None)
+E           TypeError: LLMFactory.create() got an unexpected keyword argument 'provider'
+
+tests/llm/test_providers.py:137: TypeError
+_____________________ test_hallucination_detector_evaluate _____________________
+
+    def test_hallucination_detector_evaluate():
+        """Test hallucination detector evaluation."""
+        plugin = HallucinationPlugin()
+    
+        context = ["Python is a programming language"]
+        response = "Python is used for machine learning"
+    
+>       score = plugin.evaluate("query", context, response)
+                ^^^^^^^^^^^^^^^
+E       AttributeError: 'HallucinationPlugin' object has no attribute 'evaluate'
+
+tests/test_builtin_plugins_coverage.py:132: AttributeError
+_________________________ test_bias_detector_evaluate __________________________
+
+    def test_bias_detector_evaluate():
+        """Test bias detector evaluation."""
+        plugin = BiasDetectorPlugin()
+    
+        response = "Scientists believe that research is important."
+>       score = plugin.evaluate("query", [], response)
+                ^^^^^^^^^^^^^^^
+E       AttributeError: 'BiasDetectorPlugin' object has no attribute 'evaluate'
+
+tests/test_builtin_plugins_coverage.py:149: AttributeError
+____________________ TestDashboardCoverage.test_login_page _____________________
+
+self = <test_dashboard_coverage.TestDashboardCoverage object at 0x75c1a289fc50>
+
+    def test_login_page(self):
+        """Test login page rendering."""
+        response = client.get("/login")
+        assert response.status_code == 200
+>       assert "Login" in response.text
+E       assert 'Login' in '<!DOCTYPE html>\n<html lang="en" class="h-full bg-gray-50">\n\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>RAGLint Dashboard</title>\n\n    <!-- Tailwind CSS (CDN for dev) -->\n    <script src="https://cdn.tailwindcss.com"></script>\n    <script>\n        tailwind.config = {\n            darkMode: \'class\',\n        }\n    </script>\n\n    <!-- HTMX (CDN for dev) -->\n    <script src="https://unpkg.com/htmx.org@1.9.6"></script>\n    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>\n\n    <!-- Google Fonts -->\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n    <style>\n        body {\n            font-family: \'Inter\', sans-serif;\n        }\n\n        [x-cloak] {\n            display: none !important;\n        }\n    </style>\n\n    <!-- Alpine.js for client-side interactivity (optional but good for UI state) -->\n    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@...   // Toggle icons\n            themeToggleDarkIcon.classList.toggle(\'hidden\');\n            themeToggleLightIcon.classList.toggle(\'hidden\');\n\n            // If is set in localStorage\n            if (localStorage.getItem(\'color-theme\')) {\n                if (localStorage.getItem(\'color-theme\') === \'light\') {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'light\');\n                }\n            } else {\n                // If not in localStorage\n                if (document.documentElement.classList.contains(\'dark\')) {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                }\n            }\n        });\n    </script>\n\n    \n</body>\n\n</html>'
+E        +  where '<!DOCTYPE html>\n<html lang="en" class="h-full bg-gray-50">\n\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>RAGLint Dashboard</title>\n\n    <!-- Tailwind CSS (CDN for dev) -->\n    <script src="https://cdn.tailwindcss.com"></script>\n    <script>\n        tailwind.config = {\n            darkMode: \'class\',\n        }\n    </script>\n\n    <!-- HTMX (CDN for dev) -->\n    <script src="https://unpkg.com/htmx.org@1.9.6"></script>\n    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>\n\n    <!-- Google Fonts -->\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n    <style>\n        body {\n            font-family: \'Inter\', sans-serif;\n        }\n\n        [x-cloak] {\n            display: none !important;\n        }\n    </style>\n\n    <!-- Alpine.js for client-side interactivity (optional but good for UI state) -->\n    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@...   // Toggle icons\n            themeToggleDarkIcon.classList.toggle(\'hidden\');\n            themeToggleLightIcon.classList.toggle(\'hidden\');\n\n            // If is set in localStorage\n            if (localStorage.getItem(\'color-theme\')) {\n                if (localStorage.getItem(\'color-theme\') === \'light\') {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'light\');\n                }\n            } else {\n                // If not in localStorage\n                if (document.documentElement.classList.contains(\'dark\')) {\n                    document.documentElement.classList.remove(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                } else {\n                    document.documentElement.classList.add(\'dark\');\n                    localStorage.setItem(\'color-theme\', \'dark\');\n                }\n            }\n        });\n    </script>\n\n    \n</body>\n\n</html>' = <Response [200 OK]>.text
+
+tests/test_dashboard_coverage.py:28: AssertionError
+_____________________ TestTestsetGenerator.test_chunk_text _____________________
+
+self = <test_generation.TestTestsetGenerator object at 0x75c1a27508a0>
+
+    def test_chunk_text(self):
+        """Test chunking logic."""
+        generator = TestsetGenerator()
+        text = "word " * 2000
+        chunks = generator._chunk_text(text, chunk_size=100, overlap=0)
+        # 2000 words / 100 words per chunk = 20 chunks
+        # But it's char based? No, implementation was word based split but char length check?
+        # Let's check implementation:
+        # words = text.split()
+        # chunk = " ".join(words[i:i + chunk_size])
+        # So chunk_size is in WORDS.
+    
+>       assert len(chunks) == 20
+E       AssertionError: assert 1 == 20
+E        +  where 1 = len(['word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word w...d word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word '])
+
+tests/test_generation.py:74: AssertionError
+____________________________ test_monitor_singleton ____________________________
+
+    def test_monitor_singleton():
+        """Test Monitor is a singleton."""
+        m1 = Monitor()
+        m2 = Monitor()
+        assert m1 is m2
+>       assert m1.enabled is True
+E       assert False is True
+E        +  where False = <raglint.instrumentation.Monitor object at 0x75bff83fb4d0>.enabled
+
+tests/test_instrumentation_coverage.py:16: AssertionError
+__________________________ test_openai_wrapper_basic ___________________________
+
+mock_openai = <MagicMock name='OpenAI' id='129467364122912'>
+
+    @patch('openai.OpenAI')
+    def test_openai_wrapper_basic(mock_openai):
+        """Test OpenAI wrapper basic functionality."""
+>       from raglint.integrations.openai import track_openai
+E       ImportError: cannot import name 'track_openai' from 'raglint.integrations.openai' (/home/yesir/Dokument/RAGlint/raglint/integrations/openai.py)
+
+tests/test_integrations_comprehensive.py:50: ImportError
+________________________ test_azure_llm_initialization _________________________
+
+    def test_azure_llm_initialization():
+        """Test Azure LLM initialization."""
+        from raglint.integrations.azure import AzureOpenAI_LLM
+    
+>       llm = AzureOpenAI_LLM(
+            api_key="test-key",
+            endpoint="https://test.openai.azure.com",
+            deployment_name="gpt-35-turbo"
+        )
+E       TypeError: AzureOpenAI_LLM.__init__() got an unexpected keyword argument 'endpoint'
+
+tests/test_integrations_comprehensive.py:73: TypeError
+_______________________ test_bedrock_llm_initialization ________________________
+
+    def test_bedrock_llm_initialization():
+        """Test Bedrock LLM initialization."""
+        from raglint.integrations.bedrock import BedrockLLM
+    
+>       llm = BedrockLLM(
+            model_id="anthropic.claude-v2",
+            region="us-east-1"
+        )
+E       TypeError: BedrockLLM.__init__() got an unexpected keyword argument 'region'
+
+tests/test_integrations_comprehensive.py:93: TypeError
+________________________ TestMockLLM.test_generate_json ________________________
+
+self = <test_llm_extended.TestMockLLM object at 0x75c1a2780f50>
+
+    def test_generate_json(self):
+        """Test synchronous JSON generation."""
+        llm = MockLLM()
+        result = llm.generate_json("test prompt")
+    
+>       assert isinstance(result, dict)
+E       assert False
+E        +  where False = isinstance(<coroutine object MockLLM.generate_json at 0x75c1a4afab50>, dict)
+
+tests/test_llm_extended.py:18: AssertionError
+_______________________ TestMockLLM.test_agenerate_json ________________________
+
+self = <test_llm_extended.TestMockLLM object at 0x75c1a2781090>
+
+    @pytest.mark.asyncio
+    async def test_agenerate_json(self):
+        """Test async JSON generation."""
+        llm = MockLLM()
+>       result = await llm.agenerate_json("test prompt")
+                       ^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'MockLLM' object has no attribute 'agenerate_json'. Did you mean: 'generate_json'?
+
+tests/test_llm_extended.py:27: AttributeError
+________________________ test_citation_accuracy_plugin _________________________
+
+    @pytest.mark.asyncio
+    async def test_citation_accuracy_plugin():
+        """Test citation accuracy detection."""
+        plugin = CitationAccuracyPlugin()
+    
+        # Test with citations
+>       result = await plugin.calculate_async(
+                       ^^^^^^^^^^^^^^^^^^^^^^
+            query="What is the policy?",
+            response="According to Section 5.2 [1], the policy states...",
+            contexts=["Section 5.2: Policy details"]
+        )
+E       AttributeError: 'CitationAccuracyPlugin' object has no attribute 'calculate_async'
+
+tests/test_new_plugins.py:27: AttributeError
+___________________________ test_completeness_plugin ___________________________
+
+    @pytest.mark.asyncio
+    async def test_completeness_plugin():
+        """Test answer completeness for multi-part queries."""
+        plugin = CompletenessPlugin()
+    
+        # Test complete answer
+        result = await plugin.calculate_async(
+            query="What's the price and warranty?",
+            response="The price is $299 and it comes with a 2-year warranty.",
+            contexts=[]
+        )
+    
+        assert "score" in result
+>       assert result["score"] > 0.7  # Should be mostly complete
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert 0.5 > 0.7
+
+tests/test_new_plugins.py:87: AssertionError
+___________________________ test_pii_detector_plugin ___________________________
+
+    @pytest.mark.asyncio
+    async def test_pii_detector_plugin():
+        """Test PII detection."""
+        plugin = PIIDetectorPlugin()
+    
+        # Test clean text
+>       result = await plugin.calculate_async(
+                       ^^^^^^^^^^^^^^^^^^^^^^
+            query="",
+            response="Please contact our support team for assistance.",
+            contexts=[]
+        )
+E       AttributeError: 'PIIDetectorPlugin' object has no attribute 'calculate_async'
+
+tests/test_new_plugins.py:176: AttributeError
+______________________ test_sql_injection_detector_plugin ______________________
+
+    @pytest.mark.asyncio
+    async def test_sql_injection_detector_plugin():
+        """Test SQL injection pattern detection."""
+        plugin = SQLInjectionDetectorPlugin()
+    
+        # Test clean text
+>       result = await plugin.calculate_async(
+                       ^^^^^^^^^^^^^^^^^^^^^^
+            query="",
+            response="The product costs $49.99.",
+            contexts=[]
+        )
+E       AttributeError: 'SQLInjectionDetectorPlugin' object has no attribute 'calculate_async'
+
+tests/test_new_plugins.py:203: AttributeError
+_____________________ test_hallucination_confidence_plugin _____________________
+
+    @pytest.mark.asyncio
+    async def test_hallucination_confidence_plugin():
+        """Test hallucination confidence scoring."""
+        plugin = HallucinationConfidencePlugin()
+    
+        # Test high confidence (good context overlap)
+        result = await plugin.calculate_async(
+            query="What is the price?",
+            response="The price is $299 as stated in the manual.",
+            contexts=["The manual states the price is $299"]
+        )
+    
+        assert "score" in result
+>       assert result["confidence_level"] in ["high", "very high"]
+E       AssertionError: assert 'medium' in ['high', 'very high']
+
+tests/test_new_plugins.py:236: AssertionError
+_______________________ test_context_compression_plugin ________________________
+
+    @pytest.mark.asyncio
+    async def test_context_compression_plugin():
+        """Test context compression analysis."""
+        plugin = ContextCompressionPlugin()
+    
+        # Test with redundant contexts
+        result = await plugin.calculate_async(
+            query="",
+            response="The price is $99.",
+            contexts=[
+                "Price: $99",
+                "The price is $99",
+                "Cost is $99"
+            ]
+        )
+    
+        assert "redundancy_ratio" in result
+>       assert result["redundancy_ratio"] > 0.3  # Should detect redundancy
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert 0.283 > 0.3
+
+tests/test_new_plugins.py:266: AssertionError
+________________________ test_response_diversity_plugin ________________________
+
+    @pytest.mark.asyncio
+    async def test_response_diversity_plugin():
+        """Test response diversity measurement."""
+        plugin = ResponseDiversityPlugin()
+    
+        # Test diverse response
+        result = await plugin.calculate_async(
+            query="",
+            response="This laptop features excellent performance. The display quality amazes users. Storage capacity meets professional needs.",
+            contexts=[]
+        )
+    
+        assert "lexical_diversity" in result
+        assert result["diversity_level"] in ["medium", "high"]
+    
+        # Test repetitive response
+        result_rep = await plugin.calculate_async(
+            query="",
+            response="Good product. Very good. Really good. Extremely good.",
+            contexts=[]
+        )
+    
+>       assert result_rep["repetition_detected"] is True
+E       assert False is True
+
+tests/test_new_plugins.py:292: AssertionError
+___________________________ test_user_intent_plugin ____________________________
+
+    @pytest.mark.asyncio
+    async def test_user_intent_plugin():
+        """Test user intent classification."""
+        plugin = UserIntentPlugin()
+    
+        # Test instructional intent
+        result = await plugin.calculate_async(
+            query="How do I reset my password?",
+            response="1. Click Forgot Password 2. Enter your email 3. Check inbox",
+            contexts=[]
+        )
+    
+        assert result["detected_intent"] == "instructional"
+>       assert result["score"] > 0.7
+E       assert 0.2 > 0.7
+
+tests/test_new_plugins.py:308: AssertionError
+______________________ test_multiple_plugins_integration _______________________
+
+    @pytest.mark.asyncio
+    async def test_multiple_plugins_integration():
+        """Test using multiple plugins together."""
+        plugins = [
+            ReadabilityPlugin(),
+            PIIDetectorPlugin(),
+            BiasDetectorPlugin(),
+        ]
+    
+        test_response = "The chairperson announced the new policy. Contact support@company.com for details."
+    
+        results = []
+        for plugin in plugins:
+>           result = await plugin.calculate_async(
+                           ^^^^^^^^^^^^^^^^^^^^^^
+                query="What's the new policy?",
+                response=test_response,
+                contexts=[]
+            )
+E           AttributeError: 'PIIDetectorPlugin' object has no attribute 'calculate_async'
+
+tests/test_new_plugins.py:334: AttributeError
+_______________________ TestPluginLoader.test_get_plugin _______________________
+
+self = <test_plugin_integration.TestPluginLoader object at 0x75c1a2751350>
+
+    def test_get_plugin(self):
+        """Test retrieving specific plugins."""
+        loader = PluginLoader.get_instance()
+        loader.load_plugins()
+    
+>       readability = loader.get_plugin("readability")
+                      ^^^^^^^^^^^^^^^^^
+E       AttributeError: 'PluginLoader' object has no attribute 'get_plugin'. Did you mean: 'get_llm_plugin'?
+
+tests/test_plugin_integration.py:61: AttributeError
+----------------------------- Captured stdout call -----------------------------
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: bias_detector
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: chunk_coverage
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: citation_accuracy
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: answer_completeness
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: response_conciseness
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: context_compression
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: hallucination_confidence
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: hallucination_score
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: multilingual_support
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: pii_detector
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: query_difficulty
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: readability
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: response_diversity
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: sql_injection_detector
+2025-11-24 12:19:07 - raglint.plugins.loader - INFO - Loaded built-in plugin: user_intent
+------------------------------ Captured log call -------------------------------
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: bias_detector
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: chunk_coverage
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: citation_accuracy
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: answer_completeness
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: response_conciseness
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: context_compression
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: hallucination_confidence
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: hallucination_score
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: multilingual_support
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: pii_detector
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: query_difficulty
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: readability
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: response_diversity
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: sql_injection_detector
+INFO     raglint.plugins.loader:loader.py:94 Loaded built-in plugin: user_intent
+______________ TestPluginIntegration.test_comprehensive_analysis _______________
+
+self = <test_plugin_integration.TestPluginIntegration object at 0x75c1a27820d0>
+
+    @pytest.mark.asyncio
+    async def test_comprehensive_analysis(self):
+        """Test running multiple plugins on same text."""
+        plugins = [
+            ReadabilityPlugin(),
+            PIIDetectorPlugin(),
+            BiasDetectorPlugin(),
+            CitationAccuracyPlugin(),
+        ]
+    
+        test_text = "The chairperson announced the new policy [1]. Contact support@company.com for details."
+    
+        results = []
+        for plugin in plugins:
+>           result = await plugin.calculate_async(
+                           ^^^^^^^^^^^^^^^^^^^^^^
+                query="What's the new policy?",
+                response=test_text,
+                contexts=["Policy details in Section 1"]
+            )
+E           AttributeError: 'PIIDetectorPlugin' object has no attribute 'calculate_async'
+
+tests/test_plugin_integration.py:83: AttributeError
+__________________ TestPluginIntegration.test_plugin_pipeline __________________
+
+self = <test_plugin_integration.TestPluginIntegration object at 0x75c1a2782210>
+
+    @pytest.mark.asyncio
+    async def test_plugin_pipeline(self):
+        """Test plugins as part of analysis pipeline."""
+        test_data = {
+            "query": "How do I reset my password?",
+            "response": "Click 'Forgot Password', enter your email, and check your inbox.",
+            "contexts": ["Password reset instructions in user manual"]
+        }
+    
+        # Run through multiple quality checks
+        readability = ReadabilityPlugin()
+        pii = PIIDetectorPlugin()
+    
+        read_result = await readability.calculate_async(**test_data)
+>       pii_result = await pii.calculate_async(**test_data)
+                           ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'PIIDetectorPlugin' object has no attribute 'calculate_async'
+
+tests/test_plugin_integration.py:125: AttributeError
+__________________ TestPluginIntegration.test_error_handling ___________________
+
+self = <test_plugin_integration.TestPluginIntegration object at 0x75c1a2751480>
+
+    @pytest.mark.asyncio
+    async def test_error_handling(self):
+        """Test plugins handle edge cases gracefully."""
+        readability = ReadabilityPlugin()
+    
+        # Empty response
+        result = await readability.calculate_async(
+            query="",
+            response="",
+            contexts=[]
+        )
+    
+        assert "score" in result or "error" in result
+    
+        # Very short response
+        result_short = await readability.calculate_async(
+            query="",
+            response="Hi",
+            contexts=[]
+        )
+    
+>       assert "message" in result_short or "score" in result_short
+E       AssertionError: assert ('message' in {'appropriate_for': 'Elementary school students', 'flesch_kincaid_grade': -3.4, 'flesch_reading_ease': 121.2, 'readability_interpretation': 'Very Easy (5th grade)', ...} or 'score' in {'appropriate_for': 'Elementary school students', 'flesch_kincaid_grade': -3.4, 'flesch_reading_ease': 121.2, 'readability_interpretation': 'Very Easy (5th grade)', ...})
+
+tests/test_plugin_integration.py:154: AssertionError
+____________ TestPluginPerformance.test_async_concurrent_execution _____________
+
+self = <test_plugin_integration.TestPluginPerformance object at 0x75c1a2782350>
+
+    @pytest.mark.asyncio
+    async def test_async_concurrent_execution(self):
+        """Test that plugins can run concurrently."""
+        import asyncio
+    
+        plugins = [
+            ReadabilityPlugin(),
+            PIIDetectorPlugin(),
+            BiasDetectorPlugin(),
+        ]
+    
+        test_text = "The product costs $99 and comes with free shipping."
+    
+        # Run all plugins concurrently
+        tasks = [
+>           plugin.calculate_async(
+            ^^^^^^^^^^^^^^^^^^^^^^
+                query="What's the price?",
+                response=test_text,
+                contexts=[]
+            )
+            for plugin in plugins
+        ]
+E       AttributeError: 'PIIDetectorPlugin' object has no attribute 'calculate_async'
+
+tests/test_plugin_integration.py:175: AttributeError
+__________________ TestPluginStress.test_large_text_handling ___________________
+
+self = <test_plugin_integration.TestPluginStress object at 0x75c1a2782710>
+
+    @pytest.mark.asyncio
+    async def test_large_text_handling(self):
+        """Test plugins with very large inputs."""
+        plugin = ReadabilityPlugin()
+    
+        # 10,000 word response
+        large_text = "word " * 10000
+    
+        result = await plugin.calculate_async(
+            query="",
+            response=large_text,
+            contexts=[]
+        )
+    
+>       assert "score" in result or "error" in result
+E       AssertionError: assert ('score' in {'appropriate_for': 'Academics, specialists', 'flesch_kincaid_grade': 3896.2, 'flesch_reading_ease': -10027.8, 'readability_interpretation': 'Very Difficult (College graduate)', ...} or 'error' in {'appropriate_for': 'Academics, specialists', 'flesch_kincaid_grade': 3896.2, 'flesch_reading_ease': -10027.8, 'readability_interpretation': 'Very Difficult (College graduate)', ...})
+
+tests/test_plugin_integration.py:246: AssertionError
+________________ TestPluginStress.test_many_concurrent_plugins _________________
+
+self = <test_plugin_integration.TestPluginStress object at 0x75c1a2782850>
+
+    @pytest.mark.asyncio
+    async def test_many_concurrent_plugins(self):
+        """Test running many plugins concurrently."""
+        import asyncio
+    
+        loader = PluginLoader.get_instance()
+        loader.load_plugins()
+    
+        # Get first 10 plugins
+        plugins = list(loader.metric_plugins.values())[:10]
+    
+        test_data = {
+            "query": "Test query",
+            "response": "Test response",
+            "contexts": ["Test context"]
+        }
+    
+        # Run all concurrently
+        tasks = [
+            plugin.calculate_async(**test_data)
+            for plugin in plugins
+            if hasattr(plugin, 'calculate_async')
+        ]
+    
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+    
+        # Most should succeed
+        successful = [r for r in results if isinstance(r, dict)]
+>       assert len(successful) >= 8  # At least 80% success rate
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 6 >= 8
+E        +  where 6 = len([{'bias_level': 'Minimal/None', 'gender_balance': 1.0, 'inclusivity': 1.0, 'issues_found': [], ...}, {'components_addressed': 0, 'components_found': 0, 'coverage_percent': 50.0, 'missing_components': [], ...}, {'character_count': 13, 'filler_ratio': 0.0, 'filler_words': 0, 'improvements': ['Response is already concise'], ...}, {'avg_context_length': 2, 'context_count': 1, 'efficiency_level': 'good', 'potential_token_savings': 0, ...}, {'confidence_level': 'medium', 'hallucination_risk': 'medium', 'recommendation': '⚠️ Medium confidence - manual review recommended', 'score': 0.5, ...}, {'encoding_issues_found': False, 'is_consistent': True, 'mixed_scripts': False, 'query_languages': ['latin'], ...}])
+
+tests/test_plugin_integration.py:276: AssertionError
+=============================== warnings summary ===============================
+raglint/generation/generator.py:19
+  /home/yesir/Dokument/RAGlint/raglint/generation/generator.py:19: PytestCollectionWarning: cannot collect test class 'TestsetGenerator' because it has a __init__ constructor (from: tests/test_generation.py)
+    class TestsetGenerator:
+
+tests/core/test_rag_analyzer.py::test_analyze_async_with_smart_metrics
+tests/test_async.py::test_async_analysis
+tests/test_async.py::test_sync_analysis_with_smart_metrics_uses_async
+tests/test_core_extended.py::test_analyzer_async_error_handling
+  /home/yesir/Dokument/RAGlint/raglint/core.py:369: RuntimeWarning: coroutine 'HallucinationPlugin._calculate_score' was never awaited
+    plugin_metrics[name] = 0.0
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/test_dashboard.py::test_websocket_metrics
+  /home/yesir/Dokument/RAGlint/.venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py:343: RuntimeWarning: coroutine 'RAGPipelineAnalyzer._process_item_async' was never awaited
+    def get_callable_name(func: Callable) -> str:
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/test_llm_coverage.py::test_ollama_llm_generate_json
+  /home/yesir/Dokument/RAGlint/raglint/llm.py:200: RuntimeWarning: coroutine 'AsyncMockMixin._execute_mock_call' was never awaited
+    resp.raise_for_status()
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/test_plugin_integration.py::TestPluginPerformance::test_async_concurrent_execution
+  /home/yesir/Dokument/RAGlint/tests/test_plugin_integration.py:-1: RuntimeWarning: coroutine 'ReadabilityPlugin.calculate_async' was never awaited
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.7-final-0 ________________
+
+Name                                                   Stmts   Miss  Cover   Missing
+------------------------------------------------------------------------------------
+raglint/__init__.py                                        8      0   100%
+raglint/alerting.py                                       46     27    41%   40-44, 50-74, 87-97
+raglint/benchmarks/__init__.py                             5      0   100%
+raglint/benchmarks/coqa.py                                35      2    94%   42-43
+raglint/benchmarks/hotpotqa.py                            28      2    93%   42-43
+raglint/benchmarks/registry.py                            21      0   100%
+raglint/benchmarks/squad.py                               51      2    96%   149, 152
+raglint/cache.py                                          25      4    84%   28-29, 36, 40
+raglint/cli.py                                           295     67    77%   87, 142-144, 189-192, 226-242, 273-275, 289-294, 344-371, 398-402, 412-413, 421-427, 450-453, 460-461
+raglint/cli_enhanced.py                                  116    116     0%   5-204
+raglint/cli_precision.py                                  60     60     0%   3-123
+raglint/confidence.py                                     40     40     0%   7-130
+raglint/config.py                                         58      7    88%   117, 119, 125-127, 132, 136
+raglint/core.py                                          177     10    94%   312-314, 322-324, 332-334, 357
+raglint/dashboard/__init__.py                              0      0   100%
+raglint/dashboard/analytics.py                            67     55    18%   33-66, 84-91, 106-118, 141-179
+raglint/dashboard/app.py                                 558    341    39%   54, 57-58, 103-115, 129-138, 145-164, 175-187, 220-246, 262, 267-268, 281-282, 309, 330-342, 357-359, 376-463, 489-567, 592-611, 627, 636-639, 649-653, 660-669, 692-716, 736-746, 762-788, 812-814, 832-840, 846-851, 858-860, 866-888, 894-896, 902-926, 937-944, 952-957, 965-970, 981-1010, 1025, 1032-1034, 1050, 1058-1087, 1099, 1107-1118, 1133-1191, 1202, 1227, 1234-1237, 1247, 1258-1277, 1287-1312
+raglint/dashboard/auth.py                                 49     14    71%   35, 53-55, 58-62, 69-74
+raglint/dashboard/batch.py                                54     54     0%   5-106
+raglint/dashboard/database.py                             18      0   100%
+raglint/dashboard/models.py                               63      0   100%
+raglint/dashboard/oauth.py                                27     27     0%   5-72
+raglint/dashboard/pdf_export.py                           45     45     0%   5-135
+raglint/dashboard/realtime.py                             38     12    68%   27-32, 43-51, 58-60, 81-82, 86
+raglint/dashboard/schemas.py                              29      0   100%
+raglint/exceptions.py                                     26      2    92%   29-30
+raglint/experiment.py                                     78      9    88%   33, 37, 57, 90-93, 111-119
+raglint/fact_extraction.py                                47     47     0%   7-152
+raglint/generation/__init__.py                             2      0   100%
+raglint/generation/generator.py                           84     15    82%   39, 43, 63, 101-103, 166-177
+raglint/generation/prompts.py                              2      0   100%
+raglint/instrumentation.py                                93     11    88%   60-62, 113-114, 133-137, 167-168
+raglint/integrations/__init__.py                           2      0   100%
+raglint/integrations/azure.py                             10      7    30%   21-37
+raglint/integrations/bedrock.py                           36     28    22%   24-30, 39-58, 63, 68-82
+raglint/integrations/haystack.py                          30      2    93%   49-50
+raglint/integrations/langchain.py                         34     15    56%   11, 35, 47, 66, 77, 89, 108, 126, 140-152
+raglint/integrations/llamaindex.py                        95     14    85%   10, 86-89, 107-108, 114, 122, 153, 190-191, 197-198, 204-205
+raglint/integrations/openai.py                            27      1    96%   20
+raglint/llm.py                                           136      6    96%   73, 211, 246-248, 257-259
+raglint/logging.py                                        27      0   100%
+raglint/marketplace.py                                    93     93     0%   6-170
+raglint/metrics/__init__.py                               11      0   100%
+raglint/metrics/bias.py                                   35      4    89%   65-66, 70-71
+raglint/metrics/chunking.py                               14      1    93%   32
+raglint/metrics/conciseness.py                            32      4    88%   59-60, 64-65
+raglint/metrics/context_metrics.py                        65      2    97%   68, 155
+raglint/metrics/enhanced_faithfulness.py                  41     41     0%   7-129
+raglint/metrics/faithfulness.py                           33      2    94%   72-73
+raglint/metrics/relevance.py                              66      7    89%   31, 68-69, 95, 103, 139-140
+raglint/metrics/retrieval.py                              29      1    97%   31
+raglint/metrics/semantic.py                               28      3    89%   19-21
+raglint/metrics/tone.py                                   33      4    88%   64-65, 69-70
+raglint/metrics/toxicity.py                               32      3    91%   33, 71-72
+raglint/plugins/__init__.py                                3      0   100%
+raglint/plugins/builtins/__init__.py                      16      0   100%
+raglint/plugins/builtins/bias_detector.py                 89      9    90%   136-137, 150, 156, 165, 169, 176, 180, 199
+raglint/plugins/builtins/chunk_coverage.py                29      4    86%   23, 37, 44, 56
+raglint/plugins/builtins/citation_accuracy.py             32      7    78%   52, 65-76, 79
+raglint/plugins/builtins/completeness.py                  54     19    65%   77-79, 94-98, 103-105, 112-122, 135, 137, 141
+raglint/plugins/builtins/conciseness.py                   72     18    75%   114-119, 125-130, 136-141, 153, 157, 162
+raglint/plugins/builtins/context_compression.py           60      5    92%   32, 91, 116, 121, 123
+raglint/plugins/builtins/diversity.py                     65      9    86%   62, 73, 112, 128-131, 139-142
+raglint/plugins/builtins/hallucination.py                 35      6    83%   51, 57, 72, 80-82
+raglint/plugins/builtins/hallucination_confidence.py      67      7    90%   89, 97, 110, 128, 150, 158, 163
+raglint/plugins/builtins/intent_classifier.py             56     13    77%   98, 113-116, 123, 127-134
+raglint/plugins/builtins/multilingual.py                  55     14    75%   62, 64, 66, 88, 99, 106, 121, 129-136
+raglint/plugins/builtins/pii_detector.py                  19      1    95%   52
+raglint/plugins/builtins/query_difficulty.py              28      3    89%   23, 34, 44
+raglint/plugins/builtins/readability.py                   83      4    95%   135, 143, 149, 162
+raglint/plugins/builtins/sql_injection.py                 20      0   100%
+raglint/plugins/interface.py                              16      2    88%   27, 74
+raglint/plugins/loader.py                                159     31    81%   17-19, 53, 58, 67-69, 72-77, 95-96, 102, 108, 112-113, 134-135, 162-165, 167-169, 183-184, 204, 207, 281, 306
+raglint/plugins/sandbox.py                                64     64     0%   7-148
+raglint/precision_mode.py                                 62     62     0%   7-215
+raglint/reporting/__init__.py                              1      0   100%
+raglint/reporting/html_generator.py                       10      0   100%
+raglint/security/__init__.py                               2      2     0%   1-3
+raglint/security/signing.py                               47     47     0%   7-103
+raglint/tracking.py                                       98      2    98%   48, 116
+raglint/webhooks.py                                       53     53     0%   6-130
+------------------------------------------------------------------------------------
+TOTAL                                                   4449   1589    64%
+Coverage HTML written to dir htmlcov
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/test_langchain_integration.py:14: LangChain not installed
+SKIPPED [1] tests/integration/test_langchain_integration.py:57: LangChain not installed
+SKIPPED [1] tests/test_core.py:74: Requires OpenAI API key
+SKIPPED [1] tests/test_dashboard.py:73: Requires database setup
+SKIPPED [1] tests/test_dashboard.py:95: Requires authentication
+SKIPPED [1] tests/test_dashboard_coverage.py:43: Async session mocking needs refactoring
+SKIPPED [1] tests/test_dashboard_coverage.py:60: Template rendering with mocks needs refactoring
+SKIPPED [1] tests/test_integrations_comprehensive.py:16: LangChain not installed
+SKIPPED [1] tests/test_integrations_comprehensive.py:19: LangChain optional dependency
+SKIPPED [1] tests/test_integrations_comprehensive.py:34: Haystack not installed
+SKIPPED [1] tests/test_integrations_comprehensive.py:44: OpenAI SDK not available
+FAILED tests/dashboard/test_api.py::test_auth_flow - assert 'test@example.com...
+FAILED tests/dashboard/test_database.py::test_run_model_create - ImportError:...
+FAILED tests/dashboard/test_database.py::test_dataset_model - ImportError: ca...
+FAILED tests/dashboard/test_marketplace.py::test_registry_install_logic - Ass...
+FAILED tests/integration/test_full_pipeline.py::test_full_pipeline_evaluation
+FAILED tests/integration/test_full_pipeline.py::test_pipeline_with_missing_data
+FAILED tests/integration/test_full_pipeline.py::test_pipeline_plugin_integration
+FAILED tests/llm/test_providers.py::test_ollama_llm_generate_success - Assert...
+FAILED tests/llm/test_providers.py::test_ollama_llm_agenerate - AssertionErro...
+FAILED tests/llm/test_providers.py::test_llm_factory_create_mock - TypeError:...
+FAILED tests/llm/test_providers.py::test_llm_factory_create_ollama - TypeErro...
+FAILED tests/llm/test_providers.py::test_llm_factory_create_openai - TypeErro...
+FAILED tests/llm/test_providers.py::test_llm_factory_invalid_provider - TypeE...
+FAILED tests/llm/test_providers.py::test_llm_factory_missing_api_key - TypeEr...
+FAILED tests/test_builtin_plugins_coverage.py::test_hallucination_detector_evaluate
+FAILED tests/test_builtin_plugins_coverage.py::test_bias_detector_evaluate - ...
+FAILED tests/test_dashboard_coverage.py::TestDashboardCoverage::test_login_page
+FAILED tests/test_generation.py::TestTestsetGenerator::test_chunk_text - Asse...
+FAILED tests/test_instrumentation_coverage.py::test_monitor_singleton - asser...
+FAILED tests/test_integrations_comprehensive.py::test_openai_wrapper_basic - ...
+FAILED tests/test_integrations_comprehensive.py::test_azure_llm_initialization
+FAILED tests/test_integrations_comprehensive.py::test_bedrock_llm_initialization
+FAILED tests/test_llm_extended.py::TestMockLLM::test_generate_json - assert F...
+FAILED tests/test_llm_extended.py::TestMockLLM::test_agenerate_json - Attribu...
+FAILED tests/test_new_plugins.py::test_citation_accuracy_plugin - AttributeEr...
+FAILED tests/test_new_plugins.py::test_completeness_plugin - assert 0.5 > 0.7
+FAILED tests/test_new_plugins.py::test_pii_detector_plugin - AttributeError: ...
+FAILED tests/test_new_plugins.py::test_sql_injection_detector_plugin - Attrib...
+FAILED tests/test_new_plugins.py::test_hallucination_confidence_plugin - Asse...
+FAILED tests/test_new_plugins.py::test_context_compression_plugin - assert 0....
+FAILED tests/test_new_plugins.py::test_response_diversity_plugin - assert Fal...
+FAILED tests/test_new_plugins.py::test_user_intent_plugin - assert 0.2 > 0.7
+FAILED tests/test_new_plugins.py::test_multiple_plugins_integration - Attribu...
+FAILED tests/test_plugin_integration.py::TestPluginLoader::test_get_plugin - ...
+FAILED tests/test_plugin_integration.py::TestPluginIntegration::test_comprehensive_analysis
+FAILED tests/test_plugin_integration.py::TestPluginIntegration::test_plugin_pipeline
+FAILED tests/test_plugin_integration.py::TestPluginIntegration::test_error_handling
+FAILED tests/test_plugin_integration.py::TestPluginPerformance::test_async_concurrent_execution
+FAILED tests/test_plugin_integration.py::TestPluginStress::test_large_text_handling
+FAILED tests/test_plugin_integration.py::TestPluginStress::test_many_concurrent_plugins
+====== 40 failed, 340 passed, 11 skipped, 8 warnings in 61.80s (0:01:01) =======

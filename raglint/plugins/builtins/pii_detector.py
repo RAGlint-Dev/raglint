@@ -38,7 +38,7 @@ class PIIDetectorPlugin(PluginInterface):
         pii_found = {}
         pii_types = []
         total_matches = 0
-        
+
         for pii_type, pattern in patterns.items():
             matches = re.findall(pattern, response)
             if matches:
@@ -48,18 +48,13 @@ class PIIDetectorPlugin(PluginInterface):
                 total_matches += count
 
         if not pii_found:
-            return {
-                "score": 1.0,
-                "pii_found": False,
-                "pii_count": 0,
-                "pii_types": []
-            }
+            return {"score": 1.0, "pii_found": False, "pii_count": 0, "pii_types": []}
 
         # PII detected - score based on severity
         # Email/phone less severe than SSN/credit card
         severe_types = {"ssn", "credit_card"}
         is_severe = any(pii_type in severe_types for pii_type in pii_found)
-        
+
         score = 0.0 if is_severe else 0.3
 
         return {
@@ -67,5 +62,5 @@ class PIIDetectorPlugin(PluginInterface):
             "pii_found": True,
             "pii_count": total_matches,
             "pii_types": pii_types,
-            "details": pii_found
+            "details": pii_found,
         }

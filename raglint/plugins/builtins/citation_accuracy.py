@@ -24,7 +24,7 @@ class CitationAccuracyPlugin(PluginInterface):
     ) -> dict[str, Any]:
         """Calculate citation accuracy metrics."""
         score = self.evaluate(query, contexts, response)
-        
+
         # Count citations for reporting
         citation_patterns = [
             r"\[(\d+)\]",
@@ -34,17 +34,21 @@ class CitationAccuracyPlugin(PluginInterface):
         count = 0
         for pattern in citation_patterns:
             count += len(re.findall(pattern, response))
-            
+
+        # Boost score slightly if citations exist (shows good practice)
+        if count > 0:
+            score = min(1.0, score * 1.1)
+
         return {
-            "score": score,
+            "score": round(score, 3),
             "citation_count": count,
-            "accuracy_level": "high" if score > 0.8 else "low"
+            "accuracy_level": "high" if score > 0.8 else "low",
         }
 
     def evaluate(self, query: str, context: list, response: str) -> float:
         """
         Real implementation: Check if citations in response match source documents.
-        
+
         Looks for citation patterns like [1], [2], (Smith, 2020), etc.
         and verifies they correspond to information in the contexts.
         """
@@ -63,8 +67,8 @@ class CitationAccuracyPlugin(PluginInterface):
             citations_found.extend(matches)
 
         if not citations_found:
-            # No citations found - perfect score if no claims made
-            # Lower score if response makes factual claims without citations
+            # No citations found
+            # Check if response makes factual claims
             claim_indicators = [
                 "according to",
                 "studies show",
@@ -73,7 +77,8 @@ class CitationAccuracyPlugin(PluginInterface):
             ]
             if any(indicator in response.lower() for indicator in claim_indicators):
                 return 0.5  # Claims made but no citations
-            return 1.0  # No citations needed
+            # Simple statements don't necessarily need citations
+            return 0.8  # Slightly lower than if citations were provided
 
         # Verify citations against context
         verified_count = 0

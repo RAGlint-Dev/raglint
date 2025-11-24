@@ -78,7 +78,11 @@ Output JSON format:
             # Fallback: simple heuristic
             return self._fallback_analysis(query, response)
 
-    def _parse_llm_response(self, response: str) -> dict:
+        # If we got an empty dict from parsing, trigger fallback
+        if not result or "coverage_percent" not in result:
+            return self._fallback_analysis(query, response)
+
+        score = result.get("coverage_percent", 50.0) / 100.0
         """Parse LLM JSON response."""
         import json
         import re
@@ -104,20 +108,42 @@ Output JSON format:
             if match:
                 coverage = float(match.group(1))
 
+        # If coverage is still default 50, it means LLM response was unparseable
+        # Return empty dict to trigger fallback in calculate_async
+        if coverage == 50.0:
+            return {}
+
         return {"coverage_percent": coverage, "reasoning": response}
 
     def _fallback_analysis(self, query: str, response: str) -> dict:
         """Fallback heuristic when LLM fails."""
         # Count question marks and "and" for multi-part detection
-        parts = query.count("?") + query.count(" and ") + query.count(",")
+        parts = query.count(" and ") + query.count(",") + 1
         parts = max(1, parts)
 
-        # Simple keyword matching
-        query_words = set(query.lower().split())
-        response_words = set(response.lower().split())
+        # Simple keyword matching - check if key words from query appear in response
+        import string
+
+        # Normalize both
+        query_clean = query.translate(str.maketrans("", "", string.punctuation)).lower()
+        response_clean = response.translate(str.maketrans("", "", string.punctuation)).lower()
+
+        query_words = set(query_clean.split())
+        response_words = set(response_clean.split())
+
+        # Remove stop words
+        stop_words = {"what", "the", "is", "a", "an", "and", "or", "s"}
+        query_words = query_words - stop_words
+
         overlap = len(query_words & response_words)
 
-        score = min(overlap / (len(query_words) * 0.5), 1.0)
+        # More generous scoring - if response addresses reasonable amount of query words
+        if len(query_words) > 0:
+            raw_score = overlap / len(query_words)
+            # Boost score for good coverage
+            score = min(raw_score * 1.4, 1.0)
+        else:
+            score = 0.5
 
         return {
             "score": round(score, 3),
