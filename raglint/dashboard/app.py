@@ -182,7 +182,7 @@ async def login_ui(
     # Create token
     access_token = auth.create_access_token(data={"sub": user.email})
 
-    response = RedirectResponse(url="/", status_code=303)
+    response = RedirectResponse(url="/dashboard", status_code=303)
     response.set_cookie(key="access_token", value=access_token, httponly=True)
     return response
 
@@ -670,6 +670,12 @@ async def websocket_endpoint(websocket: WebSocket, run_id: str):
 
 
 @app.get("/", response_class=HTMLResponse)
+async def landing_page(request: Request):
+    """Render the public landing page."""
+    return templates.TemplateResponse("landing.html", {"request": request})
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_home(
     request: Request,
     db: AsyncSession = Depends(get_db),
@@ -677,7 +683,7 @@ async def dashboard_home(
 ):
     """Render the dashboard home page."""
     if not user:
-        return RedirectResponse(url="/login")
+        return RedirectResponse(url="/login?next=/dashboard")
 
     from sqlalchemy import select
 
