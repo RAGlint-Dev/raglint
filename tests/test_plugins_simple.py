@@ -43,21 +43,23 @@ class TestPIIDetector:
         plugin = PIIDetectorPlugin()
         assert plugin.name == "pii_detector"
     
-    def test_detects_email(self):
+    @pytest.mark.asyncio
+    async def test_detects_email(self):
         """Test email detection."""
         plugin = PIIDetectorPlugin()
         response = "Contact john@example.com"
         
-        score = plugin.evaluate("", [], response)
-        assert score < 1.0
+        result = await plugin.calculate_async(query="", response=response, contexts=[])
+        assert result["score"] < 1.0
     
-    def test_clean_response(self):
+    @pytest.mark.asyncio
+    async def test_clean_response(self):
         """Test clean response."""
         plugin = PIIDetectorPlugin()
         response = "Machine learning is powerful"
         
-        score = plugin.evaluate("", [], response)
-        assert score == 1.0
+        result = await plugin.calculate_async(query="", response=response, contexts=[])
+        assert result["score"] == 1.0
 
 
 class TestSQLInjection:

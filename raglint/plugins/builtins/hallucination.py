@@ -80,3 +80,13 @@ class HallucinationPlugin(MetricPlugin):
         except Exception as e:
             print(f"Error in Hallucination Plugin: {e}")
             return 0.0
+
+    async def calculate_async(self, query: str, response: str, contexts: list[str], **kwargs) -> dict:
+        """Calculate hallucination score - wrapper for test compatibility."""
+        from typing import Any
+        score = await self._calculate_score(response=response, retrieved_contexts=contexts, **kwargs)
+        return {
+            "score": score,
+            "hallucination_risk": "high" if score > 0.7 else "medium" if score > 0.4 else "low",
+            "supported": score < 0.5
+        }

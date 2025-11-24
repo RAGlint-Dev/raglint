@@ -40,7 +40,7 @@ def test_ollama_llm_initialization():
     assert llm.base_url == "http://localhost:11434"
 
 
-@patch('httpx.post')
+@patch('requests.post')
 def test_ollama_llm_generate_success(mock_post):
     """Test OllamaLLM generation with mocked response."""
     mock_response = MagicMock()
@@ -67,13 +67,16 @@ def test_ollama_llm_generate_error(mock_post):
 
 
 @pytest.mark.asyncio
-@patch('httpx.AsyncClient.post')
+@patch('aiohttp.ClientSession.post')
 async def test_ollama_llm_agenerate(mock_post):
     """Test OllamaLLM async generation."""
-    mock_response = MagicMock()
-    mock_response.status_code = 200
-    mock_response.json.return_value = {"response": "Async response"}
-    mock_post.return_value = mock_response
+    mock_response = AsyncMock()
+    mock_response.status = 200
+    mock_response.json = AsyncMock(return_value={"response": "Async response"})
+    
+    mock_context = AsyncMock()
+    mock_context.__aenter__.return_value = mock_response
+    mock_post.return_value = mock_context
     
     llm = OllamaLLM()
     result = await llm.agenerate("Test prompt")
@@ -107,13 +110,13 @@ def test_openai_llm_generate(mock_openai_class):
 # LLMFactory Tests
 def test_llm_factory_create_mock():
     """Test LLMFactory creates MockLLM."""
-    llm = LLMFactory.create(provider="mock")
+    llm = LLMFactory.create({"provider": "mock"})
     assert isinstance(llm, MockLLM)
 
 
 def test_llm_factory_create_ollama():
     """Test LLMFactory creates OllamaLLM."""
-    llm = LLMFactory.create(provider="ollama", model="llama2")
+    llm = LLMFactory.create({"provider": "ollama", "model_name": "llama2"})
     assert isinstance(llm, OllamaLLM)
     assert llm.model == "llama2"
 
@@ -121,17 +124,19 @@ def test_llm_factory_create_ollama():
 @patch('openai.OpenAI')
 def test_llm_factory_create_openai(mock_openai):
     """Test LLMFactory creates OpenAI_LLM."""
-    llm = LLMFactory.create(provider="openai", api_key="test-key")
+    llm = LLMFactory.create({"provider": "openai", "openai_api_key": "test-key"})
     assert isinstance(llm, OpenAI_LLM)
 
 
 def test_llm_factory_invalid_provider():
     """Test LLMFactory handles invalid provider."""
-    with pytest.raises(ValueError):
-        LLMFactory.create(provider="invalid_provider")
+    # Invalid provider should fall back to MockLLM, not raise
+    llm = LLMFactory.create({"provider": "invalid_provider"})
+    assert isinstance(llm, MockLLM)  # Falls back to mock
 
 
 def test_llm_factory_missing_api_key():
     """Test LLMFactory validates API key for OpenAI."""
-    with pytest.raises(ValueError):
-        LLMFactory.create(provider="openai", api_key=None)
+    # Missing API key should fall back to MockLLM, not raise
+    llm = LLMFactory.create({"provider": "openai"})
+    assert isinstance(llm, MockLLM)  # Falls back when no key

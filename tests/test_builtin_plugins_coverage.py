@@ -48,34 +48,37 @@ def test_pii_detector_plugin_init():
     assert plugin.name == "pii_detector"
 
 
-def test_pii_detector_finds_email():
+@pytest.mark.asyncio
+async def test_pii_detector_finds_email():
     """Test PII detector finds email addresses."""
     plugin = PIIDetectorPlugin()
     
     response = "Contact me at john@example.com for more info."
-    score = plugin.evaluate("query", [], response)
+    result = await plugin.calculate_async(query="query", response=response, contexts=[])
     
-    assert score < 1.0  # Should detect PII
+    assert result["score"] < 1.0  # Should detect PII
 
 
-def test_pii_detector_finds_phone():
+@pytest.mark.asyncio
+async def test_pii_detector_finds_phone():
     """Test PII detector finds phone numbers."""
     plugin = PIIDetectorPlugin()
     
     response = "Call us at 555-123-4567 for support."
-    score = plugin.evaluate("query", [], response)
+    result = await plugin.calculate_async(query="query", response=response, contexts=[])
     
-    assert score < 1.0  # Should detect PII
+    assert result["score"] < 1.0  # Should detect PII
 
 
-def test_pii_detector_clean_response():
+@pytest.mark.asyncio
+async def test_pii_detector_clean_response():
     """Test PII detector with clean response."""
     plugin = PIIDetectorPlugin()
     
     response = "Machine learning is a subset of artificial intelligence."
-    score = plugin.evaluate("query", [], response)
+    result = await plugin.calculate_async(query="query", response=response, contexts=[])
     
-    assert score == 1.0  # No PII
+    assert result["score"] == 1.0  # No PII
 
 
 # SQL Injection Detector Tests
@@ -122,16 +125,17 @@ def test_hallucination_detector_init():
     assert plugin.name == "hallucination_score"
 
 
-def test_hallucination_detector_evaluate():
+@pytest.mark.asyncio
+async def test_hallucination_detector_evaluate():
     """Test hallucination detector evaluation."""
     plugin = HallucinationPlugin()
     
     context = ["Python is a programming language"]
     response = "Python is used for machine learning"
     
-    score = plugin.evaluate("query", context, response)
-    assert isinstance(score, float)
-    assert 0.0 <= score <= 1.0
+    result = await plugin.calculate_async(query="query", response=response, contexts=context)
+    assert isinstance(result["score"], float)
+    assert 0.0 <= result["score"] <= 1.0
 
 
 # Bias Detector Tests
@@ -141,12 +145,13 @@ def test_bias_detector_init():
     assert plugin.name == "bias_detector"
 
 
-def test_bias_detector_evaluate():
+@pytest.mark.asyncio
+async def test_bias_detector_evaluate():
     """Test bias detector evaluation."""
     plugin = BiasDetectorPlugin()
     
     response = "Scientists believe that research is important."
-    score = plugin.evaluate("query", [], response)
+    result = await plugin.calculate_async(query="query", response=response, contexts=[])
     
-    assert isinstance(score, float)
-    assert 0.0 <= score <= 1.0
+    assert isinstance(result["score"], float)
+    assert 0.0 <= result["score"] <= 1.0
