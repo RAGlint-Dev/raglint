@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - RAGLint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/landing/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-layer-group"></i> RAGLint
+            </a>
+            <div class="nav-links">
+                <a href="/#features">Features</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/docs">Documentation</a>
+                <a href="https://pypi.org/project/raglint/">PyPI</a>
+                <a href="https://github.com/RAGlint-Dev/raglint" class="btn btn-sm btn-outline"><i
+                        class="fa-brands fa-github"></i> GitHub</a>
+                <a href="/dashboard" class="btn btn-sm btn-primary">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero" style="padding: 6rem 0 3rem;">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <div class="badge">Latest Version: v0.2.0</div>
+                <h1>Documentation</h1>
+                <p class="hero-subtitle">
+                    Everything you need to get started with RAGLint and build production-ready RAG applications.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="container" style="max-width: 900px;">
+            <!-- Quick Start -->
+            <div style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">🚀 Quick Start</h2>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <div class="lang">bash</div>
+                    </div>
+                    <pre><code class="language-bash"><span class="comment"># Install RAGLint</span>
+pip install raglint
+
+<span class="comment"># Run an analysis</span>
+raglint analyze data.json --smart
+
+<span class="comment"># Launch the dashboard</span>
+raglint dashboard</code></pre>
+                </div>
+            </div>
+
+            <!-- Core Concepts -->
+            <div style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">📚 Core Concepts</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon-box bg-blue">
+                            <i class="fa-solid fa-microscope"></i>
+                        </div>
+                        <h3>Analysis Pipeline</h3>
+                        <p>RAGLint analyzes your RAG system across multiple dimensions: faithfulness, relevance, context
+                            quality, and more.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-purple">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                        </div>
+                        <h3>Smart Metrics</h3>
+                        <p>Use LLM-powered metrics for deep analysis or fast heuristic metrics for quick iteration.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-green">
+                            <i class="fa-solid fa-plug"></i>
+                        </div>
+                        <h3>Plugins</h3>
+                        <p>Extend RAGLint with custom metrics and integrations. Built-in support for LangChain,
+                            LlamaIndex, and Haystack.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basic Usage -->
+            <div style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">💡 Basic Usage</h2>
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <div class="lang">Python</div>
+                    </div>
+                    <pre><code class="language-python"><span class="keyword">from</span> raglint <span class="keyword">import</span> RAGPipelineAnalyzer
+
+<span class="comment"># Initialize analyzer</span>
+analyzer = RAGPipelineAnalyzer(use_smart_metrics=<span class="keyword">True</span>)
+
+<span class="comment"># Prepare your data</span>
+data = [
+    {
+        <span class="string">"query"</span>: <span class="string">"What is RAG?"</span>,
+        <span class="string">"retrieved_contexts"</span>: [<span class="string">"RAG combines retrieval and generation..."</span>],
+        <span class="string">"response"</span>: <span class="string">"RAG is a technique that..."</span>
+    }
+]
+
+<span class="comment"># Run analysis</span>
+results = analyzer.analyze(data)
+
+<span class="comment"># Get metrics</span>
+<span class="keyword">print</span>(results[<span class="number">0</span>][<span class="string">"metrics"</span>])</code></pre>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">✨ Key Features</h2>
+                <div
+                    style="background: rgba(139, 92, 246, 0.1); border-left: 4px solid #8b5cf6; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h4 style="margin-top: 0;"><i class="fa-solid fa-brain"
+                            style="color: #8b5cf6; margin-right: 0.5rem;"></i> Hallucination Detection</h4>
+                    <p style="margin-bottom: 0;">Automatically detect when your LLM generates information not supported
+                        by the retrieved context using our specialized faithfulness metrics.</p>
+                </div>
+                <div
+                    style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h4 style="margin-top: 0;"><i class="fa-solid fa-code-branch"
+                            style="color: #22c55e; margin-right: 0.5rem;"></i> CI/CD Integration</h4>
+                    <p style="margin-bottom: 0;">Block bad deployments before they reach production. RAGLint integrates
+                        seamlessly with GitHub Actions to catch regressions in your test suite.</p>
+                </div>
+                <div
+                    style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin-top: 0;"><i class="fa-solid fa-chart-line"
+                            style="color: #3b82f6; margin-right: 0.5rem;"></i> Cost & Performance Tracking</h4>
+                    <p style="margin-bottom: 0;">Monitor token usage, API costs, and response times across different
+                        models and providers. Optimize for both quality and budget.</p>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div style="margin-bottom: 4rem;">
+                <h2 style="margin-bottom: 2rem;">🔗 Resources</h2>
+                <div class="feature-grid">
+                    <a href="https://github.com/RAGlint-Dev/raglint" style="text-decoration: none;">
+                        <div class="feature-card" style="cursor: pointer; transition: transform 0.2s;">
+                            <div class="icon-box bg-orange">
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <h3>GitHub Repository</h3>
+                            <p>View the source code, report issues, and contribute to the project.</p>
+                        </div>
+                    </a>
+                    <a href="https://pypi.org/project/raglint/" style="text-decoration: none;">
+                        <div class="feature-card" style="cursor: pointer; transition: transform 0.2s;">
+                            <div class="icon-box bg-blue">
+                                <i class="fa-brands fa-python"></i>
+                            </div>
+                            <h3>PyPI Package</h3>
+                            <p>Install via pip and view package details on the Python Package Index.</p>
+                        </div>
+                    </a>
+                    <a href="/dashboard" style="text-decoration: none;">
+                        <div class="feature-card" style="cursor: pointer; transition: transform 0.2s;">
+                            <div class="icon-box bg-purple">
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <h3>Live Dashboard</h3>
+                            <p>Explore your RAG metrics with our interactive web dashboard.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Need Help -->
+            <div style="text-align: center; padding: 3rem 0;">
+                <h2 style="margin-bottom: 1rem;">Need Help?</h2>
+                <p style="margin-bottom: 2rem; color: #9ca3af;">Join our community or reach out for support</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://github.com/RAGlint-Dev/raglint/issues" class="btn btn-primary">
+                        <i class="fa-brands fa-github"></i> Report an Issue
+                    </a>
+                    <a href="https://github.com/RAGlint-Dev/raglint/discussions" class="btn btn-outline">
+                        <i class="fa-solid fa-comments"></i> Join Discussions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo"><i class="fa-solid fa-layer-group"></i> RAGLint</div>
+                    <p>Open source RAG observability.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/RAGlint-Dev/raglint/blob/main/LICENSE" target="_blank">License</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 RAGLint Team. MIT License.
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

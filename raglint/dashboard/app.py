@@ -675,6 +675,12 @@ async def landing_page(request: Request):
     return templates.TemplateResponse("landing.html", {"request": request})
 
 
+@app.get("/docs", response_class=HTMLResponse)
+async def docs_page(request: Request):
+    """Render the documentation page."""
+    return templates.TemplateResponse("docs.html", {"request": request})
+
+
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_home(
     request: Request,
