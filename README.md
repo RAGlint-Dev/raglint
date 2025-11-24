@@ -3,9 +3,10 @@
 **The Honest RAG Evaluation Platform**
 
 [![PyPI version](https://badge.fury.io/py/raglint.svg)](https://badge.fury.io/py/raglint)
+[![Tests](https://img.shields.io/badge/tests-379%20passing-success)](https://github.com/RAGlint-Dev/raglint/actions)
+[![Coverage](https://img.shields.io/badge/coverage-65%25-brightgreen)](https://github.com/RAGlint-Dev/raglint)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Code Coverage](https://img.shields.io/badge/coverage-27%25-yellow.svg)](https://github.com/yourusername/raglint)
 
 RAGLint is the **all-in-one evaluation platform** for Retrieval-Augmented Generation (RAG) systems. Built with production in mind, it provides comprehensive metrics, a beautiful dashboard, and enterprise-grade security.
 
