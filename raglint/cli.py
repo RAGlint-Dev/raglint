@@ -386,7 +386,7 @@ def generate(input_file, count, output, api_key):
     import json
 
     from raglint.config import Config
-    from raglint.generation import TestsetGenerator
+    from raglint.generation import DatasetGenerator
 
     # Setup config
     cfg = Config.load()
@@ -403,7 +403,7 @@ def generate(input_file, count, output, api_key):
 
     click.echo(f"Generating {count} QA pairs from {input_file}...")
 
-    generator = TestsetGenerator(config=cfg)
+    generator = DatasetGenerator(config=cfg)
 
     try:
         results = asyncio.run(generator.generate_from_file(input_file, count))

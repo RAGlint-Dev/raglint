@@ -16,7 +16,7 @@ from raglint.llm import LLMFactory
 logger = logging.getLogger(__name__)
 
 
-class TestsetGenerator:
+class DatasetGenerator:
     """Generates synthetic testsets from documents."""
 
     def __init__(self, config: Optional[Config] = None):

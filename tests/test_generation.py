@@ -4,11 +4,11 @@ Tests for Testset Generator.
 
 import pytest
 from unittest.mock import Mock, AsyncMock, patch, mock_open
-from raglint.generation import TestsetGenerator
+from raglint.generation import DatasetGenerator
 from raglint.config import Config
 
-class TestTestsetGenerator:
-    """Test TestsetGenerator."""
+class TestDatasetGenerator:
+    """Test DatasetGenerator."""
     
     @pytest.fixture
     def mock_llm(self):
@@ -21,7 +21,7 @@ class TestTestsetGenerator:
     @pytest.mark.asyncio
     async def test_generate_from_text(self, mock_llm):
         """Test generation from text."""
-        generator = TestsetGenerator()
+        generator = DatasetGenerator()
         text = "This is a sample text for testing generation. " * 100
         
         results = await generator.generate_from_text(text, count=2)
@@ -35,7 +35,7 @@ class TestTestsetGenerator:
     @pytest.mark.asyncio
     async def test_generate_from_file_text(self, mock_llm):
         """Test generation from text file."""
-        generator = TestsetGenerator()
+        generator = DatasetGenerator()
         
         with patch("pathlib.Path.exists", return_value=True), \
              patch("pathlib.Path.read_text", return_value="Sample text " * 100), \
@@ -61,7 +61,7 @@ class TestTestsetGenerator:
 
     def test_chunk_text(self):
         """Test chunking logic."""
-        generator = TestsetGenerator()
+        generator = DatasetGenerator()
         # Create text that will be ~1000 chars when split into sentences
         # chunk_size is in CHARACTERS, not words
         text = ("This is sentence one. " * 50)  # ~1100 chars

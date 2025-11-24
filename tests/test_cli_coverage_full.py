@@ -47,7 +47,7 @@ class TestCLICoverage:
             with open("source.txt", "w") as f:
                 f.write("content")
                 
-            with patch("raglint.generation.TestsetGenerator") as MockGen:
+            with patch("raglint.generation.DatasetGenerator") as MockGen:
                 mock_instance = MockGen.return_value
                 # Mock async method
                 mock_instance.generate_from_file = AsyncMock(return_value=[{"q": "a"}])
