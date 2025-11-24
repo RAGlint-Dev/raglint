@@ -2,7 +2,7 @@
 
 **The Honest RAG Evaluation Platform**
 
-[![PyPI version](https://badge.fury.io/py/raglint.svg)](https://badge.fury.io/py/raglint)
+[![PyPI](https://img.shields.io/pypi/v/raglint.svg)](https://pypi.org/project/raglint/)
 [![Tests](https://img.shields.io/badge/tests-379%20passing-success)](https://github.com/RAGlint-Dev/raglint/actions)
 [![Coverage](https://img.shields.io/badge/coverage-65%25-brightgreen)](https://github.com/RAGlint-Dev/raglint)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -106,7 +106,7 @@ raglint plugins create my-custom-metric
 ```yaml
 # .github/workflows/raglint.yml
 - name: RAGLint Analysis
-  uses: yourusername/raglint-action@v1
+  uses: RAGlint-Dev/raglint-action@v1
   with:
     data-file: 'eval_data.json'
     threshold: 0.7
@@ -157,4 +157,4 @@ If you find RAGLint useful, please consider starring the repo to help others dis
 
 ---
 
-**Made with ❤️ by the RAGLint team** | [Website](https://raglint.io) | [Discord](https://discord.gg/raglint) | [Twitter](https://twitter.com/raglint)
+**Made with ❤️ by the RAGLint team**
