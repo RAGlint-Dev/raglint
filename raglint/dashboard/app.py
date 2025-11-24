@@ -681,6 +681,12 @@ async def docs_page(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
 
 
+@app.get("/license", response_class=HTMLResponse)
+async def license_page(request: Request):
+    """Render the license page."""
+    return templates.TemplateResponse("license.html", {"request": request})
+
+
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_home(
     request: Request,
