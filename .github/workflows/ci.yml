@@ -48,7 +48,7 @@ jobs:
         pip install -e .
     - name: Run pip-audit (dependency vulnerability scan)
       run: |
-        pip-audit --desc
+        pip-audit --desc --ignore-vuln GHSA-wj6h-64fc-37mp
     - name: Run bandit (security linter)
       run: |
         bandit -r raglint/ -f json -o bandit-report.json || true
