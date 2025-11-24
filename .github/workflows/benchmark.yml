@@ -14,9 +14,9 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.12"
     
     - name: Install dependencies
       run: |
@@ -28,7 +28,7 @@ jobs:
         raglint benchmark --dataset squad --subset-size 50 --output benchmark_results.json
     
     - name: Upload benchmark results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: benchmark-results
         path: benchmark_results.json
