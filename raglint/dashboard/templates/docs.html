@@ -261,16 +261,28 @@
             .docs-sidebar {
                 width: 100%;
                 height: auto;
+                max-height: 300px;
+                /* Limit height on mobile */
                 position: static;
                 border-right: none;
                 border-bottom: 1px solid rgba(148, 163, 184, 0.1);
                 padding-right: 0;
                 padding-bottom: 2rem;
                 margin-bottom: 2rem;
+                overflow-y: auto;
             }
 
             .docs-main {
                 padding: 0;
+            }
+
+            .quick-nav-grid {
+                grid-template-columns: 1fr;
+                /* Stack cards on mobile */
+            }
+
+            .docs-header h1 {
+                font-size: 2rem;
             }
         }
     </style>
