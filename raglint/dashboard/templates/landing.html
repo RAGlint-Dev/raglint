@@ -15,12 +15,12 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="/" class="logo">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container nav-container">
+            <a href="/" class="logo" aria-label="RAGLint Home">
                 <i class="fa-solid fa-layer-group"></i> RAGLint
             </a>
-            <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div class="nav-links">
@@ -36,252 +36,240 @@
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="badge">v0.2.0 Now Available</div>
-                <h1>Ship RAG Applications with <span class="gradient-text">Confidence</span></h1>
-                <p class="hero-subtitle">
-                    The all-in-one observability and quality assurance platform for Retrieval-Augmented Generation.
-                    Detect hallucinations, track costs, and prevent regressions in your CI/CD pipeline.
-                </p>
-                <div class="cta-group">
-                    <div class="code-block-inline">
-                        <code>pip install raglint</code>
-                        <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install raglint')"><i
-                                class="fa-regular fa-copy"></i></button>
-                    </div>
-                    <a href="/dashboard" class="btn btn-primary">Get Started <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="dashboard-preview">
-                    <div class="window-header">
-                        <div class="dots">
-                            <span></span><span></span><span></span>
+    <main>
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge">v0.2.0 Now Available</div>
+                    <h1>Ship RAG Applications with <span class="gradient-text">Confidence</span></h1>
+                    <p class="hero-subtitle">
+                        The all-in-one observability and quality assurance platform for Retrieval-Augmented Generation.
+                        Detect hallucinations, track costs, and prevent regressions in your CI/CD pipeline.
+                    </p>
+                    <div class="cta-group">
+                        <div class="code-block-inline">
+                            <code>pip install raglint</code>
+                            <button class="copy-btn" aria-label="Copy install command"
+                                onclick="copyToClipboard('pip install raglint')">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
-                        <div class="title">RAGLint Dashboard</div>
-                    </div>
-                    <div class="window-content">
-                        <!-- Simulated Dashboard UI -->
-                        <div class="stat-row">
-                            <div class="stat-card">
-                                <div class="label">Faithfulness</div>
-                                <div class="value text-success">0.92</div>
-                                <div class="trend"><i class="fa-solid fa-arrow-up"></i> 5%</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="label">Context Recall</div>
-                                <div class="value text-warning">0.78</div>
-                                <div class="trend"><i class="fa-solid fa-arrow-down"></i> 2%</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="label">Avg Latency</div>
-                                <div class="value">450ms</div>
-                            </div>
-                        </div>
-                        <div class="chart-placeholder">
-                            <div class="bar" style="height: 60%"></div>
-                            <div class="bar" style="height: 80%"></div>
-                            <div class="bar" style="height: 40%"></div>
-                            <div class="bar" style="height: 90%"></div>
-                            <div class="bar" style="height: 75%"></div>
-                        </div>
+                        <a href="/dashboard" class="btn btn-primary">Get Started <i
+                                class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </header>
-
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Everything you need to build better RAG</h2>
-                <p>Stop guessing. Start measuring.</p>
-            </div>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="icon-box bg-blue">
-                        <i class="fa-solid fa-magnifying-glass-chart"></i>
-                    </div>
-                    <h3>Hallucination Detection</h3>
-                    <p>Automatically detect when your LLM makes up facts not present in the retrieved context using our
-                        specialized faithfulness metrics.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-purple">
-                        <i class="fa-solid fa-code-branch"></i>
-                    </div>
-                    <h3>CI/CD Integration</h3>
-                    <p>Block bad deployments before they reach production. RAGLint integrates seamlessly with GitHub
-                        Actions to catch regressions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-green">
-                        <i class="fa-solid fa-money-bill-wave"></i>
-                    </div>
-                    <h3>Cost & Latency Tracking</h3>
-                    <p>Monitor token usage and response times across different models and providers. Optimize for both
-                        quality and budget.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-orange">
-                        <i class="fa-solid fa-table-columns"></i>
-                    </div>
-                    <h3>Visual Dashboard</h3>
-                    <p>Explore test runs, compare model versions, and debug individual queries with our beautiful,
-                        built-in web dashboard.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-blue">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h3>Custom Metrics</h3>
-                    <p>Define your own evaluation logic using Python functions or LLM prompts. Tailor the evaluation to
-                        your specific domain needs.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-purple">
-                        <i class="fa-solid fa-database"></i>
-                    </div>
-                    <h3>Dataset Management</h3>
-                    <p>Organize, version, and manage your test datasets. Track how your RAG system performs across
-                        different data versions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-green">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <h3>Team Collaboration</h3>
-                    <p>Share evaluation results and reports with your team. Comment on specific failures and track
-                        improvements together.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box bg-orange">
-                        <i class="fa-solid fa-plug"></i>
-                    </div>
-                    <h3>API Integration</h3>
-                    <p>Seamlessly integrate RAGLint into your existing workflows. Use our comprehensive API to trigger
-                        evaluations programmatically.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="features" style="background: linear-gradient(to bottom, #0a0e27, #1a1f3a);">
-        <div class="container">
-            <div class="section-header">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Start free, scale as you grow</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="feature-card" style="background: #1e293b;">
-                    <div class="icon-box bg-blue">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                    <h3 style="text-shadow: none;">Free</h3>
-                    <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0; color: #e5e7eb; text-shadow: none;">
-                        $0</div>
-                    <p style="text-shadow: none;">Perfect for getting started</p>
-                    <ul style="text-align: left; margin-top: 1rem; list-style: none; padding: 0;">
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Open source forever</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Self-hosted</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> All core features</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Community support</li>
-                    </ul>
-                    <a href="/dashboard" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%;">Get
-                        Started</a>
-                </div>
-                <div class="feature-card popular-card">
-                    <div
-                        style="background: #8b5cf6; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; display: inline-block; font-size: 0.75rem; margin-bottom: 1rem; text-shadow: none;">
-                        COMING SOON</div>
-                    <div class="icon-box bg-purple">
-                        <i class="fa-solid fa-rocket"></i>
-                    </div>
-                    <h3 style="text-shadow: none;">Pro</h3>
-                    <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0; color: #e5e7eb; text-shadow: none;">
-                        $49<span style="font-size: 1rem; color: #9ca3af;">/month</span></div>
-                    <p style="text-shadow: none;">For growing teams</p>
-                    <ul style="text-align: left; margin-top: 1rem; list-style: none; padding: 0;">
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Everything in Free</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Managed hosting</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Priority support</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Advanced analytics</li>
-                    </ul>
-                    <a href="/coming-soon" class="btn btn-primary"
-                        style="margin-top: 1.5rem; width: 100%; background: #8b5cf6;">Contact Sales</a>
-                </div>
-                <div class="feature-card" style="background: #1e293b;">
-                    <div class="icon-box bg-orange">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
-                    <h3 style="text-shadow: none;">Enterprise</h3>
-                    <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0; color: #e5e7eb; text-shadow: none;">
-                        Custom</div>
-                    <p style="text-shadow: none;">For large organizations</p>
-                    <ul style="text-align: left; margin-top: 1rem; list-style: none; padding: 0;">
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Everything in Pro</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Dedicated support</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> Custom SLAs</li>
-                        <li style="margin: 0.5rem 0; text-shadow: none;"><i class="fa-solid fa-check"
-                                style="color: #4ade80; margin-right: 0.5rem;"></i> On-premise deployment</li>
-                    </ul>
-                    <a href="/coming-soon" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%;">Contact
-                        Sales</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <div class="split-layout">
-                <div class="text-content">
-                    <h2>How it Works</h2>
-                    <p>RAGLint is designed to be drop-in compatible with your existing Python RAG pipelines.</p>
-                    <ul class="steps">
-                        <li>
-                            <span class="step-num">1</span>
-                            <div>
-                                <h4>Install the package</h4>
-                                <p>Available on PyPI for Python 3.9+</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-num">2</span>
-                            <div>
-                                <h4>Wrap your chain</h4>
-                                <p>Use our LangChain integration or manual hooks.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-num">3</span>
-                            <div>
-                                <h4>View the dashboard</h4>
-                                <p>Launch the UI to see your insights instantly.</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="code-content">
-                    <div class="code-window">
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
                         <div class="window-header">
-                            <div class="dots"><span></span><span></span><span></span></div>
-                            <div class="lang">main.py</div>
+                            <div class="dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="title">RAGLint Dashboard</div>
                         </div>
-                        <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> RAGLintCallbackHandler
+                        <div class="window-content">
+                            <!-- Simulated Dashboard UI -->
+                            <div class="stat-row">
+                                <div class="stat-card">
+                                    <div class="label">Faithfulness</div>
+                                    <div class="value text-success">0.92</div>
+                                    <div class="trend"><i class="fa-solid fa-arrow-up"></i> 5%</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="label">Context Recall</div>
+                                    <div class="value text-warning">0.78</div>
+                                    <div class="trend"><i class="fa-solid fa-arrow-down"></i> 2%</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="label">Avg Latency</div>
+                                    <div class="value">450ms</div>
+                                </div>
+                            </div>
+                            <div class="chart-placeholder">
+                                <div class="bar" style="height: 60%"></div>
+                                <div class="bar" style="height: 80%"></div>
+                                <div class="bar" style="height: 40%"></div>
+                                <div class="bar" style="height: 90%"></div>
+                                <div class="bar" style="height: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Everything you need to build better RAG</h2>
+                    <p>Stop guessing. Start measuring.</p>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon-box bg-blue">
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        </div>
+                        <h3>Hallucination Detection</h3>
+                        <p>Automatically detect when your LLM makes up facts not present in the retrieved context using
+                            our
+                            specialized faithfulness metrics.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-purple">
+                            <i class="fa-solid fa-code-branch"></i>
+                        </div>
+                        <h3>CI/CD Integration</h3>
+                        <p>Block bad deployments before they reach production. RAGLint integrates seamlessly with GitHub
+                            Actions to catch regressions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-green">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                        </div>
+                        <h3>Cost & Latency Tracking</h3>
+                        <p>Monitor token usage and response times across different models and providers. Optimize for
+                            both
+                            quality and budget.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-orange">
+                            <i class="fa-solid fa-table-columns"></i>
+                        </div>
+                        <h3>Visual Dashboard</h3>
+                        <p>Explore test runs, compare model versions, and debug individual queries with our beautiful,
+                            built-in web dashboard.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-blue">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3>Custom Metrics</h3>
+                        <p>Define your own evaluation logic using Python functions or LLM prompts. Tailor the evaluation
+                            to
+                            your specific domain needs.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-purple">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h3>Dataset Management</h3>
+                        <p>Organize, version, and manage your test datasets. Track how your RAG system performs across
+                            different data versions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-green">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3>Team Collaboration</h3>
+                        <p>Share evaluation results and reports with your team. Comment on specific failures and track
+                            improvements together.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box bg-orange">
+                            <i class="fa-solid fa-plug"></i>
+                        </div>
+                        <h3>API Integration</h3>
+                        <p>Seamlessly integrate RAGLint into your existing workflows. Use our comprehensive API to
+                            trigger
+                            evaluations programmatically.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="section pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple, Transparent Pricing</h2>
+                    <p>Start free, scale as you grow</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="feature-card pricing-card">
+                        <div class="icon-box bg-blue">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3>Free</h3>
+                        <div class="price">$0</div>
+                        <p>Perfect for getting started</p>
+                        <ul class="pricing-features">
+                            <li><i class="fa-solid fa-check"></i> Open source forever</li>
+                            <li><i class="fa-solid fa-check"></i> Self-hosted</li>
+                            <li><i class="fa-solid fa-check"></i> All core features</li>
+                            <li><i class="fa-solid fa-check"></i> Community support</li>
+                        </ul>
+                        <a href="/dashboard" class="btn btn-primary btn-full">Get Started</a>
+                    </div>
+                    <div class="feature-card pricing-card popular-card">
+                        <div class="coming-soon-badge">COMING SOON</div>
+                        <div class="icon-box bg-purple">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <h3>Pro</h3>
+                        <div class="price">$49<span>/month</span></div>
+                        <p>For growing teams</p>
+                        <ul class="pricing-features">
+                            <li><i class="fa-solid fa-check"></i> Everything in Free</li>
+                            <li><i class="fa-solid fa-check"></i> Managed hosting</li>
+                            <li><i class="fa-solid fa-check"></i> Priority support</li>
+                            <li><i class="fa-solid fa-check"></i> Advanced analytics</li>
+                        </ul>
+                        <a href="/coming-soon" class="btn btn-primary btn-full">Contact Sales</a>
+                    </div>
+                    <div class="feature-card pricing-card">
+                        <div class="icon-box bg-orange">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <h3>Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <p>For large organizations</p>
+                        <ul class="pricing-features">
+                            <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
+                            <li><i class="fa-solid fa-check"></i> Dedicated support</li>
+                            <li><i class="fa-solid fa-check"></i> Custom SLAs</li>
+                            <li><i class="fa-solid fa-check"></i> On-premise deployment</li>
+                        </ul>
+                        <a href="/coming-soon" class="btn btn-primary btn-full">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section how-it-works">
+            <div class="container">
+                <div class="split-layout">
+                    <div class="text-content">
+                        <h2>How it Works</h2>
+                        <p>RAGLint is designed to be drop-in compatible with your existing Python RAG pipelines.</p>
+                        <ul class="steps">
+                            <li>
+                                <span class="step-num">1</span>
+                                <div>
+                                    <h4>Install the package</h4>
+                                    <p>Available on PyPI for Python 3.9+</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="step-num">2</span>
+                                <div>
+                                    <h4>Wrap your chain</h4>
+                                    <p>Use our LangChain integration or manual hooks.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="step-num">3</span>
+                                <div>
+                                    <h4>View the dashboard</h4>
+                                    <p>Launch the UI to see your insights instantly.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="code-content">
+                        <div class="code-window">
+                            <div class="window-header">
+                                <div class="dots"><span></span><span></span><span></span></div>
+                                <div class="lang">main.py</div>
+                            </div>
+                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> RAGLintCallbackHandler
 
 <span class="comment"># 1. Add callback to your chain</span>
 handler = RAGLintCallbackHandler()
@@ -290,11 +278,12 @@ chain.invoke(input, config={<span class="string">"callbacks"</span>: [handler]})
 <span class="comment"># 2. Launch dashboard</span>
 <span class="comment"># $ raglint dashboard</span>
 </code></pre>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer class="footer">
         <div class="container">
@@ -312,6 +301,37 @@ chain.invoke(input, config={<span class="string">"callbacks"</span>: [handler]})
             </div>
         </div>
     </footer>
+
+    <script>
+        // Minimal JS for Mobile Menu
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileBtn.addEventListener('click', () => {
+            const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
+            mobileBtn.setAttribute('aria-expanded', !isExpanded);
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            const btn = document.querySelector('.copy-btn');
+            const originalIcon = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            setTimeout(() => {
+                btn.innerHTML = originalIcon;
+            }, 2000);
+        }
+    </script>
 </body>
 
 </html>
