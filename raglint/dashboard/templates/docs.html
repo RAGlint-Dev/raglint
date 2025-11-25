@@ -32,218 +32,174 @@
             min-height: calc(100vh - 300px);
         }
 
-        /* --- Left Sidebar --- */
+        /* --- Sidebar Redesign --- */
         .docs-sidebar {
             width: var(--sidebar-width);
             position: sticky;
-            top: 2rem;
-            height: calc(100vh - 4rem);
+            top: 5rem;
+            /* Account for fixed navbar */
+            height: calc(100vh - 5rem);
             overflow-y: auto;
             padding-right: 2rem;
             border-right: 1px solid rgba(148, 163, 184, 0.1);
             flex-shrink: 0;
+            padding-top: 1rem;
         }
 
         .search-box {
-            position: relative;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .search-input {
-            width: 100%;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.15);
             padding: 0.75rem 1rem 0.75rem 2.5rem;
             border-radius: 8px;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
             font-size: 0.9rem;
             transition: all 0.2s;
         }
 
         .search-input:focus {
-            outline: none;
-            border-color: #8b5cf6;
             background: rgba(30, 41, 59, 0.8);
+            border-color: #8b5cf6;
             box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
         }
 
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        .sidebar-group {
-            margin-bottom: 2rem;
-        }
-
         .sidebar-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: #9ca3af;
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.1em;
             padding-left: 0.75rem;
         }
 
         .sidebar-link {
-            display: block;
-            padding: 0.5rem 0.75rem;
-            color: #cbd5e1;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.75rem;
+            color: #94a3b8;
             font-size: 0.95rem;
             border-radius: 6px;
             margin-bottom: 0.25rem;
             transition: all 0.2s;
-            border-left: 2px solid transparent;
+            border-left: none;
         }
 
         .sidebar-link:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.05);
+            color: #f1f5f9;
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .sidebar-link.active {
             color: #8b5cf6;
             background: rgba(139, 92, 246, 0.1);
-            border-left-color: #8b5cf6;
+            font-weight: 500;
         }
 
-        /* --- Main Content --- */
-        .docs-main {
-            flex: 1;
-            padding: 0 4rem;
-            min-width: 0;
-            /* Prevent overflow */
+        .sidebar-link i {
+            font-size: 0.8rem;
+            opacity: 0.5;
         }
 
-        .docs-header {
-            margin-bottom: 3rem;
-        }
-
+        /* --- Main Content Redesign --- */
         .docs-header h1 {
-            font-size: 2.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(to right, #fff, #94a3b8);
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
         }
 
         .quick-nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
             margin-bottom: 4rem;
         }
 
         .nav-card {
-            background: rgba(30, 41, 59, 0.4);
+            background: rgba(30, 41, 59, 0.3);
             border: 1px solid rgba(148, 163, 184, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: block;
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .nav-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(139, 92, 246, 0.4);
-            background: rgba(30, 41, 59, 0.6);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(139, 92, 246, 0.3);
+            background: rgba(30, 41, 59, 0.5);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-card:hover::before {
+            opacity: 1;
         }
 
         .nav-card h3 {
-            color: #fff;
+            color: #f1f5f9;
             margin-top: 0;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            font-family: 'Outfit', sans-serif;
         }
 
         .nav-card p {
-            color: #9ca3af;
-            font-size: 0.9rem;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
             margin: 0;
-            line-height: 1.5;
         }
 
-        /* --- Content Styling --- */
-        .content-section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
-        }
-
-        .content-section h2 {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-            color: #f1f5f9;
-        }
-
-        .content-section h3 {
-            font-size: 1.25rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #e2e8f0;
-        }
-
-        .content-section p {
-            color: #cbd5e1;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        /* --- Right TOC --- */
+        /* --- Right TOC Redesign --- */
         .docs-toc {
-            width: var(--toc-width);
-            position: sticky;
-            top: 2rem;
-            height: fit-content;
-            padding-left: 2rem;
-            border-left: 1px solid rgba(148, 163, 184, 0.1);
-            flex-shrink: 0;
-            display: none;
-            /* Hidden on small screens */
-        }
-
-        @media (min-width: 1280px) {
-            .docs-toc {
-                display: block;
-            }
+            padding-top: 1rem;
         }
 
         .toc-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: #9ca3af;
+            color: #64748b;
             margin-bottom: 1rem;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
         }
 
         .toc-link {
-            display: block;
-            padding: 0.25rem 0;
+            padding: 0.35rem 0;
             color: #64748b;
-            text-decoration: none;
             font-size: 0.85rem;
-            transition: all 0.2s;
-            border-left: 2px solid transparent;
+            border-left: 2px solid rgba(148, 163, 184, 0.1);
             padding-left: 1rem;
-            margin-left: -1px;
         }
 
         .toc-link:hover {
             color: #94a3b8;
+            border-left-color: #64748b;
         }
 
         .toc-link.active {
@@ -261,28 +217,18 @@
             .docs-sidebar {
                 width: 100%;
                 height: auto;
-                max-height: 300px;
-                /* Limit height on mobile */
+                max-height: none;
                 position: static;
                 border-right: none;
                 border-bottom: 1px solid rgba(148, 163, 184, 0.1);
                 padding-right: 0;
                 padding-bottom: 2rem;
                 margin-bottom: 2rem;
-                overflow-y: auto;
-            }
-
-            .docs-main {
-                padding: 0;
+                overflow-y: visible;
             }
 
             .quick-nav-grid {
                 grid-template-columns: 1fr;
-                /* Stack cards on mobile */
-            }
-
-            .docs-header h1 {
-                font-size: 2rem;
             }
         }
     </style>
@@ -318,32 +264,16 @@
             </div>
 
             <div class="sidebar-group">
-                <div class="sidebar-title">Getting Started</div>
-                <a href="#quick-start" class="sidebar-link active">Quick Start</a>
-                <a href="#installation" class="sidebar-link">Installation</a>
-                <a href="#basic-usage" class="sidebar-link">Basic Usage</a>
-            </div>
-
-            <div class="sidebar-group">
-                <div class="sidebar-title">Core Concepts</div>
-                <a href="#what-is" class="sidebar-link">What is RAGLint?</a>
-                <a href="#metrics" class="sidebar-link">Smart Metrics</a>
-                <a href="#plugins" class="sidebar-link">Plugin System</a>
-            </div>
-
-            <div class="sidebar-group">
-                <div class="sidebar-title">Guides</div>
-                <a href="#cli" class="sidebar-link">CLI Reference</a>
-                <a href="#integrations" class="sidebar-link">Integrations</a>
-                <a href="#dashboard" class="sidebar-link">Dashboard</a>
-            </div>
-
-            <div class="sidebar-group">
-                <div class="sidebar-title">Resources</div>
-                <a href="https://github.com/RAGlint-Dev/raglint" class="sidebar-link" target="_blank">
-                    <i class="fa-brands fa-github"></i> GitHub Repo
+                <div class="sidebar-title">Contents</div>
+                <a href="#quick-start" class="sidebar-link active">
+                    Quick Start <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
                 </a>
-                <a href="/license" class="sidebar-link">License</a>
+                <a href="#api-reference" class="sidebar-link">
+                    API Reference
+                </a>
+                <a href="#guides" class="sidebar-link">
+                    Guides
+                </a>
             </div>
         </aside>
 
@@ -359,19 +289,19 @@
             <!-- Navigation Grid (Like in screenshot) -->
             <div class="quick-nav-grid">
                 <a href="#quick-start" class="nav-card">
-                    <h3><i class="fa-solid fa-rocket" style="color: #f59e0b;"></i> Quick Start</h3>
+                    <h3><i class="fa-solid fa-rocket" style="color: #fb923c;"></i> Quick Start</h3>
                     <p>Get started with RAGLint in 5 minutes. Install, configure, and run your first evaluation.</p>
                 </a>
                 <a href="#api-reference" class="nav-card">
-                    <h3><i class="fa-solid fa-code" style="color: #3b82f6;"></i> API Reference</h3>
+                    <h3><i class="fa-solid fa-code" style="color: #ef4444;"></i> API Reference</h3>
                     <p>Complete API documentation for all RAGLint modules, classes, and functions.</p>
                 </a>
                 <a href="#guides" class="nav-card">
-                    <h3><i class="fa-solid fa-book-open" style="color: #22c55e;"></i> Guides</h3>
+                    <h3><i class="fa-solid fa-book" style="color: #e2e8f0;"></i> Guides</h3>
                     <p>In-depth tutorials and examples for advanced use cases and integrations.</p>
                 </a>
                 <a href="https://github.com/RAGlint-Dev/raglint" target="_blank" class="nav-card">
-                    <h3><i class="fa-brands fa-github" style="color: #8b5cf6;"></i> GitHub</h3>
+                    <h3><i class="fa-brands fa-github" style="color: #fbbf24;"></i> GitHub</h3>
                     <p>View source code, report issues, and contribute to the project.</p>
                 </a>
             </div>
