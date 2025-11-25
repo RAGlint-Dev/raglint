@@ -512,6 +512,28 @@ a {
     gap: 2rem;
 }
 
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.popular-card {
+    border: 2px solid #8b5cf6;
+    background: #1e293b;
+    position: relative;
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+}
+
+@media (max-width: 968px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
 .feature-card {
     background: var(--dark-card);
     padding: 2rem;
