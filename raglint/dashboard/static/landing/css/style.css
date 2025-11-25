@@ -146,12 +146,30 @@ a {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: right 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 99;
+        transform: translateX(100%);
     }
 
     .nav-links.active {
+        transform: translateX(0);
         right: 0;
+        /* Keep for fallback/positioning */
+    }
+
+    .nav-links a {
+        font-size: 1.5rem;
+        margin: 1.5rem 0;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+
+    .nav-links.active a {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0.2s;
     }
 
     .nav-links a {
@@ -878,10 +896,16 @@ a {
 
     .hero h1 {
         font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
     }
 
     .dashboard-preview {
-        transform: none;
+        transform: none !important;
+        margin-top: 2rem;
     }
 
     .feature-grid {
@@ -896,7 +920,8 @@ a {
 
 @media (max-width: 640px) {
     .hero {
-        padding-top: 8rem;
+        padding-top: 6rem;
+        padding-bottom: 4rem;
     }
 
     .hero h1 {
@@ -910,6 +935,14 @@ a {
     .cta-group {
         flex-direction: column;
         align-items: stretch;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .cta-group .btn,
+    .cta-group .code-block-inline {
+        width: 100%;
+        justify-content: center;
     }
 
     .stat-row {
