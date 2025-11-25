@@ -281,16 +281,13 @@
                             <div class="dots"><span></span><span></span><span></span></div>
                             <div class="lang">main.py</div>
                         </div>
-                        <pre><code class="language-python"><span class="keyword">from</span> raglint <span class="keyword">import</span> RAGLint
-<span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LangChainEvaluator
+                        <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> RAGLintCallbackHandler
 
-<span class="comment"># 1. Initialize RAGLint</span>
-evaluator = LangChainEvaluator(my_qa_chain)
+<span class="comment"># 1. Add callback to your chain</span>
+handler = RAGLintCallbackHandler()
+chain.invoke(input, config={<span class="string">"callbacks"</span>: [handler]})
 
-<span class="comment"># 2. Run evaluation</span>
-results = <span class="keyword">await</span> evaluator.evaluate(test_questions)
-
-<span class="comment"># 3. Launch dashboard</span>
+<span class="comment"># 2. Launch dashboard</span>
 <span class="comment"># $ raglint dashboard</span>
 </code></pre>
                     </div>

@@ -441,8 +441,9 @@ results = analyzer.analyze([{
 
                 <h3>LangChain</h3>
                 <div class="code-window">
-                    <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LangChainEvaluator
-evaluator = LangChainEvaluator(chain)</code></pre>
+                    <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> RAGLintCallbackHandler
+handler = RAGLintCallbackHandler()
+chain.invoke(input, config={<span class="string">"callbacks"</span>: [handler]})</code></pre>
                 </div>
 
                 <h3>LlamaIndex</h3>
