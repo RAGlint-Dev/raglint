@@ -1,30 +1,30 @@
-# RAGLint - Snabbstart
+# RAGLint - Quick Start
 
-## 1. Installera (Lokalt)
+## 1. Install (Locally)
 ```bash
 cd /home/yesir/Dokument/RAGlint
 pip install -e .
 ```
 
-## 2. Starta Dashboarden
+## 2. Start the Dashboard
 ```bash
 cd raglint/dashboard
 python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Öppna sedan: **http://localhost:8000**
+Then open: **http://localhost:8000**
 
-## 3. Generera Demo-data
-I en annan terminal:
+## 3. Generate Demo Data
+In another terminal:
 ```bash
 cd /home/yesir/Dokument/RAGlint
 python demo_traffic.py
 ```
 
-Detta skapar events i `raglint_events.jsonl` som visas under "Traces".
+This creates events in `raglint_events.jsonl` which are shown under "Traces".
 
-## 4. Testa Auto-Instrumentation
-Skapa en fil `test_watch.py`:
+## 4. Test Auto-Instrumentation
+Create a file `test_watch.py`:
 ```python
 from raglint import watch
 import time
@@ -38,12 +38,12 @@ my_function(10)
 print("Check raglint_events.jsonl!")
 ```
 
-Kör: `python test_watch.py`
+Run: `python test_watch.py`
 
 ---
 
-## Docker (Om du vill)
-Docker-versionen tar längre tid att bygga pga PyTorch. När den är klar:
+## Docker (Optional)
+The Docker version takes longer to build due to PyTorch. When it is ready:
 ```bash
 docker-compose up -d
 ```

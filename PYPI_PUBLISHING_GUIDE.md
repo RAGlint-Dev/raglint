@@ -1,27 +1,27 @@
 # PyPI Publishing Guide - RAGLint
 
-## ⚠️ VIKTIGT: Checklista INNAN publicering
+## ⚠️ IMPORTANT: Checklist BEFORE Publishing
 
-Gå igenom denna checklista INNAN du publicerar till PyPI:
+Go through this checklist BEFORE publishing to PyPI:
 
 ### ✅ Pre-Publishing Checklist
 
-- [ ] **README.md är uppdaterad**
+- [ ] **README.md is updated**
   - Installation instructions
   - Quick start
   - Features list
   - No broken links
 
-- [ ] **CHANGELOG.md uppdaterad**
+- [ ] **CHANGELOG.md updated**
   - Version 0.2.0 changes documented
   - All features listed
 
-- [ ] **Tests körs**
+- [ ] **Tests are running**
   ```bash
   pytest tests/ -v
   ```
-  - Alla tests passar
-  - Inga kritiska fel
+  - All tests pass
+  - No critical errors
 
 - [ ] **Security scan clean**
   ```bash
@@ -29,21 +29,21 @@ Gå igenom denna checklista INNAN du publicerar till PyPI:
   bandit -r raglint/
   ```
 
-- [ ] **Version nummer korrekt**
+- [ ] **Version number correct**
   - `pyproject.toml`: version = "0.2.0"
   - `raglint/__init__.py`: __version__ = "0.2.0"
 
-- [ ] **Dependencies listade**
-  - Alla runtime deps i pyproject.toml
-  - Test deps i [dev]
+- [ ] **Dependencies listed**
+  - All runtime deps in pyproject.toml
+  - Test deps in [dev]
   - Optional deps correct
 
 ---
 
-## 📦 Steg 1: Install Build Tools
+## 📦 Step 1: Install Build Tools
 
 ```bash
-# I ditt virtual environment
+# In your virtual environment
 pip install --upgrade pip
 pip install build twine
 ```
@@ -56,10 +56,10 @@ twine --version
 
 ---
 
-## 🏗️ Steg 2: Clean Previous Builds
+## 🏗️ Step 2: Clean Previous Builds
 
 ```bash
-# Ta bort gamla builds
+# Remove old builds
 rm -rf dist/ build/ *.egg-info
 
 # Verify cleanup
@@ -69,7 +69,7 @@ ls -la | grep -E "dist|build|egg"
 
 ---
 
-## 📦 Steg 3: Build Package
+## 📦 Step 3: Build Package
 
 ```bash
 # Build both wheel and source distribution
@@ -87,7 +87,7 @@ raglint-0.2.0.tar.gz
 
 ---
 
-## ✅ Steg 4: Verify Package
+## ✅ Step 4: Verify Package
 
 ```bash
 # Check package contents
@@ -108,7 +108,7 @@ Checking dist/raglint-0.2.0.tar.gz: PASSED
 
 ---
 
-## 🧪 Steg 5: Test Install Locally
+## 🧪 Step 5: Test Install Locally
 
 ```bash
 # Create test environment
@@ -132,42 +132,42 @@ rm -rf test_venv
 
 ---
 
-## 🔐 Steg 6: Create PyPI Account
+## 🔐 Step 6: Create PyPI Account
 
 ### 6.1 Main PyPI (Production)
-1. Gå till https://pypi.org/account/register/
-2. Registrera konto
-3. Verifiera email
-4. Enable 2FA (REKOMMENDERAT!)
+1. Go to https://pypi.org/account/register/
+2. Register account
+3. Verify email
+4. Enable 2FA (RECOMMENDED!)
 
 ### 6.2 Test PyPI (Optional but RECOMMENDED)
-1. Gå till https://test.pypi.org/account/register/
-2. Registrera separat konto
-3. Verifiera email
+1. Go to https://test.pypi.org/account/register/
+2. Register separate account
+3. Verify email
 
 ---
 
-## 🔑 Steg 7: Create API Token
+## 🔑 Step 7: Create API Token
 
 ### For PyPI:
-1. Login till https://pypi.org
+1. Login to https://pypi.org
 2. Account settings → API tokens
 3. "Add API token"
    - Name: "RAGLint Publishing"
-   - Scope: "Entire account" (first time) eller "Project: raglint" (later)
-4. **COPY TOKEN NOW** (visas bara en gång!)
-5. Spara i säker password manager
+   - Scope: "Entire account" (first time) or "Project: raglint" (later)
+4. **COPY TOKEN NOW** (shown only once!)
+5. Save in secure password manager
 
 **Token format**: `pypi-AgEIcHlwaS5vcmc...` (starts with "pypi-")
 
 ### For Test PyPI (if testing first):
-1. Login till https://test.pypi.org
-2. Samma process
+1. Login to https://test.pypi.org
+2. Same process
 3. Token format: `pypi-AgEIcHlwaS5vcmc...`
 
 ---
 
-## 🔧 Steg 8: Configure Credentials
+## 🔧 Step 8: Configure Credentials
 
 ### Option A: Using .pypirc (RECOMMENDED)
 
@@ -201,7 +201,7 @@ export TWINE_PASSWORD=pypi-AgEIcHlwaS5vcmc...YOUR_TOKEN_HERE...
 
 ---
 
-## 🚀 Steg 9: Upload to Test PyPI (RECOMMENDED FIRST!)
+## 🚀 Step 9: Upload to Test PyPI (RECOMMENDED FIRST!)
 
 ```bash
 # Upload to TEST PyPI first
@@ -230,9 +230,9 @@ python -c "import raglint; print(raglint.__version__)"
 
 ---
 
-## 🎉 Steg 10: Upload to REAL PyPI
+## 🎉 Step 10: Upload to REAL PyPI
 
-**⚠️ VARNING: This is PERMANENT! Cannot delete packages from PyPI!**
+**⚠️ WARNING: This is PERMANENT! Cannot delete packages from PyPI!**
 
 ```bash
 # Final check
@@ -256,7 +256,7 @@ https://pypi.org/project/raglint/0.2.0/
 
 ---
 
-## ✅ Steg 11: Verify Live Package
+## ✅ Step 11: Verify Live Package
 
 ```bash
 # Wait 1-2 minutes for PyPI to index
@@ -274,7 +274,7 @@ raglint --version
 
 ---
 
-## 📢 Steg 12: Announce!
+## 📢 Step 12: Announce!
 
 1. **Update README badges**
    ```markdown
@@ -392,9 +392,9 @@ pip install raglint
 
 ## ⏱️ Estimated Time
 
-- **First time** (med setup): 1-2 timmar
-- **Subsequent updates**: 15-30 minuter
+- **First time** (with setup): 1-2 hours
+- **Subsequent updates**: 15-30 minutes
 
 ---
 
-**🎉 LYCKA TILL! Efter publicering har du ett RIKTIGT open-source projekt!**
+**🎉 GOOD LUCK! After publishing you have a REAL open-source project!**

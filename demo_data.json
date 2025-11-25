@@ -1,20 +1,20 @@
 [
   {
-    "query": "Vad är maskininlärning?",
+    "query": "What is machine learning?",
     "retrieved_contexts": [
-      "Maskininlärning är en gren av artificiell intelligens där datorer lär sig från data.",
-      "ML-algoritmer kan förbättra sin prestanda över tid utan att vara explicit programmerade."
+      "Machine learning is a branch of artificial intelligence where computers learn from data.",
+      "ML algorithms can improve their performance over time without being explicitly programmed."
     ],
-    "response": "Maskininlärning är en del av AI där system lär sig från data och förbättrar sin prestanda automatiskt.",
-    "ground_truth": "Maskininlärning är AI-teknik för att lära från data."
+    "response": "Machine learning is a part of AI where systems learn from data and improve their performance automatically.",
+    "ground_truth": "Machine learning is AI technology for learning from data."
   },
   {
-    "query": "Hur fungerar neurala nätverk?",
+    "query": "How do neural networks work?",
     "retrieved_contexts": [
-      "Neurala nätverk är inspirerade av den biologiska hjärnan.",
-      "De består av sammankopplade noder organiserade i lager."
+      "Neural networks are inspired by the biological brain.",
+      "They consist of interconnected nodes organized in layers."
     ],
-    "response": "Neurala nätverk fungerar genom sammankopplade noder som processar information i lager, inspirerat av hjärnan.",
-    "ground_truth": "Neurala nätverk använder sammankopplade noder."
+    "response": "Neural networks work through interconnected nodes that process information in layers, inspired by the brain.",
+    "ground_truth": "Neural networks use interconnected nodes."
   }
 ]
