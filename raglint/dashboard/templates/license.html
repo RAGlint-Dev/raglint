@@ -12,6 +12,131 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/landing/css/style.css">
+    <style>
+        body {
+            background-color: #0f172a;
+        }
+
+        .license-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .license-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .license-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        .permission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .permission-card {
+            padding: 2rem;
+            border-radius: 16px;
+            height: 100%;
+        }
+
+        .permission-card.allowed {
+            background: linear-gradient(180deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .permission-card.restricted {
+            background: linear-gradient(180deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .permission-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .allowed .permission-title {
+            color: #4ade80;
+        }
+
+        .restricted .permission-title {
+            color: #fb923c;
+        }
+
+        .permission-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .permission-list li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .permission-list li i {
+            margin-top: 0.25rem;
+        }
+
+        .license-text-box {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #94a3b8;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .permission-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -32,146 +157,146 @@
         </div>
     </nav>
 
-    <header class="hero" style="padding: 6rem 0 3rem;">
+    <div
+        style="padding: 8rem 0 4rem; text-align: center; background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%);">
         <div class="container">
-            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <div class="badge"><i class="fa-solid fa-scale-balanced"></i> AGPL-3.0</div>
-                <h1>License Information</h1>
-                <p class="hero-subtitle">
-                    RAGLint is open source software licensed under the GNU Affero General Public License v3.
-                </p>
+            <div class="badge"><i class="fa-solid fa-scale-balanced"></i> AGPL-3.0</div>
+            <h1
+                style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; margin-bottom: 1.5rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                License Information</h1>
+            <p style="font-size: 1.25rem; color: #9ca3af; max-width: 600px; margin: 0 auto;">
+                RAGLint is open source software licensed under the GNU Affero General Public License v3.
+            </p>
+        </div>
+    </div>
+
+    <div class="license-container">
+        <!-- Permissions Grid -->
+        <div class="permission-grid">
+            <div class="permission-card allowed">
+                <div class="permission-title">
+                    <i class="fa-solid fa-check-circle"></i> You Can Use It Free If...
+                </div>
+                <ul class="permission-list">
+                    <li><i class="fa-solid fa-check" style="color: #4ade80;"></i> You're an individual developer or
+                        hobbyist</li>
+                    <li><i class="fa-solid fa-check" style="color: #4ade80;"></i> You're working on personal projects
+                    </li>
+                    <li><i class="fa-solid fa-check" style="color: #4ade80;"></i> You're building open-source
+                        applications</li>
+                    <li><i class="fa-solid fa-check" style="color: #4ade80;"></i> You're evaluating or testing the
+                        software</li>
+                    <li><i class="fa-solid fa-check" style="color: #4ade80;"></i> You're using it for academic research
+                    </li>
+                </ul>
+            </div>
+
+            <div class="permission-card restricted">
+                <div class="permission-title">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Commercial License Needed If...
+                </div>
+                <ul class="permission-list">
+                    <li><i class="fa-solid fa-xmark" style="color: #fb923c;"></i> Running RAGLint as a managed service
+                    </li>
+                    <li><i class="fa-solid fa-xmark" style="color: #fb923c;"></i> Embedding in a commercial SaaS product
+                    </li>
+                    <li><i class="fa-solid fa-xmark" style="color: #fb923c;"></i> Providing hosted services to customers
+                    </li>
+                    <li><i class="fa-solid fa-xmark" style="color: #fb923c;"></i> Using in closed-source commercial apps
+                    </li>
+                </ul>
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(251, 146, 60, 0.2);">
+                    <a href="https://github.com/RAGlint-Dev/raglint/issues/new"
+                        style="color: #fb923c; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                        Contact Sales for License <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </header>
 
-    <section class="features">
-        <div class="container" style="max-width: 900px;">
+        <!-- FAQ Section -->
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 2rem; color: #fff;">Frequently
+            Asked Questions</h2>
 
-            <!-- TL;DR -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">📋 TL;DR</h2>
-                <div
-                    style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 2rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h3 style="margin-top: 0; color: #22c55e;"><i class="fa-solid fa-check-circle"
-                            style="margin-right: 0.5rem;"></i> You CAN Use RAGLint For Free If...</h3>
-                    <ul style="margin-bottom: 0;">
-                        <li>You're an individual developer or hobbyist</li>
-                        <li>You're working on personal projects</li>
-                        <li>You're building open-source applications</li>
-                        <li>You're evaluating or testing the software</li>
-                        <li>You're using it for research or education</li>
-                    </ul>
-                </div>
-                <div
-                    style="background: rgba(251, 146, 60, 0.1); border-left: 4px solid #fb923c; padding: 2rem; border-radius: 8px;">
-                    <h3 style="margin-top: 0; color: #fb923c;"><i class="fa-solid fa-exclamation-triangle"
-                            style="margin-right: 0.5rem;"></i> You Need a Commercial License If...</h3>
-                    <p style="margin-bottom: 1rem;">You're using RAGLint in any of these scenarios without open-sourcing
-                        your code:</p>
-                    <ul style="margin-bottom: 1rem;">
-                        <li>Running RAGLint as a managed service for others</li>
-                        <li>Embedding RAGLint in a commercial SaaS product</li>
-                        <li>Providing RAGLint as a hosted service to customers</li>
-                        <li>Using RAGLint internally in a closed-source commercial application</li>
-                    </ul>
-                    <p style="margin-bottom: 0;"><strong>Solution:</strong> Either open-source your application under
-                        AGPL-3.0, or <a href="https://github.com/RAGlint-Dev/raglint/issues/new"
-                            style="color: #8b5cf6;">contact us for a commercial license</a>.</p>
-                </div>
-            </div>
-
-            <!-- Full License -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">📜 Full License Text</h2>
-                <div
-                    style="background: #1e293b; padding: 2rem; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6; color: #e2e8f0; max-height: 500px; overflow-y: auto;">
-                    <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">GNU AFFERO GENERAL PUBLIC LICENSE
-Version 3, 19 November 2007
-
-Copyright © 2007 Free Software Foundation, Inc. &lt;https://fsf.org/&gt;
-
-Everyone is permitted to copy and distribute verbatim copies of this 
-license document, but changing it is not allowed.
-
-                            Preamble
-
-The GNU Affero General Public License is a free, copyleft license for
-software and other kinds of works, specifically designed to ensure
-cooperation with the community in the case of network server software.
-
----
-
-IMPORTANT NOTICE FOR RAGLINT USERS:
-
-This is the RAGLint Community Edition, licensed under AGPL v3.
-
-If you are using RAGLint as:
-- An individual developer
-- For personal projects
-- In an open-source project
-- For evaluation/testing
-
-YOU ARE FREE TO USE THIS SOFTWARE.
-
-However, if you are:
-- Running RAGLint as a managed service for others
-- Embedding RAGLint in a commercial SaaS product
-- Providing RAGLint as a hosted service to customers
-
-You MUST either:
-1. Open-source your entire application under AGPL v3, OR
-2. Purchase a Commercial License from RAGLint
-
-For Commercial Licensing, contact: your.email@raglint.com
-
----
-
-The full AGPL v3 license text can be found at:
-https://www.gnu.org/licenses/agpl-3.0.html</pre>
-                </div>
-            </div>
-
-            <!-- FAQs -->
-            <div style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">❓ Frequently Asked Questions</h2>
-
-                <div class="feature-card" style="margin-bottom: 1.5rem;">
-                    <h3 style="margin-top: 0;">Can I use RAGLint in my startup?</h3>
-                    <p style="margin-bottom: 0;">Yes, as long as your startup's application is open-source under
-                        AGPL-3.0. If you want to keep your code proprietary, you'll need a commercial license.</p>
-                </div>
-
-                <div class="feature-card" style="margin-bottom: 1.5rem;">
-                    <h3 style="margin-top: 0;">What if I modify RAGLint?</h3>
-                    <p style="margin-bottom: 0;">Any modifications must also be released under AGPL-3.0 if you
-                        distribute the software or run it as a network service accessible to users.</p>
-                </div>
-
-                <div class="feature-card" style="margin-bottom: 1.5rem;">
-                    <h3 style="margin-top: 0;">Can I use RAGLint internally at my company?</h3>
-                    <p style="margin-bottom: 0;">Yes, internal use is allowed. However, if you provide RAGLint as a
-                        service to external users (even indirectly), AGPL-3.0 applies.</p>
-                </div>
-
-                <div class="feature-card">
-                    <h3 style="margin-top: 0;">Where can I read the full AGPL-3.0 license?</h3>
-                    <p style="margin-bottom: 0;">The complete license text is available at <a
-                            href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank"
-                            style="color: #8b5cf6;">gnu.org/licenses/agpl-3.0.html</a></p>
-                </div>
-            </div>
-
-            <!-- Contact -->
-            <div style="text-align: center; padding: 3rem 0;">
-                <h2 style="margin-bottom: 1rem;">Need a Commercial License?</h2>
-                <p style="margin-bottom: 2rem; color: #9ca3af;">Contact us to discuss commercial licensing options for
-                    your business</p>
-                <a href="https://github.com/RAGlint-Dev/raglint/issues/new" class="btn btn-primary">
-                    <i class="fa-solid fa-envelope"></i> Contact Sales
-                </a>
-            </div>
+        <div class="license-card">
+            <h3 style="color: #fff; margin-top: 0; margin-bottom: 0.5rem;">Can I use RAGLint in my startup?</h3>
+            <p style="color: #94a3b8; margin-bottom: 0;">Yes, as long as your startup's application is open-source under
+                AGPL-3.0. If you want to keep your code proprietary, you'll need a commercial license.</p>
         </div>
-    </section>
+
+        <div class="license-card">
+            <h3 style="color: #fff; margin-top: 0; margin-bottom: 0.5rem;">What if I modify RAGLint?</h3>
+            <p style="color: #94a3b8; margin-bottom: 0;">Any modifications must also be released under AGPL-3.0 if you
+                distribute the software or run it as a network service accessible to users.</p>
+        </div>
+
+        <div class="license-card">
+            <h3 style="color: #fff; margin-top: 0; margin-bottom: 0.5rem;">Can I use RAGLint internally?</h3>
+            <p style="color: #94a3b8; margin-bottom: 0;">Yes, internal use is allowed. However, if you provide RAGLint
+                as a service to external users (even indirectly), AGPL-3.0 applies.</p>
+        </div>
+
+        <!-- Full License Text -->
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin: 4rem 0 2rem; color: #fff;">Full License
+            Text</h2>
+        <div class="license-text-box">
+            GNU AFFERO GENERAL PUBLIC LICENSE
+            Version 3, 19 November 2007
+
+            Copyright © 2007 Free Software Foundation, Inc. &lt;https://fsf.org/&gt;
+
+            Everyone is permitted to copy and distribute verbatim copies of this
+            license document, but changing it is not allowed.
+
+            Preamble
+
+            The GNU Affero General Public License is a free, copyleft license for
+            software and other kinds of works, specifically designed to ensure
+            cooperation with the community in the case of network server software.
+
+            ---
+
+            IMPORTANT NOTICE FOR RAGLINT USERS:
+
+            This is the RAGLint Community Edition, licensed under AGPL v3.
+
+            If you are using RAGLint as:
+            - An individual developer
+            - For personal projects
+            - In an open-source project
+            - For evaluation/testing
+
+            YOU ARE FREE TO USE THIS SOFTWARE.
+
+            However, if you are:
+            - Running RAGLint as a managed service for others
+            - Embedding RAGLint in a commercial SaaS product
+            - Providing RAGLint as a hosted service to customers
+
+            You MUST either:
+            1. Open-source your entire application under AGPL v3, OR
+            2. Purchase a Commercial License from RAGLint
+
+            For Commercial Licensing, contact: your.email@raglint.com
+
+            ---
+
+            The full AGPL v3 license text can be found at:
+            https://www.gnu.org/licenses/agpl-3.0.html
+        </div>
+
+        <!-- Contact CTA -->
+        <div
+            style="text-align: center; margin-top: 4rem; padding: 3rem; background: rgba(139, 92, 246, 0.1); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.2);">
+            <h2 style="font-family: 'Outfit', sans-serif; margin-bottom: 1rem; color: #fff;">Need a Commercial License?
+            </h2>
+            <p style="color: #94a3b8; margin-bottom: 2rem;">We offer flexible licensing options for businesses of all
+                sizes.</p>
+            <a href="https://github.com/RAGlint-Dev/raglint/issues/new" class="btn btn-primary">
+                <i class="fa-solid fa-envelope"></i> Contact Sales
+            </a>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">
