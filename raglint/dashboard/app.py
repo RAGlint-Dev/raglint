@@ -687,6 +687,12 @@ async def license_page(request: Request):
     return templates.TemplateResponse("license.html", {"request": request})
 
 
+@app.get("/coming-soon", response_class=HTMLResponse)
+async def coming_soon_page(request: Request):
+    """Render the coming soon page."""
+    return templates.TemplateResponse("coming_soon.html", {"request": request})
+
+
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_home(
     request: Request,
