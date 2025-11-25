@@ -13,101 +13,264 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/landing/css/style.css">
     <style>
-        .docs-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 3rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
+        :root {
+            --sidebar-width: 280px;
+            --toc-width: 240px;
+            --header-height: 70px;
         }
 
+        body {
+            background-color: #0f172a;
+            /* Match landing page dark bg */
+        }
+
+        .docs-container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            min-height: calc(100vh - 300px);
+        }
+
+        /* --- Left Sidebar --- */
         .docs-sidebar {
+            width: var(--sidebar-width);
             position: sticky;
             top: 2rem;
-            height: fit-content;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            padding-right: 2rem;
+            border-right: 1px solid rgba(148, 163, 184, 0.1);
+            flex-shrink: 0;
         }
 
-        .docs-nav-section {
+        .search-box {
+            position: relative;
             margin-bottom: 2rem;
         }
 
-        .docs-nav-title {
+        .search-input {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-group {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             color: #9ca3af;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             letter-spacing: 0.05em;
+            padding-left: 0.75rem;
         }
 
-        .docs-nav-link {
+        .sidebar-link {
             display: block;
             padding: 0.5rem 0.75rem;
-            color: #d1d5db;
+            color: #cbd5e1;
             text-decoration: none;
+            font-size: 0.95rem;
             border-radius: 6px;
             margin-bottom: 0.25rem;
             transition: all 0.2s;
+            border-left: 2px solid transparent;
         }
 
-        .docs-nav-link:hover {
+        .sidebar-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-link.active {
+            color: #8b5cf6;
             background: rgba(139, 92, 246, 0.1);
-            color: #8b5cf6;
+            border-left-color: #8b5cf6;
         }
 
-        .docs-nav-link.active {
-            background: rgba(139, 92, 246, 0.2);
-            color: #8b5cf6;
-            font-weight: 600;
-        }
-
-        .docs-content {
+        /* --- Main Content --- */
+        .docs-main {
+            flex: 1;
+            padding: 0 4rem;
             min-width: 0;
+            /* Prevent overflow */
         }
 
-        .docs-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .docs-card:hover {
-            border-color: rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .docs-card h3 {
-            margin-top: 0;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .docs-card p {
-            margin-bottom: 0;
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        .docs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+        .docs-header {
             margin-bottom: 3rem;
         }
 
-        @media (max-width: 968px) {
-            .docs-layout {
-                grid-template-columns: 1fr;
+        .docs-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .quick-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .nav-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.4);
+            background: rgba(30, 41, 59, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-card h3 {
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .nav-card p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* --- Content Styling --- */
+        .content-section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            color: #f1f5f9;
+        }
+
+        .content-section h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .content-section p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Right TOC --- */
+        .docs-toc {
+            width: var(--toc-width);
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            padding-left: 2rem;
+            border-left: 1px solid rgba(148, 163, 184, 0.1);
+            flex-shrink: 0;
+            display: none;
+            /* Hidden on small screens */
+        }
+
+        @media (min-width: 1280px) {
+            .docs-toc {
+                display: block;
+            }
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.25rem 0;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+            padding-left: 1rem;
+            margin-left: -1px;
+        }
+
+        .toc-link:hover {
+            color: #94a3b8;
+        }
+
+        .toc-link.active {
+            color: #8b5cf6;
+            border-left-color: #8b5cf6;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1024px) {
+            .docs-container {
+                flex-direction: column;
+                padding: 1rem;
             }
 
             .docs-sidebar {
+                width: 100%;
+                height: auto;
                 position: static;
+                border-right: none;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+                padding-right: 0;
+                padding-bottom: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .docs-main {
+                padding: 0;
             }
         }
     </style>
@@ -131,154 +294,110 @@
         </div>
     </nav>
 
-    <div
-        style="padding: 4rem 0 2rem; text-align: center; background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%);">
-        <div class="container">
-            <h1 style="margin-bottom: 1rem; font-size: 3rem;">RAGLint Documentation</h1>
-            <p style="font-size: 1.25rem; color: #9ca3af;">Comprehensive evaluation framework for Retrieval-Augmented
-                Generation systems</p>
-        </div>
-    </div>
-
-    <div class="docs-layout">
-        <!-- Sidebar -->
+    <div class="docs-container">
+        <!-- Left Sidebar -->
         <aside class="docs-sidebar">
-            <div class="docs-nav-section">
-                <div class="docs-nav-title">Getting Started</div>
-                <a href="#quick-start" class="docs-nav-link active">Quick Start</a>
-                <a href="#installation" class="docs-nav-link">Installation</a>
-                <a href="#basic-usage" class="docs-nav-link">Basic Usage</a>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search documentation...">
             </div>
 
-            <div class="docs-nav-section">
-                <div class="docs-nav-title">Core Concepts</div>
-                <a href="#metrics" class="docs-nav-link">Smart Metrics</a>
-                <a href="#plugins" class="docs-nav-link">Plugin System</a>
-                <a href="#dashboard" class="docs-nav-link">Dashboard</a>
-                <a href="#cicd" class="docs-nav-link">CI/CD Integration</a>
+            <div class="sidebar-group">
+                <div class="sidebar-title">Getting Started</div>
+                <a href="#quick-start" class="sidebar-link active">Quick Start</a>
+                <a href="#installation" class="sidebar-link">Installation</a>
+                <a href="#basic-usage" class="sidebar-link">Basic Usage</a>
             </div>
 
-            <div class="docs-nav-section">
-                <div class="docs-nav-title">API Reference</div>
-                <a href="#api-analyzer" class="docs-nav-link">RAGPipelineAnalyzer</a>
-                <a href="#api-config" class="docs-nav-link">Configuration</a>
-                <a href="#api-metrics" class="docs-nav-link">Metrics API</a>
+            <div class="sidebar-group">
+                <div class="sidebar-title">Core Concepts</div>
+                <a href="#what-is" class="sidebar-link">What is RAGLint?</a>
+                <a href="#metrics" class="sidebar-link">Smart Metrics</a>
+                <a href="#plugins" class="sidebar-link">Plugin System</a>
             </div>
 
-            <div class="docs-nav-section">
-                <div class="docs-nav-title">Resources</div>
-                <a href="https://github.com/RAGlint-Dev/raglint" class="docs-nav-link" target="_blank">
-                    <i class="fa-brands fa-github"></i> GitHub
+            <div class="sidebar-group">
+                <div class="sidebar-title">Guides</div>
+                <a href="#cli" class="sidebar-link">CLI Reference</a>
+                <a href="#integrations" class="sidebar-link">Integrations</a>
+                <a href="#dashboard" class="sidebar-link">Dashboard</a>
+            </div>
+
+            <div class="sidebar-group">
+                <div class="sidebar-title">Resources</div>
+                <a href="https://github.com/RAGlint-Dev/raglint" class="sidebar-link" target="_blank">
+                    <i class="fa-brands fa-github"></i> GitHub Repo
                 </a>
-                <a href="https://pypi.org/project/raglint/" class="docs-nav-link" target="_blank">
-                    <i class="fa-brands fa-python"></i> PyPI Package
-                </a>
+                <a href="/license" class="sidebar-link">License</a>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="docs-content">
-            <!-- Quick Start -->
-            <section id="quick-start" style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">🚀 Quick Start</h2>
-                <div class="docs-grid">
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-download" style="color: #22c55e;"></i> Installation</h3>
-                        <p>Get started with RAGLint in 5 minutes. Install, configure, and run your first evaluation.</p>
-                        <div class="code-window" style="margin-top: 1rem;">
-                            <div class="window-header">
-                                <div class="dots"><span></span><span></span><span></span></div>
-                                <div class="lang">bash</div>
-                            </div>
-                            <pre><code>pip install raglint</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-book" style="color: #3b82f6;"></i> API Reference</h3>
-                        <p>Complete API documentation for all RAGLint modules, classes, and functions.</p>
-                        <a href="#api-reference" style="color: #8b5cf6; margin-top: 1rem; display: inline-block;">View
-                            API Docs →</a>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-graduation-cap" style="color: #f59e0b;"></i> Guides</h3>
-                        <p>In-depth tutorials and examples for advanced use cases and integrations.</p>
-                        <a href="#guides" style="color: #8b5cf6; margin-top: 1rem; display: inline-block;">Browse Guides
-                            →</a>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-brands fa-github" style="color: #8b5cf6;"></i> GitHub</h3>
-                        <p>View source code, report issues, and contribute to the project.</p>
-                        <a href="https://github.com/RAGlint-Dev/raglint" target="_blank"
-                            style="color: #8b5cf6; margin-top: 1rem; display: inline-block;">Visit Repository →</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- What is RAGLint -->
-            <section id="what-is" style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">What is RAGLint?</h2>
-                <p style="font-size: 1.125rem; line-height: 1.75; color: #d1d5db; margin-bottom: 2rem;">
-                    RAGLint is a comprehensive evaluation framework for Retrieval-Augmented Generation (RAG) systems. It
-                    provides production-ready tools to measure, monitor, and improve your RAG pipelines.
+        <main class="docs-main">
+            <div class="docs-header">
+                <h1>RAGLint Documentation</h1>
+                <p style="font-size: 1.2rem; color: #9ca3af;">
+                    Everything you need to build, evaluate, and monitor production-grade RAG systems.
                 </p>
+            </div>
 
-                <div class="docs-grid">
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-brain" style="color: #8b5cf6;"></i> Smart Metrics</h3>
-                        <p>Faithfulness, semantic similarity, context precision/recall, and more.</p>
-                    </div>
+            <!-- Navigation Grid (Like in screenshot) -->
+            <div class="quick-nav-grid">
+                <a href="#quick-start" class="nav-card">
+                    <h3><i class="fa-solid fa-rocket" style="color: #f59e0b;"></i> Quick Start</h3>
+                    <p>Get started with RAGLint in 5 minutes. Install, configure, and run your first evaluation.</p>
+                </a>
+                <a href="#api-reference" class="nav-card">
+                    <h3><i class="fa-solid fa-code" style="color: #3b82f6;"></i> API Reference</h3>
+                    <p>Complete API documentation for all RAGLint modules, classes, and functions.</p>
+                </a>
+                <a href="#guides" class="nav-card">
+                    <h3><i class="fa-solid fa-book-open" style="color: #22c55e;"></i> Guides</h3>
+                    <p>In-depth tutorials and examples for advanced use cases and integrations.</p>
+                </a>
+                <a href="https://github.com/RAGlint-Dev/raglint" target="_blank" class="nav-card">
+                    <h3><i class="fa-brands fa-github" style="color: #8b5cf6;"></i> GitHub</h3>
+                    <p>View source code, report issues, and contribute to the project.</p>
+                </a>
+            </div>
 
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-puzzle-piece" style="color: #f59e0b;"></i> Plugin System</h3>
-                        <p>Extensible architecture for custom metrics and evaluators.</p>
-                    </div>
+            <hr style="border: 0; border-top: 1px solid rgba(148, 163, 184, 0.1); margin-bottom: 4rem;">
 
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-gauge-high" style="color: #22c55e;"></i> Dashboard</h3>
-                        <p>Beautiful web UI for visualizing results and debugging queries.</p>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-dollar-sign" style="color: #3b82f6;"></i> Cost Tracking</h3>
-                        <p>Monitor LLM costs and latency across different providers.</p>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-code-branch" style="color: #ec4899;"></i> CLI & Python API</h3>
-                        <p>Use from command line or integrate directly into your code.</p>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-chart-bar" style="color: #06b6d4;"></i> Benchmarks</h3>
-                        <p>Test against SQUAD, CoQA, and other standard datasets.</p>
-                    </div>
+            <!-- Content Sections -->
+            <section id="what-is" class="content-section">
+                <h2>What is RAGLint?</h2>
+                <p>
+                    RAGLint is a comprehensive evaluation framework for Retrieval-Augmented Generation (RAG) systems.
+                    It bridges the gap between prototype and production by providing robust tools to measure
+                    faithfulness, context relevance, and answer quality.
+                </p>
+                <div
+                    style="background: rgba(139, 92, 246, 0.1); border-left: 4px solid #8b5cf6; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                    <h4 style="margin-top: 0; color: #fff;"><i class="fa-solid fa-lightbulb"
+                            style="color: #8b5cf6; margin-right: 0.5rem;"></i> Why RAGLint?</h4>
+                    <p style="margin-bottom: 0; font-size: 0.95rem;">
+                        Most RAG evaluations are either too simple (exact match) or too expensive (human review).
+                        RAGLint uses "Smart Metrics" – LLM-as-a-Judge – to provide human-level evaluation at machine
+                        speed.
+                    </p>
                 </div>
             </section>
 
-            <!-- Installation -->
-            <section id="installation" style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">💻 Installation</h2>
+            <section id="installation" class="content-section">
+                <h2>Installation</h2>
+                <p>RAGLint is available on PyPI and can be installed via pip.</p>
                 <div class="code-window">
                     <div class="window-header">
                         <div class="dots"><span></span><span></span><span></span></div>
                         <div class="lang">bash</div>
                     </div>
-                    <pre><code class="language-bash"><span class="comment"># Install from PyPI</span>
-pip install raglint
-
-<span class="comment"># Or install from source</span>
-git clone https://github.com/RAGlint-Dev/raglint.git
-cd raglint
-pip install -e .</code></pre>
+                    <pre><code class="language-bash">pip install raglint</code></pre>
                 </div>
             </section>
 
-            <!-- Basic Usage -->
-            <section id="basic-usage" style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">🎯 Basic Usage</h2>
+            <section id="quick-start" class="content-section">
+                <h2>Quick Start</h2>
+                <p>Run your first analysis in just a few lines of code.</p>
                 <div class="code-window">
                     <div class="window-header">
                         <div class="dots"><span></span><span></span><span></span></div>
@@ -286,104 +405,50 @@ pip install -e .</code></pre>
                     </div>
                     <pre><code class="language-python"><span class="keyword">from</span> raglint <span class="keyword">import</span> RAGPipelineAnalyzer
 
-<span class="comment"># Initialize analyzer with smart metrics</span>
+<span class="comment"># 1. Initialize</span>
 analyzer = RAGPipelineAnalyzer(use_smart_metrics=<span class="keyword">True</span>)
 
-<span class="comment"># Prepare your test data</span>
-data = [
-    {
-        <span class="string">"query"</span>: <span class="string">"What is retrieval-augmented generation?"</span>,
-        <span class="string">"retrieved_contexts"</span>: [
-            <span class="string">"RAG combines retrieval and generation..."</span>
-        ],
-        <span class="string">"response"</span>: <span class="string">"RAG is a technique that enhances LLMs..."</span>
-    }
-]
+<span class="comment"># 2. Analyze</span>
+results = analyzer.analyze([{
+    <span class="string">"query"</span>: <span class="string">"What is RAG?"</span>,
+    <span class="string">"response"</span>: <span class="string">"RAG is..."</span>,
+    <span class="string">"retrieved_contexts"</span>: [<span class="string">"..."</span>]
+}])
 
-<span class="comment"># Run analysis</span>
-results = analyzer.analyze(data)
-
-<span class="comment"># View metrics</span>
-<span class="keyword">for</span> result <span class="keyword">in</span> results:
-    <span class="keyword">print</span>(result[<span class="string">"metrics"</span>])</code></pre>
+<span class="comment"># 3. View Results</span>
+<span class="keyword">print</span>(results)</code></pre>
                 </div>
             </section>
 
-            <!-- CLI Usage -->
-            <section id="cli" style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">⚡ CLI Usage</h2>
+            <section id="integrations" class="content-section">
+                <h2>Integrations</h2>
+                <p>RAGLint integrates seamlessly with your favorite frameworks.</p>
+
+                <h3>LangChain</h3>
                 <div class="code-window">
-                    <div class="window-header">
-                        <div class="dots"><span></span><span></span><span></span></div>
-                        <div class="lang">bash</div>
-                    </div>
-                    <pre><code class="language-bash"><span class="comment"># Analyze a dataset</span>
-raglint analyze data.json --smart --output report.html
-
-<span class="comment"># Launch the dashboard</span>
-raglint dashboard
-
-<span class="comment"># Run benchmarks</span>
-raglint benchmark squad --sample 100</code></pre>
+                    <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LangChainEvaluator
+evaluator = LangChainEvaluator(chain)</code></pre>
                 </div>
-            </section>
 
-            <!-- Integrations -->
-            <section id="integrations" style="margin-bottom: 4rem;">
-                <h2 style="margin-bottom: 2rem;">🔗 Integrations</h2>
-                <div class="docs-grid">
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-link" style="color: #22c55e;"></i> LangChain</h3>
-                        <p>Seamless integration with LangChain chains and agents.</p>
-                        <div class="code-window" style="margin-top: 1rem; font-size: 0.85rem;">
-                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LangChainEvaluator
-
-evaluator = LangChainEvaluator(qa_chain)
-results = evaluator.evaluate(questions)</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-fire" style="color: #f59e0b;"></i> LlamaIndex</h3>
-                        <p>Track and evaluate LlamaIndex query engines.</p>
-                        <div class="code-window" style="margin-top: 1rem; font-size: 0.85rem;">
-                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LlamaIndexHandler
-
-handler = LlamaIndexHandler()
-index.as_query_engine(callbacks=[handler])</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="docs-card">
-                        <h3><i class="fa-solid fa-layer-group" style="color: #3b82f6;"></i> Haystack</h3>
-                        <p>Monitor Haystack pipelines with RAGLint.</p>
-                        <div class="code-window" style="margin-top: 1rem; font-size: 0.85rem;">
-                            <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> HaystackTracer
-
-pipeline.run(query, callbacks=[HaystackTracer()])</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Need Help -->
-            <section
-                style="text-align: center; padding: 3rem; background: rgba(139, 92, 246, 0.1); border-radius: 12px; margin-top: 4rem;">
-                <h2 style="margin-bottom: 1rem;">Need Help?</h2>
-                <p style="margin-bottom: 2rem; color: #9ca3af;">Join our community or reach out for support</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="https://github.com/RAGlint-Dev/raglint/issues" class="btn btn-primary">
-                        <i class="fa-brands fa-github"></i> Report an Issue
-                    </a>
-                    <a href="https://github.com/RAGlint-Dev/raglint/discussions" class="btn btn-outline">
-                        <i class="fa-solid fa-comments"></i> Join Discussions
-                    </a>
+                <h3>LlamaIndex</h3>
+                <div class="code-window">
+                    <pre><code class="language-python"><span class="keyword">from</span> raglint.integrations <span class="keyword">import</span> LlamaIndexHandler
+handler = LlamaIndexHandler()</code></pre>
                 </div>
             </section>
         </main>
+
+        <!-- Right TOC -->
+        <aside class="docs-toc">
+            <div class="toc-title">On This Page</div>
+            <a href="#what-is" class="toc-link">What is RAGLint?</a>
+            <a href="#installation" class="toc-link">Installation</a>
+            <a href="#quick-start" class="toc-link">Quick Start</a>
+            <a href="#integrations" class="toc-link">Integrations</a>
+        </aside>
     </div>
 
-    <footer class="footer">
+    <footer class="footer" style="margin-top: 0;">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
@@ -401,28 +466,13 @@ pipeline.run(query, callbacks=[HaystackTracer()])</code></pre>
     </footer>
 
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Active link handling
+        const sections = document.querySelectorAll('section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        const tocLinks = document.querySelectorAll('.toc-link');
 
-                    // Update active link
-                    document.querySelectorAll('.docs-nav-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                }
-            });
-        });
-
-        // Update active link on scroll
         window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
             let current = '';
-
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
